@@ -9,4 +9,8 @@
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MergeLib\MergeLib.csproj" />
+  </ItemGroup>
+
 </Project>

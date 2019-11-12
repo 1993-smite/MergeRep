@@ -1,10 +1,6 @@
-﻿using MergeModel;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+﻿using System.Reflection;
 
-namespace MergeProject
+namespace MergeLib
 {
     public static class Extensions
     {
@@ -39,31 +35,10 @@ namespace MergeProject
                 case MergeFieldNotCombineAction.TakeBase:
                     break;
                 case MergeFieldNotCombineAction.TakeLoad:
-                    var baseModelField = lastObj.GetType().GetRuntimeField(field.FieldLink.Name);
-                    baseModelField.SetValue(lastObj, field.FieldLink.GetPropertyValue(newObj));
+                    //var baseModelField = lastObj.GetType().GetRuntimeField(field.FieldLink.Name);
+                    field.FieldLink.SetValue(lastObj, field.FieldLink.GetPropertyValue(newObj));
                     break;
             }
-        }
-    }
-
-    public class MergeModelByUser<TYpeOfMerge> : BaseListMergeModel<TYpeOfMerge>
-    {
-        public MergeModelByUser():base()
-        {
-
-        }
-
-        public override TYpeOfMerge Combine()
-        {
-            foreach(var field in MergeFieldModels)
-            {
-                field.MergePropertyValue(this.BaseModel, this.NewModel);
-            }
-            foreach (var field in MergeFieldNotCombineModels)
-            {
-                field.MergePropertyValue(this.BaseModel, this.NewModel);
-            }
-            return BaseModel;
         }
     }
 }

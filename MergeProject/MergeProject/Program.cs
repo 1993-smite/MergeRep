@@ -1,35 +1,26 @@
-﻿using MergeModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using MergeLib;
 
 namespace MergeProject
 {
-    class Model
+    class Model : IDiffMergedUser<Model>
     {
         public int x;
         public int y;
         public int z { get; set; }
 
-        public BaseListMergeModel<Model> Diff(Model mdl)
+        public MergeModelByUser<Model> Diff(Model mdl)
         {
-            BaseListMergeModel<Model> diff = new MergeModelByUser<Model>();
+            MergeModelByUser<Model> diff = new MergeModelByUser<Model>();
             diff.BaseModel = this;
             diff.NewModel = mdl;
             diff.MergeFieldNotCombineModels= new List<MergeFieldNotCombineModel>();
-            /*foreach(var field in this.GetType().GetRuntimeFields())
+            foreach(var field in this.GetType().GetRuntimeFields())
             {
                 diff.MergeFieldNotCombineModels.Add(new MergeFieldNotCombineModel() { FieldLink=field });
-            }*/
-            if (x != mdl.x)
-                diff.MergeFieldNotCombineModels.Add(
-                    new MergeFieldNotCombineModel() { FieldLink = this.GetType().GetRuntimeField("x") });
-            if (y != mdl.y) 
-                diff.MergeFieldNotCombineModels.Add(
-                    new MergeFieldNotCombineModel() { FieldLink = this.GetType().GetRuntimeField("y") });
-            if (z != mdl.z)
-                diff.MergeFieldNotCombineModels.Add(
-                    new MergeFieldNotCombineModel() { FieldLink = this.GetType().GetRuntimeField("z") });
+            }
             return diff;
         }
 
@@ -47,6 +38,10 @@ namespace MergeProject
                 field.FieldAction = MergeFieldNotCombineAction.TakeLoad;
             }
             var m2 = res.Combine();
+            foreach (var field in m.GetType().GetRuntimeFields())
+            {
+                Console.WriteLine($"{field.Name} {field.GetValue(m)} {field.GetValue(m1)}");
+            }
             Console.WriteLine("Hello World!");
             Console.ReadLine();
         }

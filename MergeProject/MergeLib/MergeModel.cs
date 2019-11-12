@@ -5,13 +5,13 @@ using System.ComponentModel;
 using System.Web;
 using System.Reflection;
 
-namespace MergeModel
+namespace MergeLib
 {
     /// <summary>
     /// доработанный класс с агригированными моделями merge
     /// </summary>
     /// <typeparam name="TYpeOfMerge"></typeparam>
-    public class BaseListMergeModel<TYpeOfMerge> : BaseMergeModel<TYpeOfMerge>
+    public abstract class BaseListMergeModel<TYpeOfMerge> : BaseMergeModel<TYpeOfMerge>
     {
         /// <summary>
         /// список полей для объединения и неоднозначным выбором действия
@@ -29,6 +29,23 @@ namespace MergeModel
         {
             MergeFieldModels = new List<MergeFieldModel>();
             MergeFieldNotCombineModels = new List<MergeFieldNotCombineModel>();
+        }
+
+        /// <summary>
+        /// объединение записей моделей
+        /// </summary>
+        /// <returns></returns>
+        public override TYpeOfMerge Combine()
+        {
+            foreach (var field in MergeFieldModels)
+            {
+                field.MergePropertyValue(this.BaseModel, this.NewModel);
+            }
+            foreach (var field in MergeFieldNotCombineModels)
+            {
+                field.MergePropertyValue(this.BaseModel, this.NewModel);
+            }
+            return BaseModel;
         }
     }
 
@@ -68,12 +85,24 @@ namespace MergeModel
         }
     }
 
-    public class MergeModel
+    /// <summary>
+    /// базовая модель для объединения
+    /// </summary>
+    /// <typeparam name="TYpeOfMerge">тип модели для объединения</typeparam>
+    public class BaseMergeModelAuto<TYpeOfMerge>
     {
-        public string FieldName { get; set; }
-        public string LastValue { get; set; }
-        public string NewValue { get; set; }
-        public string ActionNameInModel { get; set; }
+        public BaseMergeModelAuto()
+        {
+
+        }
+        /// <summary>
+        /// метод объединения
+        /// </summary>
+        /// <returns></returns>
+        public virtual TYpeOfMerge Combine(TYpeOfMerge baseModel, TYpeOfMerge newModel)
+        {
+            return baseModel;
+        }
     }
 
     /// <summary>
