@@ -12,6 +12,10 @@
         }
     }
 
+    /// <summary>
+    /// интерфейс для определения полей, которые участвуют в объединении
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IDiffMergedUser<T>
     {
         MergeModelByUser<T> Diff(T mdl);

@@ -2,6 +2,10 @@
 
 namespace MergeLib
 {
+    /// <summary>
+    /// объединение моделей по шаблону
+    /// </summary>
+    /// <typeparam name="TYpeOfMerge"></typeparam>
     public class MergeModelByAuto<TYpeOfMerge> : BaseListMergeModel<TYpeOfMerge>
     {
         public MergeModelByAuto(List<MergeFieldModel> mergeFieldModels
