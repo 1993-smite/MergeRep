@@ -30,7 +30,7 @@ namespace MergeLib
         public TYpeOfMerge Combine(TYpeOfMerge baseModel, TYpeOfMerge newModel)
         {
             BaseModel = baseModel;
-            NewModel = NewModel;
+            NewModel = newModel;
             return this.Combine();
         }
     }

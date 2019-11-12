@@ -7,3 +7,5 @@
 /MergeProject/.vs/MergeProject
 /MergeProject/MergeLib/bin/Debug/netcoreapp2.1
 /MergeProject/MergeLib/obj
+/MergeProject/MergeLibTest/bin/Debug/netcoreapp2.1
+/MergeProject/MergeLibTest/obj
