@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using MergeLib;
 
@@ -42,6 +43,10 @@ namespace MergeProject
             {
                 Console.WriteLine($"{field.Name} {field.GetValue(m)} {field.GetValue(m1)}");
             }
+            var ttt = "".GetType().GetMembers().ToList().OrderBy(x=>x.Name);
+            var tt = typeof(string).GetDefaultMembers().ToList().OrderBy(x => x.Name);
+            var rer = typeof(string).GetDefaultMembers().ToList().OrderBy(x => x.Name);
+            var rrr = typeof(string).GetDefaultMembers().ToList().FirstOrDefault(x=>x.Name.Contains("Merge"));
             Console.WriteLine("Hello World!");
             Console.ReadLine();
         }

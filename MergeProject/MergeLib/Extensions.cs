@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace MergeLib
 {
@@ -13,15 +14,36 @@ namespace MergeLib
         {
             if (field == null || field.FieldLink == null)
                 return;
+            var fieldf = field.FieldLink;
+            var fff = field.FieldLink.FieldType.GetRuntimeMethods();
+            //var ff = field.FieldLink.FieldType.GetRuntimeMethod("Merge");
             switch (field.FieldAction)
             {
-                case MergeFieldAction.TakeBase:
-                    break;
                 case MergeFieldAction.Combine:
+                    if (field.FieldLink.FieldType.GetMethod("Merge") != null || true)
+                    {
+                        try
+                        {
+                            object obj = new object();
+                            var obj1 = field.FieldLink.FieldType.InvokeMember("Merge",
+                                BindingFlags.DeclaredOnly |
+                                BindingFlags.Public | BindingFlags.NonPublic |
+                                BindingFlags.Instance | BindingFlags.SetProperty, null, obj, 
+                                new Object[] { field.FieldLink.GetPropertyValue(lastObj), field.FieldLink.GetPropertyValue(newObj) });
+                            //field.FieldLink.SetValue(lastObj,);
+                        }
+                        catch(Exception err)
+                        {
+                            throw err;
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception($"Необходимо реализовать метод Merge для типа {field.FieldLink.DeclaringType.Name}");
+                    }
                     break;
                 case MergeFieldAction.TakeLoad:
-                    var baseModelField = lastObj.GetType().GetRuntimeField(field.FieldLink.Name);
-                    baseModelField.SetValue(lastObj, field.FieldLink.GetPropertyValue(newObj));
+                    field.FieldLink.SetValue(lastObj, field.FieldLink.GetPropertyValue(newObj));
                     break;
             }
         }
@@ -32,13 +54,15 @@ namespace MergeLib
                 return;
             switch (field.FieldAction)
             {
-                case MergeFieldNotCombineAction.TakeBase:
-                    break;
                 case MergeFieldNotCombineAction.TakeLoad:
-                    //var baseModelField = lastObj.GetType().GetRuntimeField(field.FieldLink.Name);
                     field.FieldLink.SetValue(lastObj, field.FieldLink.GetPropertyValue(newObj));
                     break;
             }
+        }
+
+        public static object Merge(this string field, object lastVal, object newVal)
+        {
+            return $"{lastVal},{newVal}";
         }
     }
 }
