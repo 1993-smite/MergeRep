@@ -9,3 +9,6 @@
 /MergeProject/MergeLib/obj
 /MergeProject/MergeLibTest/bin/Debug/netcoreapp2.1
 /MergeProject/MergeLibTest/obj
+/MergeProject/.vs/config
+/MergeProject/ViewMerge/bin/Debug/netcoreapp2.1
+/MergeProject/ViewMerge/obj
