@@ -1,0 +1,56 @@
+﻿@model UserView
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Card №" + Model.Id.ToString();
+}
+
+<h2>Card</h2>
+
+@{
+    string fieldCssClass = "col-md-3";
+    string valueCssClass = "col-md-2";
+}
+
+<fieldset>
+    <div id="user">
+        <form>
+            <div class="form-group">
+                <label class="@fieldCssClass">LastName</label>
+                <input class="@valueCssClass form-control" type="text" v-bind:value="lastName" />
+            </div>
+            <div class="form-group">
+                <label class="@fieldCssClass">FirstName</label>
+                <input class="@valueCssClass form-control" type="text" v-bind:value="firstName" />
+            </div>
+            <div class="form-group">
+                <label class="@fieldCssClass">MiddleName</label>
+                <input class="@valueCssClass form-control" type="text" v-bind:value="middleName" />
+            </div>
+            <div class="form-group">
+                <label class="@fieldCssClass">BirthDay</label>
+                <input class="@valueCssClass form-control" type="text" v-bind:value="birthdayStr" />
+            </div>
+            <div class="form-group">
+                <label class="@fieldCssClass">WorkPlace</label>
+                <input class="@valueCssClass form-control" type="text" v-bind:value="workPlace" />
+            </div>
+            <div class="form-group">
+                <label class="@fieldCssClass">WorkPosition</label>
+                <input class="@valueCssClass form-control" type="text" v-bind:value="workPosition" />
+            </div>
+            <div class="form-group">
+                <label class="@fieldCssClass">HomeAddress</label>
+                <input class="@valueCssClass form-control" type="text" v-bind:value="homeAddress" />
+            </div>
+        </form>
+    </div>
+</fieldset>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="text/javascript">
+    var model = JSON.parse('@Html.Raw(Json.Serialize(Model))');
+    console.log(model);
+    var app = new Vue({
+        el: '#user',
+        data: model
+    })
+</script>

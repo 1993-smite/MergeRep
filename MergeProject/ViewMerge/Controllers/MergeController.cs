@@ -24,5 +24,12 @@ namespace ViewMerge.Controllers
             GetData();
             return View(list);
         }
+
+        public IActionResult Card(int i = 5)
+        {
+            GetData();
+            var model = list.FirstOrDefault(x => x.Id == i);
+            return View(model);
+        }
     }
 }
