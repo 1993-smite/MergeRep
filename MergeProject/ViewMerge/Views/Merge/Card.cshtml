@@ -25,15 +25,15 @@
         <form id="form">
             <div class="form-group">
                 <label class="@fieldCssClass">LastName</label>
-                <input class="@valueCssClass form-control" name="name" type="text" v-bind:value="lastName" />
+                <input class="@valueCssClass form-control" name="lastName" type="text" v-bind:value="lastName" />
             </div>
             <div class="form-group">
                 <label class="@fieldCssClass">FirstName</label>
-                <input class="@valueCssClass form-control" name="name" type="text" v-bind:value="firstName" />
+                <input class="@valueCssClass form-control" name="firstName" type="text" v-bind:value="firstName" />
             </div>
             <div class="form-group">
                 <label class="@fieldCssClass">MiddleName</label>
-                <input class="@valueCssClass form-control" name="name" type="text" v-bind:value="middleName" />
+                <input class="@valueCssClass form-control" name="middleName" type="text" v-bind:value="middleName" />
             </div>
             <div class="form-group">
                 <label class="@fieldCssClass">BirthDay</label>
@@ -69,19 +69,30 @@
             data: model
         })
 
+        //валидация jquery
+        let strValid = {
+            required: true,
+            minlength: 2
+        }; 
+
+        let strValidMessage = function (fieldName) {
+            return {
+                required: `Поле '${fieldName}' обязательно к заполнению`,
+                minlength: `Введите не менее 2-х символов в поле '${fieldName}'`
+            }
+        };
+
         $(function () {
             $('#form').validate({
                 rules: {
-                    name: {
-                        required: true,
-                        minlength: 2
-                    }
+                    lastName: strValid,
+                    firstName: strValid,
+                    middleName: strValid
                 },
                 messages: {
-                    name: {
-                        required: "Поле 'Имя' обязательно к заполнению",
-                        minlength: "Введите не менее 2-х символов в поле 'Имя'"
-                    }
+                    lastName: strValidMessage("Фамилия"),
+                    firstName: strValidMessage("Имя"),
+                    middleName: strValidMessage("Отчество")
                 }
             });
         }); 
