@@ -12,12 +12,13 @@
 }
 
 <style>
-    label{
+    label {
         display: block;
     }
-    label.error{
-        color: red;
-    }
+
+        label.error {
+            color: red;
+        }
 </style>
 
 <fieldset>
@@ -60,6 +61,7 @@
 
 @section Scripts{
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/js/observer-monitor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script type="text/javascript">
         var model = JSON.parse('@Html.Raw(Json.Serialize(Model))');
@@ -73,7 +75,7 @@
         let strValid = {
             required: true,
             minlength: 2
-        }; 
+        };
 
         let strValidMessage = function (fieldName) {
             return {
@@ -95,6 +97,10 @@
                     middleName: strValidMessage("Отчество")
                 }
             });
-        }); 
+            console.log($('#form'));
+            let server = new Observer(form, null, function () {
+                console.log(arguments);
+            });
+        });
     </script>
 }
