@@ -105,6 +105,7 @@
                 }
             });
 
+            /************** change of for last val and val ***********/
             $(".select.input").focus(function () {
                 $(this).data("val", $(this).val());
             });
@@ -116,11 +117,14 @@
             $(".select.input").blur(function () {
                 console.log("vals", $(this).data("val"),$(this).val());
             });
+            /**********************************************************/
 
+            /***************** use observer ***************************/
             console.log($('#form'));
             let server = new Observer(form, null, function () {
                 console.log(arguments);
             });
+            /**********************************************************/
 
         });
     </script>
