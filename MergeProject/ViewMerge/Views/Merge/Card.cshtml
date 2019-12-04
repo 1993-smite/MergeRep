@@ -52,6 +52,13 @@
                 <label class="@fieldCssClass">HomeAddress</label>
                 <input class="@valueCssClass form-control" type="text" v-bind:value="homeAddress" />
             </div>
+            <div class="form-group">
+                <select class="select input">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
             <div class="@fieldCssClass">
                 <input type="submit" class="btn btn-primary" value="Отправить" />
             </div>
@@ -97,10 +104,24 @@
                     middleName: strValidMessage("Отчество")
                 }
             });
+
+            $(".select.input").focus(function () {
+                $(this).data("val", $(this).val());
+            });
+
+            $(".select.input").change(function () {
+                $(this).blur();
+            });
+
+            $(".select.input").blur(function () {
+                console.log("vals", $(this).data("val"),$(this).val());
+            });
+
             console.log($('#form'));
             let server = new Observer(form, null, function () {
                 console.log(arguments);
             });
+
         });
     </script>
 }
