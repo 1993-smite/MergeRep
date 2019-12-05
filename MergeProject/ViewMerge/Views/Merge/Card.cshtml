@@ -53,7 +53,7 @@
                 <input class="@valueCssClass form-control" type="text" v-bind:value="homeAddress" />
             </div>
             <div class="form-group">
-                <select class="select input">
+                <select class="select input" data-component="input-change">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -68,6 +68,8 @@
 
 @section Scripts{
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/js/jblocks.js"></script>
+    <script src="~/js/components.js"></script>
     <script src="~/js/observer-monitor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script type="text/javascript">
@@ -106,7 +108,7 @@
             });
 
             /************** change of for last val and val ***********/
-            $(".select.input").focus(function () {
+            /*$(".select.input").focus(function () {
                 $(this).data("val", $(this).val());
             });
 
@@ -116,13 +118,26 @@
 
             $(".select.input").blur(function () {
                 console.log("vals", $(this).data("val"),$(this).val());
+            });*/
+            //.select.input
+            var counter = jBlocks.get(document.querySelector('.select.input'));
+
+            // use event to react on what happens during lifecycle
+            counter.on('change', function (el) {
+                console.log(el);
             });
             /**********************************************************/
 
             /***************** use observer ***************************/
             console.log($('#form'));
-            let server = new Observer(form, null, function () {
-                console.log(arguments);
+            let server = new Observer(form, null, function (mutationsList, observerEl) {
+                for (let mutation of mutationsList) {
+                    if (mutation.type === 'childList') {
+                        console.log('A child node has been added or removed.');
+                    } else if (mutation.type === 'attributes') {
+                        console.log('The ' + mutation.attributeName + ' attribute was modified.');
+                    }
+                }
             });
             /**********************************************************/
 
