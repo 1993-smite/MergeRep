@@ -7,8 +7,9 @@
 
 @{
     string fieldCssClass = "col-md-2";
-    string valueCssClass = "col-md-2";
+    string valueCssClass = "col-md-4";
     MemberHelper<UserView> memberHelper = new MemberHelper<UserView>();
+    string divClass = "input-group mb-3";
 }
 
 <style>
@@ -26,61 +27,122 @@
         position: absolute;
         right: 60px;
     }
+    .hide{
+        display:none;
+    }
 </style>
 
+<div id="auto-complite">
+    <datalist id="auto-complite-lname">
+        <option value="Иванов"></option>
+        <option value="Петров"></option>
+        <option value="Сидоров"></option>
+        <option value="Серов"></option>
+        <option value="Костюков"></option>
+        <option value="Харламов"></option>
+        <option value="Антонов"></option>
+        <option value="Симонов"></option>
+        <option value="Тарков"></option>
+    </datalist>
+    <datalist id="auto-complite-fname">
+        <option value="Иван"></option>
+        <option value="Петр"></option>
+        <option value="Александр"></option>
+        <option value="Андрей"></option>
+        <option value="Николай"></option>
+        <option value="Евгений"></option>
+        <option value="Павел"></option>
+        <option value="Дмитрий"></option>
+        <option value="Владимир"></option>
+    </datalist>
+    <datalist id="auto-complite-work-place">
+        <option value="МИД"></option>
+        <option value="RT"></option>
+        <option value="НТВ"></option>
+        <option value="ГУМ"></option>
+        <option value="МАИ"></option>
+        <option value="МГУ"></option>
+        <option value="МФТИ"></option>
+        <option value="МВД"></option>
+        <option value="ФСБ"></option>
+    </datalist>
+    <datalist id="auto-complite-work-position">
+        <option value="Директор"></option>
+        <option value="Преподаватель"></option>
+        <option value="Режиссер"></option>
+        <option value="Бухгалтер"></option>
+        <option value="Руководитель"></option>
+        <option value="Бармен"></option>
+        <option value="Редактор"></option>
+        <option value="Инженер"></option>
+        <option value="Слесарь"></option>
+    </datalist>
+</div>
+
 <fieldset>
-    <div id="alert-container" class="alert alert-warning alert-dismissible hide" role="alert">
+    <div id="alert-container" class="alert alert-warning alert-dismissible" role="alert">
         <div id="alert-title"></div>
     </div>
     <div id="user">
         <form id="form" method="post" action="@Url.Action("Card","Merge")"> 
-            <div class="form-group">
-                <h2>Card: <span class="title-card">{{getFIO}}</span></h2>
+            <div class="@divClass">
+                <h2>Card: 
+                    <span class="title-card">
+                        {{getFIO}}
+                     </span>
+                </h2>
             </div>
-            <div class="form-group">
+            <div class="@divClass">
                 <label class="@fieldCssClass" for="lname">LastName</label>
-                <input class="@valueCssClass form-control" id="lname" 
-                       name="@memberHelper.GetName(x=>x.LastName)"  type="text" v-model="lastName"/>
+                <input class="@valueCssClass form-control" id="lname" aria-describedby="basic-addon1" 
+                       list="auto-complite-lname" name="@memberHelper.GetName(x=>x.LastName)" 
+                       type="text" v-model="lastName" />
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon1">{{getLogin}}</span>
+                </div>
             </div>
-            <div class="form-group">
+            <div class="@divClass">
                 <label class="@fieldCssClass" for="fname">FirstName</label>
-                <input class="@valueCssClass form-control" id="fname" 
+                <input class="@valueCssClass form-control" id="fname" list="auto-complite-fname"
                        name="@memberHelper.GetName(x=>x.FirstName)"  type="text" v-model="firstName" />
             </div>
-            <div class="form-group">
+            <div class="@divClass">
                 <label class="@fieldCssClass" for="mname">MiddleName</label>
                 <input class="@valueCssClass form-control" id="mname"
                        name="@memberHelper.GetName(x=>x.MiddleName)"  type="text" v-model="middleName" />
             </div>
 
-            <div class="form-group">
+            <div class="@divClass">
                 <label class="@fieldCssClass" for="birthDay">BirthDay</label>
-                <input class="@valueCssClass form-control" id="birthDay" 
+                <input class="@valueCssClass form-control" id="birthDay" aria-describedby="basic-addon2"
                        name="@memberHelper.GetName(x=>x.Birthday)" type="text" v-model="birthdayStr" />
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2">{{getAge}}</span>
+                </div>
             </div>
-            <div class="form-group">
+            <div class="@divClass">
                 <label class="@fieldCssClass" for="workPlace">WorkPlace</label>
-                <input class="@valueCssClass form-control" id="workPlace" 
+                <input class="@valueCssClass form-control" id="workPlace" list="auto-complite-work-place"
                        name="@memberHelper.GetName(x=>x.WorkPlace)" type="text" v-model="workPlace" />
             </div>
-            <div class="form-group">
+            <div class="@divClass">
                 <label class="@fieldCssClass" for="workPosition">WorkPosition</label>
-                <input class="@valueCssClass form-control" id="workPosition" 
+                <input class="@valueCssClass form-control" id="workPosition" list="auto-complite-work-position"
                        name="@memberHelper.GetName(x=>x.WorkPosition)" type="text" v-model="workPosition" />
             </div>
-            <div class="form-group">
+            <div class="@divClass">
                 <label class="@fieldCssClass" for="homeAddress">HomeAddress</label>
                 <input class="@valueCssClass form-control" id="homeAddress" 
                        name="@memberHelper.GetName(x=>x.HomeAddress)" type="text" v-model="homeAddress" />
             </div>
-            <div class="form-group">
+            <div class="@divClass hide">
                 <select class="select input form-control" data-component="input-change">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                 </select>
             </div>
-            <div class="form-group @fieldCssClass">
+            <div class="input-group mb-3 @fieldCssClass">
                 <input type="submit" class="btn btn-success" value="Отправить" />
             </div>
         </form>
@@ -100,8 +162,15 @@
             el: '#user',
             data: model,
             computed: {
-                getFIO: function () { return `${this.lastName} ${this.firstName} ${this.middleName}` },
-                getLogin: function () { return `${this.lastName}-1119` }
+                getFIO: function () {
+                    return `${this.lastName} ${this.firstName} ${this.middleName}`
+                },
+                getLogin: function () {
+                    return `${this.lastName}-1119`
+                },
+                getAge: function () {
+                    return `${new Date().getFullYear() - moment(this.birthdayStr, "DD.MM.YYYY")._d.getFullYear()}`
+                }
             }
         })
 

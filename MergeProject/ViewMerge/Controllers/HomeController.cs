@@ -12,7 +12,8 @@ namespace ViewMerge.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Card","Merge");
+            //return View();
         }
 
         public IActionResult About()
