@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace MergeLib
@@ -63,6 +64,18 @@ namespace MergeLib
         public static object Merge(this string field, object lastVal, object newVal)
         {
             return $"{lastVal},{newVal}";
+        }
+    }
+
+    public class MemberHelper<T>
+    {
+        public string GetName<U>(Expression<Func<T, U>> expression)
+        {
+            MemberExpression memberExpression = expression.Body as MemberExpression;
+            if (memberExpression != null)
+                return memberExpression.Member.Name;
+
+            throw new InvalidOperationException("Member expression expected");
         }
     }
 }
