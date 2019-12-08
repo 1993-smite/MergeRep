@@ -1,14 +1,14 @@
-﻿@model UserView
+﻿@using MergeLib;
+@model UserView
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Card №" + Model.Id.ToString();
 }
 
-<h2>Card</h2>
-
 @{
-    string fieldCssClass = "col-md-3";
+    string fieldCssClass = "col-md-2";
     string valueCssClass = "col-md-2";
+    MemberHelper<UserView> memberHelper = new MemberHelper<UserView>();
 }
 
 <style>
@@ -16,51 +16,72 @@
         display: block;
     }
 
-        label.error {
-            color: red;
-        }
+    label.error {
+        color: red;
+    }
+    .title-card {
+        color: #af853d;
+    }
+    #alert-container {
+        position: absolute;
+        right: 60px;
+    }
 </style>
 
 <fieldset>
+    <div id="alert-container" class="alert alert-warning alert-dismissible hide" role="alert">
+        <div id="alert-title"></div>
+    </div>
     <div id="user">
-        <form id="form">
+        <form id="form" method="post" action="@Url.Action("Card","Merge")"> 
             <div class="form-group">
-                <label class="@fieldCssClass">LastName</label>
-                <input class="@valueCssClass form-control" name="lastName" type="text" v-bind:value="lastName" />
+                <h2>Card: <span class="title-card">{{getFIO}}</span></h2>
             </div>
             <div class="form-group">
-                <label class="@fieldCssClass">FirstName</label>
-                <input class="@valueCssClass form-control" name="firstName" type="text" v-bind:value="firstName" />
+                <label class="@fieldCssClass" for="lname">LastName</label>
+                <input class="@valueCssClass form-control" id="lname" 
+                       name="@memberHelper.GetName(x=>x.LastName)"  type="text" v-model="lastName"/>
             </div>
             <div class="form-group">
-                <label class="@fieldCssClass">MiddleName</label>
-                <input class="@valueCssClass form-control" name="middleName" type="text" v-bind:value="middleName" />
+                <label class="@fieldCssClass" for="fname">FirstName</label>
+                <input class="@valueCssClass form-control" id="fname" 
+                       name="@memberHelper.GetName(x=>x.FirstName)"  type="text" v-model="firstName" />
             </div>
             <div class="form-group">
-                <label class="@fieldCssClass">BirthDay</label>
-                <input class="@valueCssClass form-control" type="text" v-bind:value="birthdayStr" />
+                <label class="@fieldCssClass" for="mname">MiddleName</label>
+                <input class="@valueCssClass form-control" id="mname"
+                       name="@memberHelper.GetName(x=>x.MiddleName)"  type="text" v-model="middleName" />
+            </div>
+
+            <div class="form-group">
+                <label class="@fieldCssClass" for="birthDay">BirthDay</label>
+                <input class="@valueCssClass form-control" id="birthDay" 
+                       name="@memberHelper.GetName(x=>x.Birthday)" type="text" v-model="birthdayStr" />
             </div>
             <div class="form-group">
-                <label class="@fieldCssClass">WorkPlace</label>
-                <input class="@valueCssClass form-control" type="text" v-bind:value="workPlace" />
+                <label class="@fieldCssClass" for="workPlace">WorkPlace</label>
+                <input class="@valueCssClass form-control" id="workPlace" 
+                       name="@memberHelper.GetName(x=>x.WorkPlace)" type="text" v-model="workPlace" />
             </div>
             <div class="form-group">
-                <label class="@fieldCssClass">WorkPosition</label>
-                <input class="@valueCssClass form-control" type="text" v-bind:value="workPosition" />
+                <label class="@fieldCssClass" for="workPosition">WorkPosition</label>
+                <input class="@valueCssClass form-control" id="workPosition" 
+                       name="@memberHelper.GetName(x=>x.WorkPosition)" type="text" v-model="workPosition" />
             </div>
             <div class="form-group">
-                <label class="@fieldCssClass">HomeAddress</label>
-                <input class="@valueCssClass form-control" type="text" v-bind:value="homeAddress" />
+                <label class="@fieldCssClass" for="homeAddress">HomeAddress</label>
+                <input class="@valueCssClass form-control" id="homeAddress" 
+                       name="@memberHelper.GetName(x=>x.HomeAddress)" type="text" v-model="homeAddress" />
             </div>
             <div class="form-group">
-                <select class="select input" data-component="input-change">
+                <select class="select input form-control" data-component="input-change">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                 </select>
             </div>
-            <div class="@fieldCssClass">
-                <input type="submit" class="btn btn-primary" value="Отправить" />
+            <div class="form-group @fieldCssClass">
+                <input type="submit" class="btn btn-success" value="Отправить" />
             </div>
         </form>
     </div>
@@ -77,7 +98,11 @@
         console.log(model);
         var app = new Vue({
             el: '#user',
-            data: model
+            data: model,
+            computed: {
+                getFIO: function () { return `${this.lastName} ${this.firstName} ${this.middleName}` },
+                getLogin: function () { return `${this.lastName}-1119` }
+            }
         })
 
         //валидация jquery
@@ -105,21 +130,9 @@
                     firstName: strValidMessage("Имя"),
                     middleName: strValidMessage("Отчество")
                 }
-            });
+            });  
 
             /************** change of for last val and val ***********/
-            /*$(".select.input").focus(function () {
-                $(this).data("val", $(this).val());
-            });
-
-            $(".select.input").change(function () {
-                $(this).blur();
-            });
-
-            $(".select.input").blur(function () {
-                console.log("vals", $(this).data("val"),$(this).val());
-            });*/
-            //.select.input
             var counter = jBlocks.get(document.querySelector('.select.input'));
 
             // use event to react on what happens during lifecycle
@@ -127,17 +140,26 @@
                 console.log(el);
             });
             /**********************************************************/
+            // prototype for replace all
+            String.prototype.replaceAll = function (search, replace) {
+                return this.split(search).join(replace);
+            }
 
             /***************** use observer ***************************/
             console.log($('#form'));
             let server = new Observer(form, null, function (mutationsList, observerEl) {
+                var text = "";
                 for (let mutation of mutationsList) {
                     if (mutation.type === 'childList') {
-                        console.log('A child node has been added or removed.');
+                        text += "A child node has been added or removed."
                     } else if (mutation.type === 'attributes') {
-                        console.log('The ' + mutation.attributeName + ' attribute was modified.');
+                        text += `The ${mutation.attributeName} attribute was modified.`;
                     }
+                    text += "<br/>";
                 }
+                console.log(text.replaceAll("<br/>",""));
+                $("#alert-title").html(text);
+                $('#alert-container').addClass("show");
             });
             /**********************************************************/
 

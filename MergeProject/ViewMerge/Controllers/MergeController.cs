@@ -31,5 +31,11 @@ namespace ViewMerge.Controllers
             var model = list.FirstOrDefault(x => x.Id == i);
             return View(model);
         }
+
+        [HttpPost]
+        public IActionResult Card(UserView mdl)
+        {
+            return View(mdl);
+        }
     }
 }
