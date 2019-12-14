@@ -35,7 +35,7 @@ jBlocks.define('lazy-input-text-change',
         }
     }
 });
-/***************************************************************************************/
+/**************************** update select change *********************************************/
 jBlocks.define('input-change',
 {
     events: {
@@ -59,11 +59,14 @@ jBlocks.define('input-change',
             this._curValue = null;
         },
         /**
-            * Increases the counter, emits changed event
-            */
+        * Increases the counter, emits changed event
+        */
         check: function () {
             this._lastValue = this.node.value;
             this.emit('focus', { element: this });
         }
     }
 });
+/***************************************************************************/
+
+/***************************************************************************/

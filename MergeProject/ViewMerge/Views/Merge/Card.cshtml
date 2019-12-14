@@ -84,18 +84,30 @@
         <div id="alert-title"></div>
     </div>
     <div id="user">
-        <form id="form" method="post" action="@Url.Action("Card","Merge")"> 
+        <form id="form" method="post" action="@Url.Action("Card","Merge")">
             <div class="@divClass">
-                <h2>Card: 
+                <h2>
+                    Card:
                     <span class="title-card">
                         {{getFIO}}
-                     </span>
+                    </span>
                 </h2>
             </div>
             <div class="@divClass">
+                <div class="input-group-prepend btn-pointer">
+                    <span class="input-group-text">
+                        <i class="glyphicon glyphicon-search" aria-hidden="true"></i></span>
+                </div>
+                <input type="text" />
+                <div class="input-group-append btn-pointer">
+                    <span class="input-group-text btn-close" style="color:rgb(206, 15, 15)">
+                        <i class="glyphicon glyphicon-remove" aria-hidden="true"></i></span>
+                </div>
+            </div>
+            <div class="@divClass">
                 <label class="@fieldCssClass" for="lname">LastName</label>
-                <input class="@valueCssClass form-control" id="lname" aria-describedby="basic-addon1" 
-                       list="auto-complite-lname" name="@memberHelper.GetName(x=>x.LastName)" 
+                <input class="@valueCssClass form-control" id="lname" aria-describedby="basic-addon1"
+                       list="auto-complite-lname" name="@memberHelper.GetName(x=>x.LastName)"
                        type="text" v-model="lastName" />
                 <div class="input-group-append">
                     <span class="input-group-text" id="basic-addon1">{{getLogin}}</span>
@@ -104,18 +116,18 @@
             <div class="@divClass">
                 <label class="@fieldCssClass" for="fname">FirstName</label>
                 <input class="@valueCssClass form-control" id="fname" list="auto-complite-fname"
-                       name="@memberHelper.GetName(x=>x.FirstName)"  type="text" v-model="firstName" />
+                       name="@memberHelper.GetName(x=>x.FirstName)" type="text" v-model="firstName" />
             </div>
             <div class="@divClass">
                 <label class="@fieldCssClass" for="mname">MiddleName</label>
                 <input class="@valueCssClass form-control" id="mname"
-                       name="@memberHelper.GetName(x=>x.MiddleName)"  type="text" v-model="middleName" />
+                       name="@memberHelper.GetName(x=>x.MiddleName)" type="text" v-model="middleName" />
             </div>
 
             <div class="@divClass">
                 <label class="@fieldCssClass" for="birthDay">BirthDay</label>
                 <input class="@valueCssClass form-control" id="birthDay" aria-describedby="basic-addon2"
-                       name="@memberHelper.GetName(x=>x.Birthday)" type="text" v-model="birthdayStr" />
+                       name="@memberHelper.GetName(x=>x.Birthday)" type="date" v-model="birthdayStr" />
                 <div class="input-group-append">
                     <span class="input-group-text" id="basic-addon2">{{getAge}}</span>
                 </div>
@@ -132,7 +144,7 @@
             </div>
             <div class="@divClass">
                 <label class="@fieldCssClass" for="homeAddress">HomeAddress</label>
-                <input class="@valueCssClass form-control" id="homeAddress" 
+                <input class="@valueCssClass form-control" id="homeAddress"
                        name="@memberHelper.GetName(x=>x.HomeAddress)" type="text" v-model="homeAddress" />
             </div>
             <div class="@divClass hide">
@@ -169,7 +181,7 @@
                     return `${this.lastName}-1119`
                 },
                 getAge: function () {
-                    return `${new Date().getFullYear() - moment(this.birthdayStr, "DD.MM.YYYY")._d.getFullYear()}`
+                    return `${new Date().getFullYear() - moment(this.birthdayStr, "YYYY-MM-DD")._d.getFullYear()}`
                 }
             }
         })

@@ -28,6 +28,19 @@ body {
     margin: 15px;
 }
 
+.btn-search{
+    background-color: inherit;
+}
+
+.btn-pointer:hover span{
+    background-color: white !important;
+    cursor:pointer;
+}
+
+.glyphicon-remove:hover {
+    color: red !important;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
