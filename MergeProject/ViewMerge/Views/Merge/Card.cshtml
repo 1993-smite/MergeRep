@@ -12,23 +12,28 @@
     string divClass = "input-group mb-3";
 }
 
+<link rel="stylesheet" href="~/css/jquery.fias.min.css" />
+
 <style>
     label {
         display: block;
     }
 
-    label.error {
-        color: red;
-    }
+        label.error {
+            color: red;
+        }
+
     .title-card {
         color: #af853d;
     }
+
     #alert-container {
         position: absolute;
         right: 60px;
     }
-    .hide{
-        display:none;
+
+    .hide {
+        display: none;
     }
 </style>
 
@@ -96,12 +101,14 @@
             <div class="@divClass">
                 <div class="input-group-prepend btn-pointer">
                     <span class="input-group-text">
-                        <i class="glyphicon glyphicon-search" aria-hidden="true"></i></span>
+                        <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                    </span>
                 </div>
-                <input type="text" />
+                <input id="search-country" type="search" class="col-md-4" placeholder="Поиск" />
                 <div class="input-group-append btn-pointer">
                     <span class="input-group-text btn-close" style="color:rgb(206, 15, 15)">
-                        <i class="glyphicon glyphicon-remove" aria-hidden="true"></i></span>
+                        <i class="glyphicon glyphicon-remove" aria-hidden="true"></i>
+                    </span>
                 </div>
             </div>
             <div class="@divClass">
@@ -165,6 +172,7 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/js/jblocks.js"></script>
     <script src="~/js/components.js"></script>
+    <script src="~/js/jquery.fias.min.js"></script>
     <script src="~/js/observer-monitor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script type="text/javascript">
@@ -200,6 +208,22 @@
         };
 
         $(function () {
+            $('#search-country').fias({
+                type: $.fias.type.city,
+                limit: 6,
+                openBefore: function () {
+                    if ($("#search-country").val().length < 4)
+                        return false;
+                },
+                receive: function () {
+                    arguments[0] = arguments[0].filter(x=>x.id.trim() != "Free");
+                    console.log("receive",arguments);
+                },
+                closeBefore: function () {
+                    console.log("closeBefore", $("#kladr_autocomplete").html());
+                }
+            });
+
             $('#form').validate({
                 rules: {
                     lastName: strValid,
@@ -211,7 +235,7 @@
                     firstName: strValidMessage("Имя"),
                     middleName: strValidMessage("Отчество")
                 }
-            });  
+            });
 
             /************** change of for last val and val ***********/
             var counter = jBlocks.get(document.querySelector('.select.input'));

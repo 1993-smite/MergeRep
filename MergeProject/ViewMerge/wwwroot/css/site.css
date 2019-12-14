@@ -40,6 +40,10 @@ body {
 .glyphicon-remove:hover {
     color: red !important;
 }
+/*kladr-api*/
+#kladr_autocomplete ul.autocomplete li[title*='kladr-api'] {
+    display: none;
+}
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
