@@ -13,7 +13,7 @@
 }
 
 <link rel="stylesheet" href="~/css/jquery.fias.min.css" />
-<link rel="stylesheet" href="~/css/styleSCSS.css" />
+<link rel="stylesheet" href="~/css/page.merge.card.css" />
 
 <style>
     label {
@@ -91,14 +91,14 @@
     </div>
     <div id="user">
         <fieldset>
-            <legend>Автокомплит для городов</legend>
+            <legend>Автокомплит для городов <b>Kladr</b></legend>
             <div class="@divClass">
                 <div class="input-group-prepend btn-pointer">
                     <span class="input-group-text">
                         <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
                     </span>
                 </div>
-                <input id="search-country" type="text" class="col-md-4" placeholder="Поиск" />
+                <input id="search-country" type="text" class="col-md-4 form-control" placeholder="Поиск по странам" />
                 <div class="input-group-append btn-pointer">
                     <span class="input-group-text btn-close" style="color:rgb(206, 15, 15)">
                         <i class="glyphicon glyphicon-remove" aria-hidden="true"></i>
@@ -107,7 +107,7 @@
             </div>
         </fieldset>
         <fieldset>
-            <legend>Форма для ввода данных</legend>
+            <legend>Форма для ввода данных <b>View JS</b></legend>
             <form id="form" method="post" action="@Url.Action("Card","Merge")">
                 <div class="@divClass">
                     <h6>
@@ -184,97 +184,6 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script type="text/javascript">
         var model = JSON.parse('@Html.Raw(Json.Serialize(Model))');
-        console.log(model);
-        var app = new Vue({
-            el: '#user',
-            data: model,
-            computed: {
-                getFIO: function () {
-                    return `${this.lastName} ${this.firstName} ${this.middleName}`
-                },
-                getLogin: function () {
-                    return `${this.lastName}-1119`
-                },
-                getAge: function () {
-                    return `${new Date().getFullYear() - moment(this.birthdayStr, "YYYY-MM-DD")._d.getFullYear()}`
-                }
-            }
-        })
-
-        //валидация jquery
-        let strValid = {
-            required: true,
-            minlength: 2
-        };
-
-        let strValidMessage = function (fieldName) {
-            return {
-                required: `Поле '${fieldName}' обязательно к заполнению`,
-                minlength: `Введите не менее 2-х символов в поле '${fieldName}'`
-            }
-        };
-
-        $(function () {
-            $('#search-country').fias({
-                type: $.fias.type.city,
-                limit: 6,
-                openBefore: function () {
-                    if ($("#search-country").val().length < 4)
-                        return false;
-                },
-                receive: function () {
-                    arguments[0] = arguments[0].filter(x=>x.id.trim() != "Free");
-                    console.log("receive",arguments);
-                },
-                closeBefore: function () {
-                    console.log("closeBefore", $("#kladr_autocomplete").html());
-                }
-            });
-
-            $('#form').validate({
-                rules: {
-                    lastName: strValid,
-                    firstName: strValid,
-                    middleName: strValid
-                },
-                messages: {
-                    lastName: strValidMessage("Фамилия"),
-                    firstName: strValidMessage("Имя"),
-                    middleName: strValidMessage("Отчество")
-                }
-            });
-
-            /************** change of for last val and val ***********/
-            var counter = jBlocks.get(document.querySelector('.select.input'));
-
-            // use event to react on what happens during lifecycle
-            counter.on('change', function (el) {
-                console.log(el);
-            });
-            /**********************************************************/
-            // prototype for replace all
-            String.prototype.replaceAll = function (search, replace) {
-                return this.split(search).join(replace);
-            }
-
-            /***************** use observer ***************************/
-            console.log($('#form'));
-            let server = new Observer(form, null, function (mutationsList, observerEl) {
-                var text = "";
-                for (let mutation of mutationsList) {
-                    if (mutation.type === 'childList') {
-                        text += "A child node has been added or removed."
-                    } else if (mutation.type === 'attributes') {
-                        text += `The ${mutation.attributeName} attribute was modified.`;
-                    }
-                    text += "<br/>";
-                }
-                console.log(text.replaceAll("<br/>",""));
-                $("#alert-title").html(text);
-                $('#alert-container').addClass("show");
-            });
-            /**********************************************************/
-
-        });
     </script>
+    <script src="~/js/page.merge.card.js"></script>
 }

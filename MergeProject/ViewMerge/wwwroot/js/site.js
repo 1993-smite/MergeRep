@@ -3,10 +3,9 @@
 
 // Write your JavaScript code.
 $(function () {
-    $(".input-group-append .btn-close").click(function () {
-        $("#search-country").val("");
-    });
-    $(".glyphicon-search", ".input-group-prepend ").click(function () {
-        console.log($('#search-country').fias().change());
-    });
+    //common site scrips
+    // prototype for replace all
+    String.prototype.replaceAll = function (search, replace) {
+        return this.split(search).join(replace);
+    }
 });

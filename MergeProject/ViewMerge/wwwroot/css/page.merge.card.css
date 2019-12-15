@@ -1,0 +1,19 @@
+﻿@charset "UTF-8";
+.glyphicon-remove:hover {
+  color: red !important; }
+
+body label {
+  color: #4e4a46; }
+
+body input {
+  color: black; }
+
+/*
+    контролы для кнопок и иконок
+*/
+.btn-search {
+  background-color: inherit; }
+
+.btn-pointer:hover span {
+  background-color: white !important;
+  cursor: pointer; }
