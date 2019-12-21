@@ -11,7 +11,7 @@ var app = new Vue({
             return `${this.lastName} ${this.firstName} ${this.middleName}`
         },
         getLogin: function () {
-            return `${this.lastName}-1119`
+            return `${this.lastName}-1945`
         },
         getAge: function () {
             return `${new Date().getFullYear() - moment(this.birthdayStr, "YYYY-MM-DD")._d.getFullYear()}`
@@ -26,7 +26,7 @@ $(function () {
         type: $.fias.type.city,
         limit: 6,
         openBefore: function () {
-            if ($(searchCountryEl).val().length < 4)
+            if ($(searchCountryEl).val().length < 2)
                 return false;
         }
     });
