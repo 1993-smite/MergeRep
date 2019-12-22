@@ -1,0 +1,68 @@
+﻿@using ViewTestProject.Controllers;
+@model List<Point>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "SVG/Index";
+}
+
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/jquery-ui.css" />
+</environment>
+
+<h2>SVG interactive image</h2>
+
+<object data="~/images/test.svg" type="image/svg+xml" id="svgmap" width="500" height="420"></object>
+
+@section Scripts{
+    @*<script src="~/js/jquery-ui.js"></script>*@
+    <script src="~/js/popper.min.js"></script>
+    <script type="text/javascript">
+        var model = JSON.parse('@Html.Raw(Json.Serialize(Model))');
+
+        var svgdom;
+
+        function initSVG() {
+            var svgObject = document.getElementById('svgmap'); // Находим тег <object>
+            if ('contentDocument' in svgObject) {              // У нас действительно там что-то есть?
+                svgdom = $(svgObject.contentDocument);  // Получаем доступ к объектной модели SVG-файла
+                if ($("ellipse", svgdom).length > 0) {
+                    loadSVG();
+                }
+                else {
+                    setTimeout(() => initSVG(), 100);
+                }
+            } else {
+                setTimeout(() => initSVG(),100);
+            }
+        }
+
+        function loadSVG() {
+            for (let item of model) {
+                var $point = $(`ellipse[id='point${item.id}']`, svgdom);
+                $point.attr("data-toggle", "tooltip");
+                $point.mousemove(function () {
+                    let point = item;
+                    var el = $(this);
+                    console.log("move", el);
+                    el.attr("fill", "#8baf68");
+                    var position = el.offset();
+                    $("#point-tooltip").css({ top: position.top + 100, left: position.left + 100 });
+                    console.log(el.position(), el.offset(), $("#point-tooltip").offset());
+                    $(".tooltip-inner", "#point-tooltip").text(point.title);
+                    $("#point-tooltip").show();
+                });
+                $point.mouseleave(function () {
+                    console.log("leave");
+                    var el = $(this);
+                    el.attr("fill", "black");
+                    $("#point-tooltip").hide();
+                });
+            }
+        }
+
+        $(document).ready(function () {
+            //setTimeout(() => initSVG(), 100);
+            initSVG();
+        });
+    </script>
+}
