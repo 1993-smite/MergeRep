@@ -17,18 +17,23 @@
     @*<script src="~/js/jquery-ui.js"></script>*@
     <script src="~/js/popper.min.js"></script>
     <script type="text/javascript">
-        var model = JSON.parse('@Html.Raw(Json.Serialize(Model))');
+        let model = JSON.parse('@Html.Raw(Json.Serialize(Model))');
 
-        var svgdom;
+        let svgdom;
 
+        // инициализируем дом для svg картинки
         function initSVG() {
-            var svgObject = document.getElementById('svgmap'); // Находим тег <object>
-            if ('contentDocument' in svgObject) {              // У нас действительно там что-то есть?
-                svgdom = $(svgObject.contentDocument);  // Получаем доступ к объектной модели SVG-файла
+            let svgObject = document.getElementById('svgmap');
+            if ('contentDocument' in svgObject) {
+                // получаем доступ к объектной модели SVG-файла
+                svgdom = $(svgObject.contentDocument);  
+                // проверяем загрузилось ли изображение
                 if ($("ellipse", svgdom).length > 0) {
+                    // загрузка интерактивности для svg
                     loadSVG();
                 }
                 else {
+                    // если не загрузилось пробуем через 100 мс
                     setTimeout(() => initSVG(), 100);
                 }
             } else {
@@ -36,16 +41,17 @@
             }
         }
 
+        // привязываем интерактивность к элементам картинки
         function loadSVG() {
             for (let item of model) {
-                var $point = $(`ellipse[id='point${item.id}']`, svgdom);
+                let $point = $(`ellipse[id='point${item.id}']`, svgdom);
                 $point.attr("data-toggle", "tooltip");
                 $point.mousemove(function () {
                     let point = item;
-                    var el = $(this);
+                    let el = $(this);
                     console.log("move", el);
                     el.attr("fill", "#8baf68");
-                    var position = el.offset();
+                    let position = el.offset();
                     $("#point-tooltip").css({ top: position.top + 100, left: position.left + 100 });
                     console.log(el.position(), el.offset(), $("#point-tooltip").offset());
                     $(".tooltip-inner", "#point-tooltip").text(point.title);
@@ -53,7 +59,7 @@
                 });
                 $point.mouseleave(function () {
                     console.log("leave");
-                    var el = $(this);
+                    let el = $(this);
                     el.attr("fill", "black");
                     $("#point-tooltip").hide();
                 });
