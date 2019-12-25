@@ -5,6 +5,14 @@ body {
     padding-bottom: 20px;
 }
 
+tr.check {
+    background-color: #8baf68 !important;
+}
+
+.pointer{
+    cursor: pointer !important;
+}
+
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {

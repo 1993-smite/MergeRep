@@ -13,9 +13,9 @@
    height="297mm"
    viewBox="0 0 210 297"
    version="1.1"
-   id="svg8"
+   id="level-1"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="test.svg">
+   sodipodi:docname="plan.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -69,7 +69,7 @@
        rx="4.2763124"
        ry="4.0090427"
        style="stroke-width:0.26458332"
-       inkscape:label="#path814" />
+       inkscape:label="#101" />
     <ellipse
        id="103"
        cx="136.04019"
@@ -77,7 +77,7 @@
        rx="5.0781207"
        ry="4.543582"
        style="stroke-width:0.26458332"
-       inkscape:label="#point2" />
+       inkscape:label="#103" />
     <ellipse
        id="102"
        cx="82.319016"
@@ -85,22 +85,22 @@
        rx="4.8108511"
        ry="4.2763124"
        style="stroke-width:0.26458332"
-       inkscape:label="#point3" />
+       inkscape:label="#102" />
     <ellipse
-       id="point4"
+       id="106"
        cx="161.43079"
        cy="71.959061"
        rx="4.8108511"
        ry="5.3453903"
        style="stroke-width:0.26458332" />
     <ellipse
-       id="point5"
+       id="109"
        cx="161.43079"
        cy="132.0947"
        rx="4.8108511"
        ry="4.0090427"
        style="stroke-width:0.26458332"
-       inkscape:label="#path822" />
+       inkscape:label="#109" />
     <ellipse
        id="104"
        cx="36.615925"
@@ -108,7 +108,7 @@
        rx="5.0781207"
        ry="4.2763124"
        style="stroke-width:0.26458332"
-       inkscape:label="#point6" />
+       inkscape:label="#104" />
     <ellipse
        id="107"
        cx="40.357697"
@@ -116,7 +116,7 @@
        rx="5.0781207"
        ry="4.543582"
        style="stroke-width:0.26458332"
-       inkscape:label="#path826" />
+       inkscape:label="#107" />
     <ellipse
        id="105"
        cx="101.29515"
@@ -124,14 +124,14 @@
        rx="4.543582"
        ry="5.3453903"
        style="stroke-width:0.26458332"
-       inkscape:label="#point8" />
+       inkscape:label="#105" />
     <ellipse
-       id="point9"
+       id="108"
        cx="121.34036"
        cy="128.62019"
        rx="5.8799295"
        ry="4.2763124"
        style="stroke-width:0.26458332"
-       inkscape:label="#path830" />
+       inkscape:label="#108" />
   </g>
 </svg>

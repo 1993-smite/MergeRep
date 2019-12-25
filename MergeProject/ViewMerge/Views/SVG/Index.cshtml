@@ -3,6 +3,10 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "SVG/Index";
+
+    var filter = (Filter)ViewData[SVGController.filterKey];
+    var building = filter.Building;
+    var level = filter.Level;
 }
 
 <environment include="Development">
@@ -10,65 +14,55 @@
 </environment>
 
 <h2>SVG interactive image</h2>
-
-<object data="~/images/test.svg" type="image/svg+xml" id="svgmap" width="500" height="420"></object>
+<div class="row">
+    <div class="col-md-2">
+        <select id="building" class="update-svg" data-path="/images">
+            <option value="AK-2">AK-2</option>
+        </select> 
+        <select id="level" class="update-svg">
+            <option value="1">1</option>
+            <option value="2">2</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+       
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-7">
+        <object data="~/images/@building/@level/plan.svg" type="image/svg+xml" id="svgmap" width="500" height="420"></object>
+    </div>
+    <div id="tbl-points" class="col-md-5" style="max-height: 500px;overflow-y: auto;">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Title</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var itm in Model)
+                {
+                    <tr class="row-@itm.Id pointer" data-id ="@itm.Id">
+                        <th scope="row">@itm.Id</th>
+                        <td>@itm.Name</td>
+                        <td>@itm.Title</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
 @section Scripts{
     @*<script src="~/js/jquery-ui.js"></script>*@
     <script src="~/js/popper.min.js"></script>
     <script type="text/javascript">
         let model = JSON.parse('@Html.Raw(Json.Serialize(Model))');
-
-        let svgdom;
-
-        // инициализируем дом для svg картинки
-        function initSVG() {
-            let svgObject = document.getElementById('svgmap');
-            if ('contentDocument' in svgObject) {
-                // получаем доступ к объектной модели SVG-файла
-                svgdom = $(svgObject.contentDocument);  
-                // проверяем загрузилось ли изображение
-                if ($("ellipse", svgdom).length > 0) {
-                    // загрузка интерактивности для svg
-                    loadSVG();
-                }
-                else {
-                    // если не загрузилось пробуем через 100 мс
-                    setTimeout(() => initSVG(), 100);
-                }
-            } else {
-                setTimeout(() => initSVG(),100);
-            }
-        }
-
-        // привязываем интерактивность к элементам картинки
-        function loadSVG() {
-            for (let item of model) {
-                let $point = $(`ellipse[id='point${item.id}']`, svgdom);
-                $point.attr("data-toggle", "tooltip");
-                $point.mousemove(function () {
-                    let point = item;
-                    let el = $(this);
-                    console.log("move", el);
-                    el.attr("fill", "#8baf68");
-                    let position = el.offset();
-                    $("#point-tooltip").css({ top: position.top + 100, left: position.left + 100 });
-                    console.log(el.position(), el.offset(), $("#point-tooltip").offset());
-                    $(".tooltip-inner", "#point-tooltip").text(point.title);
-                    $("#point-tooltip").show();
-                });
-                $point.mouseleave(function () {
-                    console.log("leave");
-                    let el = $(this);
-                    el.attr("fill", "black");
-                    $("#point-tooltip").hide();
-                });
-            }
-        }
-
-        $(document).ready(function () {
-            //setTimeout(() => initSVG(), 100);
-            initSVG();
-        });
+        let filter = JSON.parse('@Html.Raw(Json.Serialize(filter))');
     </script>
+
+    @*<script src="https://d3js.org/d3.v5.min.js"></script>*@
+    <script src="~/js/Pages/page.svg.index.js"></script>
 }

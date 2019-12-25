@@ -31,6 +31,10 @@ namespace ViewMerge
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(1);//You can set Time   
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -50,6 +54,9 @@ namespace ViewMerge
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseSession();
+
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
