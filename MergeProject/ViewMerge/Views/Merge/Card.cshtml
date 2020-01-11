@@ -13,6 +13,7 @@
 }
 
 <link rel="stylesheet" href="~/css/jquery.fias.min.css" />
+<link rel="stylesheet" href="~/css/jquery-ui.css" />
 <link rel="stylesheet" href="~/css/page.merge.card.css" />
 
 <style>
@@ -146,6 +147,14 @@
                     </div>
                 </div>
                 <div class="@divClass">
+                    <label class="@fieldCssClass" for="deathDay">DeathDay</label>
+                    <input class="@valueCssClass form-control" id="deathDay" aria-describedby="basic-addon2"
+                           name="@memberHelper.GetName(x=>x.Death)" type="text" v-model="deathStr" />
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2">{{getAgeToDeath}}</span>
+                    </div>
+                </div>
+                <div class="@divClass">
                     <label class="@fieldCssClass" for="workPlace">WorkPlace</label>
                     <input class="@valueCssClass form-control" id="workPlace" list="auto-complite-work-place"
                            name="@memberHelper.GetName(x=>x.WorkPlace)" type="text" v-model="workPlace" />
@@ -180,6 +189,7 @@
     <script src="~/js/jblocks.js"></script>
     <script src="~/js/components.js"></script>
     <script src="~/js/jquery.fias.min.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
     <script src="~/js/observer-monitor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script type="text/javascript">

@@ -53,6 +53,13 @@ function loadSVG() {
         $point.click(function () {
             console.log("click");
             let el = $(this);
+
+            if (el.attr("fill")) {
+                $(`.pointer[data-id='${el.attr("id")}']`).removeClass("check");
+                $(el).removeAttr("fill");
+                return;
+            }
+
             el.attr("fill", pointColor);
             $(el).css('cursor', 'pointer');
 
@@ -60,7 +67,7 @@ function loadSVG() {
                 $(`ellipse[id='${$(el).attr("data-id")}']`, svgdom).removeAttr("fill");
                 $(el).removeClass("check");
             });
-            $(`.row-${el.attr("id")}`).addClass("check");
+            $(`.pointer[data-id='${el.attr("id")}']`).addClass("check");
         });
         $point.mouseleave(function () {
             console.log("leave");
@@ -86,6 +93,8 @@ $(document).ready(function () {
             },
             function (data) {
                 model = data;
+                vue.$data.points = data;
+                console.log(model);
             }
         ).done(function () {
             $("#svgmap").attr("data", path);
@@ -98,12 +107,7 @@ $(document).ready(function () {
     $("#tbl-points").on("click","tr",
         function () {
             let id = $(this).attr("data-id");
-            $(".check").each(function (index, el) {
-                $(`ellipse[id='${$(el).attr("data-id")}']`, svgdom).removeAttr("fill");
-                $(el).removeClass("check");
-            });
-            $(this).addClass("check");
-            $(`ellipse[id='${id}']`, svgdom).attr("fill", pointColor);
+            $(`ellipse[id='${id}']`, svgdom).click();
     });
 
     //setTimeout(() => initSVG(), 100);

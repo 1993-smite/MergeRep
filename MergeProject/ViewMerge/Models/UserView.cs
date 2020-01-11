@@ -18,6 +18,12 @@ namespace ViewMerge.Models
                 return Birthday.ToString("dd.MM.yyyy");
             }
         }
+        public DateTime Death { get; set; }
+        public string DeathStr {
+            get {
+                return Death.ToString("dd.MM.yyyy");
+            }
+        }
         public string WorkPlace { get; set; }
         public string WorkPosition { get; set; }
         public string HomeAddress { get; set; }
@@ -34,6 +40,7 @@ namespace ViewMerge.Models
                 FirstName = $"firstName {i}",
                 MiddleName = $"middleName {i}",
                 Birthday = DateTime.Today.AddDays(-i * 30),
+                Death = DateTime.Today.AddDays(i * 30),
                 WorkPosition = $"workPosition {i}",
                 WorkPlace = $"workPlace {i}",
                 HomeAddress = $"homeAddress {i}"

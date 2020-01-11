@@ -18,14 +18,14 @@
     <div class="col-md-2">
         <select id="building" class="update-svg" data-path="/images">
             <option value="AK-2">AK-2</option>
-        </select> 
+        </select>
         <select id="level" class="update-svg">
             <option value="1">1</option>
             <option value="2">2</option>
         </select>
     </div>
     <div class="col-md-2">
-       
+
     </div>
 </div>
 <div class="row">
@@ -41,15 +41,20 @@
                     <th scope="col">Title</th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach (var itm in Model)
+            <tbody v-for="(item, index) in points">
+                <tr class="pointer" :data-id="item.id">
+                    <th scope="row">{{item.id}}</th>
+                    <td>{{item.name}}</td>
+                    <td>{{item.title}}</td>
+                </tr>
+                @*foreach (var itm in Model)
                 {
-                    <tr class="row-@itm.Id pointer" data-id ="@itm.Id">
+                    <tr class="row-@itm.Id pointer" data-id="@itm.Id">
                         <th scope="row">@itm.Id</th>
                         <td>@itm.Name</td>
                         <td>@itm.Title</td>
                     </tr>
-                }
+                }*@
             </tbody>
         </table>
     </div>
@@ -57,9 +62,18 @@
 
 @section Scripts{
     @*<script src="~/js/jquery-ui.js"></script>*@
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="~/js/popper.min.js"></script>
     <script type="text/javascript">
         let model = JSON.parse('@Html.Raw(Json.Serialize(Model))');
+
+        let vue = new Vue({
+            el: "#tbl-points",
+            data: {
+                points: model
+            }
+        });
+
         let filter = JSON.parse('@Html.Raw(Json.Serialize(filter))');
     </script>
 

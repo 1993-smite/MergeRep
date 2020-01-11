@@ -11,10 +11,13 @@ var app = new Vue({
             return `${this.lastName} ${this.firstName} ${this.middleName}`
         },
         getLogin: function () {
-            return `${this.lastName}-1945`
+            return `${this.lastName}-${moment(this.birthdayStr, "YYYY-MM-DD")._d.getFullYear()}`
         },
         getAge: function () {
             return `${new Date().getFullYear() - moment(this.birthdayStr, "YYYY-MM-DD")._d.getFullYear()}`
+        },
+        getAgeToDeath: function () {
+            return `${moment(this.deathStr, "DD.MM.YYYY")._d.getFullYear() - new Date().getFullYear()}`
         }
     }
 })
@@ -33,6 +36,16 @@ $(function () {
 
     $(".input-group-append .btn-close").click(function () {
         $(searchCountryEl).val("");
+    });
+
+    //связка датапикера и вью
+    $("#deathDay").datepicker({
+        dateFormat: 'dd.mm.yy',
+        changeYear: true,
+        onSelect: function (dateText) {
+            //формируем эвент ввода данных в поле, чтобы вью подхватил
+            $(this)[0].dispatchEvent(new Event('input', { 'bubbles': true }))
+        }
     });
 
     /*
