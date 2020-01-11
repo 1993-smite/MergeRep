@@ -118,26 +118,29 @@
                         </span>
                     </h6>
                 </div>
-                <div class="@divClass">
-                    <label class="@fieldCssClass" for="lname">LastName</label>
-                    <input class="@valueCssClass form-control" id="lname" aria-describedby="basic-addon1"
-                           list="auto-complite-lname" name="@memberHelper.GetName(x=>x.LastName)"
-                           type="text" v-model="lastName" />
+                @*<div class="@divClass">
+            <label class="@fieldCssClass" for="lname">LastName</label>
+            <input class="@valueCssClass form-control" id="lname" aria-describedby="basic-addon1"
+                   list="auto-complite-lname" name="@memberHelper.GetName(x=>x.LastName)"
+                   type="text" v-model="lastName" />
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon1">{{getLogin}}</span>
+            </div>
+        </div>*@
+                <form-tr-input id="lname" label="LastName" v-model="lastName" 
+                               autocomplite="auto-complite-lname"
+                               name="@memberHelper.GetName(x=>x.LastName)">
                     <div class="input-group-append">
                         <span class="input-group-text" id="basic-addon1">{{getLogin}}</span>
                     </div>
-                </div>
-                <div class="@divClass">
-                    <label class="@fieldCssClass" for="fname">FirstName</label>
-                    <input class="@valueCssClass form-control" id="fname" list="auto-complite-fname"
-                           name="@memberHelper.GetName(x=>x.FirstName)" type="text" v-model="firstName" />
-                </div>
-                <div class="@divClass">
-                    <label class="@fieldCssClass" for="mname">MiddleName</label>
-                    <input class="@valueCssClass form-control" id="mname"
-                           name="@memberHelper.GetName(x=>x.MiddleName)" type="text" v-model="middleName" />
-                </div>
-
+                </form-tr-input>
+                <form-tr-input id="fname" label="FirstName" v-model="firstName" 
+                               autocomplite="auto-complite-fname"
+                               name="@memberHelper.GetName(x=>x.FirstName)">
+                </form-tr-input>
+                <form-tr-input id="mname" label="MiddleName" v-model="middleName"
+                               name="@memberHelper.GetName(x=>x.MiddleName)">
+                </form-tr-input>
                 <div class="@divClass">
                     <label class="@fieldCssClass" for="birthDay">BirthDay</label>
                     <input class="@valueCssClass form-control" id="birthDay" aria-describedby="basic-addon2"
@@ -192,6 +195,7 @@
     <script src="~/js/jquery-ui.js"></script>
     <script src="~/js/observer-monitor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="~/js/page.components.helper.js"></script>
     <script type="text/javascript">
         var model = JSON.parse('@Html.Raw(Json.Serialize(Model))');
     </script>
