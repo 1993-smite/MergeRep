@@ -9,6 +9,12 @@
     var level = filter.Level;
 }
 
+<style type="text/css">
+    .table td, .table th {
+        padding: .15rem;
+    }
+</style>
+
 <environment include="Development">
     <link rel="stylesheet" href="~/css/jquery-ui.css" />
 </environment>
@@ -16,24 +22,28 @@
 <h2>SVG interactive image</h2>
 <div class="row">
     <div class="col-md-2">
-        <select id="building" class="update-svg" data-path="/images">
+        <select id="building" class="update-svg input-sm" data-path="/images">
             <option value="AK-2">AK-2</option>
         </select>
-        <select id="level" class="update-svg">
+        <select id="level" class="update-svg input-sm">
             <option value="1">1</option>
             <option value="2">2</option>
+            <option value="3">3</option>
         </select>
     </div>
     <div class="col-md-2">
-
+        <select id="resume" class="update-svg input-sm">
+            <option value="simple">simple</option>
+            <option value="line">line</option>
+        </select>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-7">
+    <div class="col-md-7 hide">
         <object data="~/images/@building/@level/plan.svg" type="image/svg+xml" id="svgmap" width="500" height="420"></object>
     </div>
-    <div id="tbl-points" class="col-md-5" style="max-height: 500px;overflow-y: auto;">
-        <table class="table table-hover">
+    <div id="tbl-points" class="col-md-5" style="max-height: 400px;overflow-y: auto;">
+        <table class="table table-hover" id="tbl-points">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -41,20 +51,20 @@
                     <th scope="col">Title</th>
                 </tr>
             </thead>
-            <tbody v-for="(item, index) in points">
-                <tr class="pointer" :data-id="item.id">
+            <tbody>
+                <tr v-for="(item, index) in points" class="pointer" :data-id="item.id">
                     <th scope="row">{{item.id}}</th>
                     <td>{{item.name}}</td>
                     <td>{{item.title}}</td>
                 </tr>
                 @*foreach (var itm in Model)
-                {
-                    <tr class="row-@itm.Id pointer" data-id="@itm.Id">
-                        <th scope="row">@itm.Id</th>
-                        <td>@itm.Name</td>
-                        <td>@itm.Title</td>
-                    </tr>
-                }*@
+                    {
+                        <tr class="row-@itm.Id pointer" data-id="@itm.Id">
+                            <th scope="row">@itm.Id</th>
+                            <td>@itm.Name</td>
+                            <td>@itm.Title</td>
+                        </tr>
+                    }*@
             </tbody>
         </table>
     </div>
@@ -64,6 +74,8 @@
     @*<script src="~/js/jquery-ui.js"></script>*@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="~/js/popper.min.js"></script>
+    <script src="~/js/svg.min.js"></script>
+    <script src="~/js/svg.draw.min.js"></script>
     <script type="text/javascript">
         let model = JSON.parse('@Html.Raw(Json.Serialize(Model))');
 
@@ -78,5 +90,6 @@
     </script>
 
     @*<script src="https://d3js.org/d3.v5.min.js"></script>*@
+    <script src="~/js/svg-lib.js"></script>
     <script src="~/js/Pages/page.svg.index.js"></script>
 }

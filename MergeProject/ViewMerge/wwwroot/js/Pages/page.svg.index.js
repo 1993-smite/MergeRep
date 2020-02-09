@@ -1,6 +1,10 @@
 ﻿let svgdom;
 
-let pointColor = "#8baf68";
+let tablePoint = true;
+let checkPointsId = [];
+
+let clickPointEvent = fillPoints;
+
 
 function loadFilter() {
     //$("#building").val(filter.Building);
@@ -32,13 +36,45 @@ function initSVG() {
     }
 }
 
+//
+function linePoints(point) {
+    let el = point.el;
+    let scrollToEl = point.scroll;
+    console.log("click line");
+    let pointId = $(el).attr("id") || $(el).attr("data-id");    
+
+    fillPoint(pointId, pointColor);
+
+    /*for (checkId of checkPointsId) {
+        addLine(checkId, pointId);
+    }*/
+
+    if (checkPointsId.length > 0) {
+        addLine(checkPointsId[checkPointsId.length - 1], pointId)
+    }
+
+}
+
+function clickPoint(id, scroll = false) {
+    return new Promise(resolve => {
+        clickPointEvent({ el: $(`ellipse[id='${id}']`, svgdom), scroll: scroll });
+        resolve(id);
+    }).then(
+        result => {
+            console.log("last check", result);
+            checkPointsId.push(id);
+        },
+        error => console.error("error check", id) // Rejected: время вышло!
+    );
+}
+
 // привязываем интерактивность к элементам картинки
 function loadSVG() {
     for (let item of model) {
         let $point = $(`ellipse[id='${item.id}']`, svgdom);
         $point.attr("data-toggle", "tooltip");
         //console.log(item.id);
-        $point.mousemove(function () {
+        /*$point.mousemove(function () {
             console.log("move");
             let point = item;
             let el = $(this);
@@ -49,33 +85,20 @@ function loadSVG() {
             console.log(el.position(), el.offset(), $("#point-tooltip").offset());
             $(".tooltip-inner", "#point-tooltip").text(point.title);
             $("#point-tooltip").show();
-        });
+        });*/
         $point.click(function () {
             console.log("click");
-            let el = $(this);
-
-            if (el.attr("fill")) {
-                $(`.pointer[data-id='${el.attr("id")}']`).removeClass("check");
-                $(el).removeAttr("fill");
-                return;
-            }
-
-            el.attr("fill", pointColor);
-            $(el).css('cursor', 'pointer');
-
-            $(".check").each(function (index,el) {
-                $(`ellipse[id='${$(el).attr("data-id")}']`, svgdom).removeAttr("fill");
-                $(el).removeClass("check");
-            });
-            $(`.pointer[data-id='${el.attr("id")}']`).addClass("check");
+            //clickPoint({ el: $(this), scroll: true});
+            clickPoint(item.id, true);
         });
-        $point.mouseleave(function () {
+        /*$point.mouseleave(function () {
             console.log("leave");
             let el = $(this);
             //el.attr("fill", "black");
             $("#point-tooltip").hide();
-        });
+        });*/
     }
+    $("tspan", svgdom).css({"pointer-events" : "none"});
 }
 
 $(document).ready(function () {
@@ -104,10 +127,23 @@ $(document).ready(function () {
         });
     });
 
+    $("#resume").change(function () {
+        switch ($(this).val()) {
+            case "simple":
+                clickPointEvent = fillPoints;
+                checkPointsId = [];
+                break;
+            case "line":
+                clickPointEvent = linePoints;
+                checkPointsId = [];
+                break;
+        }
+    });
+
     $("#tbl-points").on("click","tr",
         function () {
             let id = $(this).attr("data-id");
-            $(`ellipse[id='${id}']`, svgdom).click();
+            clickPoint(id);
     });
 
     //setTimeout(() => initSVG(), 100);
