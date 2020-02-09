@@ -2,7 +2,7 @@
 let defaultPointColor = "#b3b3b3";
 
 function fillPoint(id, pointColor) {
-    let $point = $(`ellipse[id='${id}']`, svgdom);
+    let $point = $(`[id='${id}']`, svgdom);
     let $pointTr = $(`.pointer[data-id='${id}']`)
     $point.attr("fill", pointColor);
     $point.css({ fill: pointColor });
@@ -10,7 +10,7 @@ function fillPoint(id, pointColor) {
 }
 
 function unFillPoint(id, defaultPointColor) {
-    let $point = $(`ellipse[id='${id}']`, svgdom);
+    let $point = $(`[id='${id}']`, svgdom);
     let $pointTr = $(`.pointer[data-id='${id}']`);
     $point.removeAttr("fill");
     $point.css({ fill: defaultPointColor });

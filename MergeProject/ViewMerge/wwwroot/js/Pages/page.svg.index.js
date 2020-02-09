@@ -2,15 +2,16 @@
 
 let tablePoint = true;
 let checkPointsId = [];
+let lines;
 
 let clickPointEvent = fillPoints;
 
 
 function loadFilter() {
-    //$("#building").val(filter.Building);
+    //
     $(`#building option[value=${filter.Building}]`).attr('selected', 'selected');
     $(`#level option[value=${filter.Level}]`).attr('selected', 'selected');
-    //$("#level").val(filter.Level);
+    $("#level").change();
     console.log(filter);
     initSVG();
     //$(".update-svg").first().change();
@@ -50,14 +51,18 @@ function linePoints(point) {
     }*/
 
     if (checkPointsId.length > 0) {
-        addLine(checkPointsId[checkPointsId.length - 1], pointId)
+        //addLine(checkPointsId[checkPointsId.length - 1], pointId)
+        let minId = Math.min(checkPointsId[checkPointsId.length - 1], pointId);
+        let maxId = Math.max(checkPointsId[checkPointsId.length - 1], pointId);
+        console.log(`path[id='${minId}-${maxId}']`, $(`path[id='${minId}-${maxId}']`, lines));
+        $(`path[id='${minId}-${maxId}']`, lines).show();
     }
 
 }
 
 function clickPoint(id, scroll = false) {
     return new Promise(resolve => {
-        clickPointEvent({ el: $(`ellipse[id='${id}']`, svgdom), scroll: scroll });
+        clickPointEvent({ el: $(`[id='${id}']`, svgdom), scroll: scroll });
         resolve(id);
     }).then(
         result => {
@@ -70,8 +75,10 @@ function clickPoint(id, scroll = false) {
 
 // привязываем интерактивность к элементам картинки
 function loadSVG() {
+    lines = $(`g[id^=lines]`, svgdom);
+    $(`path`, lines).hide();
     for (let item of model) {
-        let $point = $(`ellipse[id='${item.id}']`, svgdom);
+        let $point = $(`[id='${item.id}']`, svgdom);
         $point.attr("data-toggle", "tooltip");
         //console.log(item.id);
         /*$point.mousemove(function () {
