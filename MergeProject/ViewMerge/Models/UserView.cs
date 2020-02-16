@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,32 +9,46 @@ namespace ViewMerge.Models
     public class UserView
     {
         public int Id { get; set; }
+
+        [Display(Name = "Фамилия")]
         public string LastName { get; set; }
+
+        [Display(Name = "Имя")]
         public string FirstName { get; set; }
+
+        [Display(Name = "Отчество")]
         public string MiddleName { get; set; }
+
+        [Display(Name = "День рождения")]
         public DateTime Birthday { get; set; }
-        public string BirthdayStr {
-            get
-            {
-                return Birthday.ToString("dd.MM.yyyy");
-            }
-        }
+
+        [Display(Name = "День смерти")]
         public DateTime Death { get; set; }
-        public string DeathStr {
-            get {
-                return Death.ToString("dd.MM.yyyy");
-            }
-        }
+
+        [Display(Name = "Место работы")]
         public string WorkPlace { get; set; }
+
+        [Display(Name = "Должность")]
         public string WorkPosition { get; set; }
+
+        [Display(Name = "Адресс")]
         public string HomeAddress { get; set; }
+    }
+
+    public class UserViewValidate: UserView
+    {
+        [Display(Name = nameof(UserView.Birthday))]
+        public string BirthdayStr => Birthday.ToString("dd.MM.yyyy");
+
+        [Display(Name = nameof(UserView.Death))]
+        public string DeathStr => Death.ToString("dd.MM.yyyy");
     }
 
     public static class FactoryUserView
     {
-        public static UserView Create(int i)
+        public static UserViewValidate Create(int i)
         {
-            return new UserView()
+            return new UserViewValidate()
             {
                 Id = i,
                 LastName = $"lastName {i}",
@@ -45,6 +60,11 @@ namespace ViewMerge.Models
                 WorkPlace = $"workPlace {i}",
                 HomeAddress = $"homeAddress {i}"
             };
+        }
+
+        public static UserViewValidate ConvertToValidate(UserView userView)
+        {
+            return (UserViewValidate)userView;
         }
     }
 }

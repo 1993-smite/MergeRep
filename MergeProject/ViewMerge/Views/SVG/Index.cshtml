@@ -1,4 +1,7 @@
 ﻿@using ViewTestProject.Controllers;
+@using ViewTestProject.App_Code;
+@using Microsoft.AspNetCore.Html;
+@addTagHelper *, ViewTestProject
 @model List<Point>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -19,14 +22,14 @@
     <link rel="stylesheet" href="~/css/jquery-ui.css" />
 </environment>
 
-<h2>SVG interactive image</h2>
+<h2>SVG interactive image <timer></timer></h2>
 <div class="row">
     <div class="col-md-2">
         <select id="building" class="update-svg input-sm" data-path="/images">
             <option value="AK-2">AK-2</option>
         </select>
         <select id="level" class="update-svg input-sm">
-            @for(int i = 1; i < 4; i++)
+            @for (int i = 1; i < 4; i++)
             {
                 string sel = i == level ? "selected=selected" : "";
                 <option value="@i">@i</option>
@@ -34,6 +37,12 @@
         </select>
     </div>
     <div class="col-md-2">
+        @ItemHelper.CreateTestItem(Html, "test")
+        @{
+            Func<object, object> htmlString = @<span></span>;
+            var rrr = htmlString(null);
+        }
+        @htmlString(null)
         <select id="resume" class="update-svg input-sm">
             <option value="simple">simple</option>
             <option value="line">line</option>

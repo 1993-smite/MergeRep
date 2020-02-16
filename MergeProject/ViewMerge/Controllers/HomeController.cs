@@ -4,16 +4,24 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using ViewMerge.Models;
 
 namespace ViewMerge.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IStringLocalizer<HomeController> _localizer;
+        public HomeController(IStringLocalizer<HomeController> localizer)
+        {
+            _localizer = localizer;
+        }
+
         public IActionResult Index()
         {
-            //return RedirectToAction("Card","Merge");
-            return RedirectToAction("Index","SVG");
+            //return RedirectToAction("Index","Merge");
+            return RedirectToAction("Card", "Merge", new { Id = 3 });
+            //return RedirectToAction("Index","SVG");
             //return View();
         }
 

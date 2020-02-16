@@ -1,5 +1,5 @@
 ﻿@using MergeLib;
-@model UserView
+@model UserViewValidate
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Card №" + Model.Id.ToString();
@@ -8,7 +8,7 @@
 @{
     string fieldCssClass = "col-md-2";
     string valueCssClass = "col-md-4";
-    MemberHelper<UserView> memberHelper = new MemberHelper<UserView>();
+    MemberHelper<UserViewValidate> memberHelper = new MemberHelper<UserViewValidate>();
     string divClass = "input-group mb-3";
 }
 
@@ -127,21 +127,21 @@
                 <span class="input-group-text" id="basic-addon1">{{getLogin}}</span>
             </div>
         </div>*@
-                <form-tr-input id="lname" label="LastName" v-model="lastName"
+                <form-tr-input id="lname" label="@Html.DisplayNameFor(x=>x.LastName)" v-model="lastName"
                                autocomplite="auto-complite-lname"
                                name="@memberHelper.GetName(x=>x.LastName)">
                     <div class="input-group-append">
                         <span class="input-group-text" id="basic-addon1">{{getLogin}}</span>
                     </div>
                 </form-tr-input>
-                <form-tr-input id="fname" label="FirstName" v-model="firstName"
+                <form-tr-input id="fname" label="@Html.DisplayNameFor(x=>x.FirstName)" v-model="firstName"
                                autocomplite="auto-complite-fname"
                                name="@memberHelper.GetName(x=>x.FirstName)">
                 </form-tr-input>
-                <form-tr-input id="mname" label="MiddleName" v-model="middleName"
+                <form-tr-input id="mname" label="@Html.DisplayNameFor(x=>x.MiddleName)" v-model="middleName"
                                name="@memberHelper.GetName(x=>x.MiddleName)">
                 </form-tr-input>
-                <form-tr-input id="birthDay" label="BirthDay" v-model="birthdayStr"
+                <form-tr-input id="birthDay" label="@Html.DisplayNameFor(x=>x.Birthday)" v-model="birthdayStr"
                                name="@memberHelper.GetName(x=>x.Birthday)" type="date">
                     <div class="input-group-append">
                         <span class="input-group-text" id="basic-addon2">{{getAge}}</span>
@@ -155,21 +155,21 @@
                         <span class="input-group-text" id="basic-addon2">{{getAge}}</span>
                     </div>
                 </div>*@
-                <form-tr-input id="deathDay" label="DeathDay" v-model="deathStr"
+                <form-tr-input id="deathDay" label="@Html.DisplayNameFor(x=>x.Death)" v-model="deathStr"
                                name="@memberHelper.GetName(x=>x.Death)">
                     <div class="input-group-append">
                         <span class="input-group-text">{{getAgeToDeath}}</span>
                     </div>
                 </form-tr-input>
-                <form-tr-input id="workPlace" label="WorkPlace" v-model="workPlace"
+                <form-tr-input id="workPlace" label="@Html.DisplayNameFor(x=>x.WorkPlace)" v-model="workPlace"
                                autocomplite="auto-complite-work-place"
                                name="@memberHelper.GetName(x=>x.WorkPlace)">
                 </form-tr-input>
-                <form-tr-input id="workPosition" label="WorkPosition" v-model="workPosition"
+                <form-tr-input id="workPosition" label="@Html.DisplayNameFor(x=>x.WorkPosition)" v-model="workPosition"
                                autocomplite="auto-complite-work-position"
                                name="@memberHelper.GetName(x=>x.WorkPosition)">
                 </form-tr-input>
-                <form-tr-input id="homeAddress" label="HomeAddress" v-model="homeAddress"
+                <form-tr-input id="homeAddress" label="@Html.DisplayNameFor(x=>x.HomeAddress)" v-model="homeAddress"
                                name="@memberHelper.GetName(x=>x.HomeAddress)">
                 </form-tr-input>
                 <div class="@divClass hide">

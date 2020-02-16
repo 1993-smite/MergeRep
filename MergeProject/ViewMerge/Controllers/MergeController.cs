@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using ViewMerge.Models;
 
 namespace ViewMerge.Controllers
 {
-    public class MergeController : Controller
+    public class MergeController : AppController
     {
-        List<UserView> list = new List<UserView>();
+        public MergeController(IStringLocalizer<AppController> localizer): base(localizer)
+        {
+
+        }
+
+        List<UserViewValidate> list = new List<UserViewValidate>();
 
         private void GetData()
         {
@@ -33,7 +39,7 @@ namespace ViewMerge.Controllers
         }
 
         [HttpPost]
-        public IActionResult Card(UserView mdl)
+        public IActionResult Card(UserViewValidate mdl)
         {
             return View(mdl);
         }
