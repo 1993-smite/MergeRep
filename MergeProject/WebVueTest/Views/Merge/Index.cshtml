@@ -1,0 +1,37 @@
+﻿@model List<UserViewValidate>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "List";
+}
+
+<h2>Index</h2>
+
+
+<div id="users">
+    <div class="row row-head">
+        <div class="col-md-3"><h3>Id FIO</h3></div>
+        <div class="col-md-2"><h3>Birthday</h3></div>
+        <div class="col-md-2"><h3>WorkPlace</h3></div>
+        <div class="col-md-2"><h3>WorkPosition</h3></div>
+        <div class="col-md-2"><h3>HomeAddress</h3></div>
+    </div>
+    <div class="row" v-for="item in userList" v-bind:key="item.id">
+        <div class="col-md-3">{{item.lastName}} {{item.firstName}} {{item.middleName}}</div>
+        <div class="col-md-2">{{item.birthdayStr}}</div>
+        <div class="col-md-2">{{item.workPlace}}</div>
+        <div class="col-md-2">{{item.workPosition}}</div>
+        <div class="col-md-2">{{item.homeAddress}}</div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="text/javascript">
+    var listData = JSON.parse('@Html.Raw(Json.Serialize(Model))');
+    console.log(listData);
+    var app = new Vue({
+        el: '#users',
+        data: {
+            userList: listData
+        }
+    })
+</script>

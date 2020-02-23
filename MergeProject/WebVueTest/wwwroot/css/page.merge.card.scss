@@ -1,0 +1,26 @@
+﻿@import "constants.scss";
+
+body label{
+    color: $label-color;
+}
+
+body input{
+    color: $input-color;
+}
+
+
+/*
+    контролы для кнопок и иконок
+*/
+.btn-search {
+    background-color: inherit;
+}
+
+.btn-pointer:hover span {
+    background-color: white !important;
+    cursor: pointer;
+}
+
+.glyphicon-remove:hover {
+    @extend %icon-remove;
+}

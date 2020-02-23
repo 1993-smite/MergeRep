@@ -1,0 +1,220 @@
+﻿@using MergeLib;
+@model UserViewValidate
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Card №" + Model.Id.ToString();
+}
+
+@{
+    string fieldCssClass = "col-md-3";
+    string valueCssClass = "col-md-4";
+    MemberHelper<UserViewValidate> memberHelper = new MemberHelper<UserViewValidate>();
+    string divClass = "input-group mb-4";
+}
+
+<link rel="stylesheet" href="~/css/jquery.fias.min.css" />
+<link rel="stylesheet" href="~/css/jquery-ui.css" />
+<link rel="stylesheet" href="~/components/file-upload/file-upload.css" />
+<link rel="stylesheet" href="~/css/page.merge.card.css" />
+
+<style>
+    label {
+        display: block;
+    }
+
+        label.error {
+            color: red;
+        }
+
+    .title-card {
+        color: #af853d;
+    }
+
+    #alert-container {
+        position: absolute;
+        right: 60px;
+    }
+
+    .hide {
+        display: none;
+    }
+</style>
+
+<div id="auto-complite">
+    <datalist id="auto-complite-lname">
+        <option value="Иванов"></option>
+        <option value="Петров"></option>
+        <option value="Сидоров"></option>
+        <option value="Серов"></option>
+        <option value="Костюков"></option>
+        <option value="Харламов"></option>
+        <option value="Антонов"></option>
+        <option value="Симонов"></option>
+        <option value="Тарков"></option>
+    </datalist>
+    <datalist id="auto-complite-fname">
+        <option value="Иван"></option>
+        <option value="Петр"></option>
+        <option value="Александр"></option>
+        <option value="Андрей"></option>
+        <option value="Николай"></option>
+        <option value="Евгений"></option>
+        <option value="Павел"></option>
+        <option value="Дмитрий"></option>
+        <option value="Владимир"></option>
+    </datalist>
+    <datalist id="auto-complite-work-place">
+        <option value="МИД"></option>
+        <option value="RT"></option>
+        <option value="НТВ"></option>
+        <option value="ГУМ"></option>
+        <option value="МАИ"></option>
+        <option value="МГУ"></option>
+        <option value="МФТИ"></option>
+        <option value="МВД"></option>
+        <option value="ФСБ"></option>
+    </datalist>
+    <datalist id="auto-complite-work-position">
+        <option value="Директор"></option>
+        <option value="Преподаватель"></option>
+        <option value="Режиссер"></option>
+        <option value="Бухгалтер"></option>
+        <option value="Руководитель"></option>
+        <option value="Бармен"></option>
+        <option value="Редактор"></option>
+        <option value="Инженер"></option>
+        <option value="Слесарь"></option>
+    </datalist>
+</div>
+
+<fieldset>
+    <div id="alert-container" class="alert alert-warning alert-dismissible" role="alert">
+        <div id="alert-title"></div>
+    </div>
+    <div id="user">
+        <fieldset class="hide">
+            <legend>Автокомплит для городов <b>Kladr</b></legend>
+            <div class="@divClass">
+                <div class="input-group-prepend btn-pointer">
+                    <span class="input-group-text">
+                        <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                    </span>
+                </div>
+                <input id="search-country" type="text" class="col-md-4 form-control" placeholder="Поиск по странам" />
+                <div class="input-group-append btn-pointer">
+                    <span class="input-group-text btn-close" style="color:rgb(206, 15, 15)">
+                        <i class="glyphicon glyphicon-remove" aria-hidden="true"></i>
+                    </span>
+                </div>
+            </div>
+            <button-counter class="btn-default"></button-counter>
+        </fieldset>
+        <fieldset>
+            <legend>Форма для ввода данных <b>View JS</b></legend>
+            <form id="form" method="post" enctype="multipart/form-data" action="@Url.Action("Card","Merge")">
+                <div class="@divClass">
+                    <h6>
+                        Card:
+                        <span class="title-card">
+                            {{getFIO}}
+                        </span>
+                    </h6>
+                </div>
+
+                <form-tr-input id="lname" label="@Html.DisplayNameFor(x=>x.LastName)" 
+                               v-model="lastName"
+                               autocomplite="auto-complite-lname"
+                               name="@nameof(Model.LastName)">
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon1">{{getLogin}}</span>
+                    </div>
+                </form-tr-input>
+
+                <form-tr-input id="fname" label="@Html.DisplayNameFor(x=>x.FirstName)" 
+                               v-model="firstName"
+                               autocomplite="auto-complite-fname"
+                               name="@nameof(Model.FirstName)">
+                </form-tr-input>
+
+                <form-tr-input id="mname" label="@Html.DisplayNameFor(x=>x.MiddleName)" 
+                               v-model="middleName"
+                               name="@nameof(Model.MiddleName)">
+                </form-tr-input>
+
+                <form-tr-input id="birthDay" label="@Html.DisplayNameFor(x=>x.Birthday)" 
+                               v-model="birthdayStr"
+                               name="@nameof(Model.Birthday)">
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2">{{getAge}}</span>
+                    </div>
+                </form-tr-input>
+
+                <form-tr-input id="deathDay" label="@Html.DisplayNameFor(x=>x.Death)" v-model="deathStr"
+                               name="@nameof(Model.Death)">
+                    <div class="input-group-append">
+                        <span class="input-group-text">{{getAgeToDeath}}</span>
+                    </div>
+                </form-tr-input>
+
+                <form-tr-input id="workPlace" label="@Html.DisplayNameFor(x=>x.WorkPlace)" 
+                               v-model="workPlace"
+                               autocomplite="auto-complite-work-place"
+                               name="@nameof(Model.WorkPlace)">
+                </form-tr-input>
+
+                <form-tr-input id="workPosition" label="@Html.DisplayNameFor(x=>x.WorkPosition)" 
+                               v-model="workPosition"
+                               autocomplite="auto-complite-work-position"
+                               name="@nameof(Model.WorkPosition)">
+                </form-tr-input>
+
+                <form-tr-input id="homeAddress" label="@Html.DisplayNameFor(x=>x.HomeAddress)" 
+                               v-model="homeAddress"
+                               name="@nameof(Model.HomeAddress)">
+                </form-tr-input>
+
+                <form-tr-input id="workCountry" label="Рабоая страна" v-model="workCountry">
+                    <template v-slot:label>
+                        (full
+                        <input type="checkbox" id="fullWorkAddress" value="Полный" 
+                               v-model="workFullAddress" v-on:click="workFullAddress != workFullAddress" />)
+                    </template>
+                    <div class="input-group-append">
+                        <span class="input-group-text">{{getWorkAddress}}</span>
+                    </div>
+                </form-tr-input>
+
+                <form-tr-input id="workCity" label="Рабочий город" 
+                               v-show="workFullAddress" v-model="workCity">
+                </form-tr-input>
+
+                <form-tr-input id="workAddress" label="Рабочий адрес" 
+                               v-show="workFullAddress" v-model="workAddress">
+                </form-tr-input>
+
+                <form-file-upload id="upload-block" itemid="@Model.Id" 
+                                  action="@Url.Action("AddFile","Merge")"></form-file-upload>
+
+                <div class="input-group mb-3 @fieldCssClass">
+                    <input type="submit" class="btn btn-success" value="Отправить" />
+                </div>
+            </form>
+        </fieldset>
+    </div>
+</fieldset>
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/js/jblocks.js"></script>
+    <script src="~/js/components.js"></script>
+    <script src="~/js/jquery.fias.min.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
+    <script src="~/components/file-upload/file-upload.js"></script>
+    <script src="~/js/observer-monitor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="~/js/page.components.helper.js"></script>
+    <script type="text/javascript">
+        var model = JSON.parse('@Html.Raw(Json.Serialize(Model))');
+    </script>
+    <script src="~/js/page.merge.card.js"></script>
+}
