@@ -36,3 +36,4 @@ C:\Users\Касса\source\repos\Merge\MergeProject\WebVueTest\bin\Debug\netcore
 C:\Users\Касса\source\repos\Merge\MergeProject\WebVueTest\bin\Debug\netcoreapp2.1\MergeLib.pdb
 C:\Users\Касса\source\repos\Merge\MergeProject\WebVueTest\obj\Debug\netcoreapp2.1\WebVueTest.Views.pdb
 C:\Users\Касса\source\repos\Merge\MergeProject\WebVueTest\obj\Debug\netcoreapp2.1\WebVueTest.csproj.CopyComplete
+C:\Users\Касса\source\repos\Merge\MergeProject\WebVueTest\obj\Debug\netcoreapp2.1\Razor\Views\Componetns\Comments.g.cshtml.cs

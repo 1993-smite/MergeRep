@@ -2,5 +2,9 @@
   {
     "outputFile": "wwwroot/components/file-upload/file-upload.css",
     "inputFile": "wwwroot/components/file-upload/file-upload.scss"
+  },
+  {
+    "outputFile": "wwwroot/components/comments/comments.css",
+    "inputFile": "wwwroot/components/comments/comments.scss"
   }
 ]

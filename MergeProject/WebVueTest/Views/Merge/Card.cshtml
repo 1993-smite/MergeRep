@@ -14,7 +14,6 @@
 
 <link rel="stylesheet" href="~/css/jquery.fias.min.css" />
 <link rel="stylesheet" href="~/css/jquery-ui.css" />
-<link rel="stylesheet" href="~/components/file-upload/file-upload.css" />
 <link rel="stylesheet" href="~/css/page.merge.card.css" />
 
 <style>
@@ -173,33 +172,53 @@
                                name="@nameof(Model.HomeAddress)">
                 </form-tr-input>
 
-                <form-tr-input id="workCountry" label="Рабоая страна" v-model="workCountry">
-                    <template v-slot:label>
-                        (full
-                        <input type="checkbox" id="fullWorkAddress" value="Полный" 
-                               v-model="workFullAddress" v-on:click="workFullAddress != workFullAddress" />)
-                    </template>
-                    <div class="input-group-append">
-                        <span class="input-group-text">{{getWorkAddress}}</span>
-                    </div>
-                </form-tr-input>
+                <template title="Рабочий адрес">
+                    <form-tr-input id="workCountry" label="Рабоая страна" v-model="workCountry">
+                        <template v-slot:label>
+                            (full
+                            <input type="checkbox" id="fullWorkAddress" value="Полный"
+                                   v-model="workFullAddress" v-on:click="workFullAddress != workFullAddress" />)
+                        </template>
+                        <div class="input-group-append">
+                            <span class="input-group-text">{{getWorkAddress}}</span>
+                        </div>
+                    </form-tr-input>
 
-                <form-tr-input id="workCity" label="Рабочий город" 
-                               v-show="workFullAddress" v-model="workCity">
-                </form-tr-input>
+                    <form-tr-input id="workCity" label="Рабочий город"
+                                   v-show="workFullAddress" v-model="workCity">
+                    </form-tr-input>
 
-                <form-tr-input id="workAddress" label="Рабочий адрес" 
-                               v-show="workFullAddress" v-model="workAddress">
-                </form-tr-input>
-
-                <form-file-upload id="upload-block" itemid="@Model.Id" 
-                                  action="@Url.Action("AddFile","Merge")"></form-file-upload>
-
-                <div class="input-group mb-3 @fieldCssClass">
+                    <form-tr-input id="workAddress" label="Рабочий адрес"
+                                   v-show="workFullAddress" v-model="workAddress">
+                    </form-tr-input>
+                </template>
+                
+                <div class="input-group mb-3">
                     <input type="submit" class="btn btn-success" value="Отправить" />
+                    <input type="button" class="btn btn-primary"
+                           :class="{'' : uploadFiles, 'disabled' : !uploadFiles}"
+                           value="Файлы" v-on:click="uploadFiles = !uploadFiles" />
+                    <input type="button" class="btn btn-info"
+                           :class="{'' : comments, 'disabled' : !comments}"
+                           value="Комментарии" v-on:click="comments = !comments" />
                 </div>
             </form>
         </fieldset>
+        <div v-show="uploadFiles">
+            <hr />
+            <fieldset>
+                <legend>Форма для <b>загрузки файлов </b></legend>
+                <form-file-upload id="upload-block" itemid="@Model.Id"
+                                  action="@Url.Action("AddFile","Merge")"></form-file-upload>
+            </fieldset>
+        </div>
+        <div v-show="comments">
+            <hr />
+            <fieldset>
+                <legend>Форма для <b>добавления комментариев </b></legend>
+                @Html.Partial("~/Views/Components/Comments.cshtml")
+            </fieldset>
+        </div>
     </div>
 </fieldset>
 
@@ -209,7 +228,6 @@
     <script src="~/js/components.js"></script>
     <script src="~/js/jquery.fias.min.js"></script>
     <script src="~/js/jquery-ui.js"></script>
-    <script src="~/components/file-upload/file-upload.js"></script>
     <script src="~/js/observer-monitor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="~/js/page.components.helper.js"></script>

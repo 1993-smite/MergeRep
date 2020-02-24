@@ -1,10 +1,10 @@
-﻿#dropZone {
+﻿div[data-id='dropZone'] {
     color: #555;
     font-size: 18px;
     text-align: center;
     width: 400px;
     padding: 50px 0;
-    margin: 50px auto;
+    /*margin: 50px auto;*/
     background: #eee;
     border: 1px solid #ccc;
     -webkit-border-radius: 5px;
@@ -12,17 +12,17 @@
     border-radius: 5px;
 }
 
-#dropZone.hover {
+div[data-id='dropZone'].hover {
     background: #ddd;
     border-color: #aaa;
 }
 
-#dropZone.error {
+div[data-id='dropZone'].error {
     background: #faa;
     border-color: #f00;
 }
 
-#dropZone.drop {
+div[data-id='dropZone'].drop {
     background: #afa;
     border-color: #0f0;
 }

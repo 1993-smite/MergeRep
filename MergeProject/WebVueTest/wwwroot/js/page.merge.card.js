@@ -2,13 +2,7 @@
 const mainFormEl = "#form";
 const modelEl = "#user";
 
-console.log(Object.assign(
-    model,
-    {
-        workCountry: "",
-        workCity: "",
-        workAddress: ""
-    }));
+console.log(model);
 var app = new Vue({
     el: modelEl,
     data: Object.assign(
@@ -17,7 +11,9 @@ var app = new Vue({
             workCountry: "",
             workCity: "",
             workAddress: "",
-            workFullAddress: false
+            workFullAddress: false,
+            uploadFiles: false,
+            comments: false
         }),
     computed: {
         getFIO: function () {
@@ -102,17 +98,8 @@ $(function () {
     });
     /* end of jquery validate */
 
-    /************** change of for last val and val ***********/
-    var counter = jBlocks.get(document.querySelector('.select.input'));
-
-    // use event to react on what happens during lifecycle
-    counter.on('change', function (el) {
-        console.log(el);
-    });
-    /**********************************************************/
-
     /*********** use observer отслеживание изменений формы ****************/
-    console.log($(mainFormEl));
+    /*console.log($(mainFormEl));
     let server = new Observer(form, null, function (mutationsList, observerEl) {
         var text = "";
         for (let mutation of mutationsList) {
@@ -126,7 +113,7 @@ $(function () {
         console.log(text.replaceAll("<br/>", ""));
         $("#alert-title").html(text);
         $('#alert-container').addClass("show");
-    });
+    });*/
     /************************************************************************/
 
 });

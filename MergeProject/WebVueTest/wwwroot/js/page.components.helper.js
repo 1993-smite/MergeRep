@@ -24,10 +24,13 @@ Vue.component('form-tr-input', {
 Vue.component('form-file-upload', {
     props: ['id', 'action', 'dataId'],
     template: `<div class="input-group mb-3">
-                    <form :id="id" method="POST" :data-id="dataId" :action="action" enctype="multipart/form-data">
-                      <div id="dropZone">
-                        Для загрузки, перетащите файл сюда.
-                      </div>
+                    <form type="files" method="POST" :data-id="dataId" :action="action" enctype="multipart/form-data">
+                      <label :for="id">
+                        <div data-id="dropZone">
+                            <span>Для загрузки, перетащите файл сюда.</span>
+                            <input type="file" :id="id" style="display: none" name="file" multiple>
+                        </div>
+                      </label>
                     </form> 
                </div>`
 });
