@@ -6,6 +6,19 @@ using System.Threading.Tasks;
 
 namespace WebVueTest.Models
 {
+    public class UserFile
+    {
+        public int UserId { get; set; }
+        public string FileName { get; set; }
+        public string ContentType { get; set; }
+        public string FullFileName { get; set; }
+
+        public UserFile()
+        {
+
+        }
+    }
+
     public class UserView
     {
         public int Id { get; set; }
@@ -33,6 +46,13 @@ namespace WebVueTest.Models
 
         [Display(Name = "Адресс")]
         public string HomeAddress { get; set; }
+
+        public List<UserFile> Files { get; set; }
+
+        public UserView()
+        {
+
+        }
     }
 
     public class UserViewValidate: UserView
@@ -58,8 +78,16 @@ namespace WebVueTest.Models
                 Death = DateTime.Today.AddDays(i * 30),
                 WorkPosition = $"workPosition {i}",
                 WorkPlace = $"workPlace {i}",
-                HomeAddress = $"homeAddress {i}"
+                HomeAddress = $"homeAddress {i}",
+                Files = new List<UserFile>()
             };
+        }
+
+        public static int SaveUserView(UserView userView)
+        {
+            if (userView.Id < 3)
+                userView.Id = 10001;
+            return userView.Id;
         }
 
         public static UserViewValidate ConvertToValidate(UserView userView)

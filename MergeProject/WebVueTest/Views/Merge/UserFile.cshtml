@@ -1,0 +1,18 @@
+﻿@model UserFile
+
+@{
+    Layout = null;
+}
+
+<div class="card" style="width: 18rem;">
+    <img src="@Model.FullFileName" class="card-img-top" alt="..." />
+    <div class="card-body">
+        <h5 class="card-title">@Model.FileName</h5>
+        <p class="card-text">@Model.ContentType</p>
+        <input type="hidden" name="Files.Index" value="#" />
+        <input type="hidden" name="@($"Files[#].{nameof(Model.UserId)}")" value="@Model.UserId" />
+        <input type="hidden" name="@($"Files[#].{nameof(Model.FileName)}")" value="@Model.FileName" />
+        <input type="hidden" name="@($"Files[#].{nameof(Model.ContentType)}")" value="@Model.ContentType" />
+        <input type="hidden" name="@($"Files[#].{nameof(Model.FullFileName)}")" value="@Model.FullFileName" />
+    </div>
+</div>

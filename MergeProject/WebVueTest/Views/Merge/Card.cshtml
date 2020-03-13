@@ -108,9 +108,10 @@
             </div>
             <button-counter class="btn-default"></button-counter>
         </fieldset>
-        <fieldset>
-            <legend>Форма для ввода данных <b>View JS</b></legend>
-            <form id="form" method="post" enctype="multipart/form-data" action="@Url.Action("Card","Merge")">
+        <form id="form" method="post" enctype="multipart/form-data" action="@Url.Action("Card","Merge")">
+
+            <fieldset>
+                <legend>Форма для ввода данных <b>View JS</b></legend>
                 <div class="@divClass">
                     <h6>
                         Card:
@@ -120,7 +121,7 @@
                     </h6>
                 </div>
 
-                <form-tr-input id="lname" label="@Html.DisplayNameFor(x=>x.LastName)" 
+                <form-tr-input id="lname" label="@Html.DisplayNameFor(x=>x.LastName)"
                                v-model="lastName"
                                autocomplite="auto-complite-lname"
                                name="@nameof(Model.LastName)">
@@ -129,18 +130,18 @@
                     </div>
                 </form-tr-input>
 
-                <form-tr-input id="fname" label="@Html.DisplayNameFor(x=>x.FirstName)" 
+                <form-tr-input id="fname" label="@Html.DisplayNameFor(x=>x.FirstName)"
                                v-model="firstName"
                                autocomplite="auto-complite-fname"
                                name="@nameof(Model.FirstName)">
                 </form-tr-input>
 
-                <form-tr-input id="mname" label="@Html.DisplayNameFor(x=>x.MiddleName)" 
+                <form-tr-input id="mname" label="@Html.DisplayNameFor(x=>x.MiddleName)"
                                v-model="middleName"
                                name="@nameof(Model.MiddleName)">
                 </form-tr-input>
 
-                <form-tr-input id="birthDay" label="@Html.DisplayNameFor(x=>x.Birthday)" 
+                <form-tr-input id="birthDay" label="@Html.DisplayNameFor(x=>x.Birthday)"
                                v-model="birthdayStr"
                                name="@nameof(Model.Birthday)">
                     <div class="input-group-append">
@@ -155,19 +156,19 @@
                     </div>
                 </form-tr-input>
 
-                <form-tr-input id="workPlace" label="@Html.DisplayNameFor(x=>x.WorkPlace)" 
+                <form-tr-input id="workPlace" label="@Html.DisplayNameFor(x=>x.WorkPlace)"
                                v-model="workPlace"
                                autocomplite="auto-complite-work-place"
                                name="@nameof(Model.WorkPlace)">
                 </form-tr-input>
 
-                <form-tr-input id="workPosition" label="@Html.DisplayNameFor(x=>x.WorkPosition)" 
+                <form-tr-input id="workPosition" label="@Html.DisplayNameFor(x=>x.WorkPosition)"
                                v-model="workPosition"
                                autocomplite="auto-complite-work-position"
                                name="@nameof(Model.WorkPosition)">
                 </form-tr-input>
 
-                <form-tr-input id="homeAddress" label="@Html.DisplayNameFor(x=>x.HomeAddress)" 
+                <form-tr-input id="homeAddress" label="@Html.DisplayNameFor(x=>x.HomeAddress)"
                                v-model="homeAddress"
                                name="@nameof(Model.HomeAddress)">
                 </form-tr-input>
@@ -192,7 +193,7 @@
                                    v-show="workFullAddress" v-model="workAddress">
                     </form-tr-input>
                 </template>
-                
+
                 <div class="input-group mb-3">
                     <input type="submit" class="btn btn-success" value="Отправить" />
                     <input type="button" class="btn btn-primary"
@@ -202,16 +203,20 @@
                            :class="{'' : comments, 'disabled' : !comments}"
                            value="Комментарии" v-on:click="comments = !comments" />
                 </div>
-            </form>
-        </fieldset>
-        <div v-show="uploadFiles">
-            <hr />
-            <fieldset>
-                <legend>Форма для <b>загрузки файлов </b></legend>
-                <form-file-upload id="upload-block" itemid="@Model.Id"
-                                  action="@Url.Action("AddFile","Merge")"></form-file-upload>
+
             </fieldset>
-        </div>
+            <div v-show="uploadFiles">
+                <hr />
+                <fieldset>
+                    <legend>Форма для <b>загрузки файлов </b></legend>
+                    <form-file-upload id="upload-block" itemid="@Model.Id"
+                                      action="@Url.Action("AddFile","Merge")"></form-file-upload>
+                    <div id="uploaded-files" class="input-group mb-3">
+
+                    </div>
+                </fieldset>
+            </div>
+        </form>
         <div v-show="comments">
             <hr />
             <fieldset>

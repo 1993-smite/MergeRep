@@ -12,3 +12,7 @@
 /MergeProject/.vs/config
 /MergeProject/ViewMerge/bin/Debug/netcoreapp2.1
 /MergeProject/ViewMerge/obj
+/MergeProject/WebVueTest/wwwroot/Files
+obj
+bin
+images
