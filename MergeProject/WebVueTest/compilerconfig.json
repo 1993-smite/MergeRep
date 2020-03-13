@@ -6,5 +6,9 @@
   {
     "outputFile": "wwwroot/components/comments/comments.css",
     "inputFile": "wwwroot/components/comments/comments.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/files.index.css",
+    "inputFile": "wwwroot/css/files.index.scss"
   }
 ]

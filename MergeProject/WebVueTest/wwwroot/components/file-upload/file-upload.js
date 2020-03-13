@@ -40,6 +40,7 @@
 
     function uploadFiles(files, dropZone) {
         var loadfiles = [];
+        let index = model.files.length;
         for (let file of files) {
             if (file.size > maxFileSize) {
                 dropZone.text(`Файл (${file.name}) слишком большой!`);
@@ -51,7 +52,25 @@
             let formData = new FormData(form);
             formData.append("id", model.id);
             formData.append("uploadedFile", file);
-            loadfiles.push(fetch($(form).attr("action"), { method: "POST", body: formData }));
+
+            loadfiles.push($.ajax({
+                type: "POST",
+                enctype: 'multipart/form-data',
+                url: $(form).attr("action"),
+                data: formData,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    data = data.replaceAll("#", ++index);
+                    $("#uploaded-files").append(data);
+                },
+                error: function (e) {
+
+                }
+            }));
+            //loadfiles.push(fetch($(form).attr("action"), { method: "POST", body: formData }));
         }
 
         Promise.all(loadfiles).then(results => {

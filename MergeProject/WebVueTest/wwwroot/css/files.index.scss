@@ -1,0 +1,17 @@
+﻿$card: (
+    width: 22%,
+    margin: 20px
+);
+
+#images {
+    max-height: 600px;
+    overflow-y: auto;
+    flex-wrap: wrap;
+}
+
+#images .card {
+    min-width: map-get($card,width);
+    width: map-get($card,width);
+    margin-right: map-get($card,margin);
+    margin-bottom: map-get($card,margin);
+}

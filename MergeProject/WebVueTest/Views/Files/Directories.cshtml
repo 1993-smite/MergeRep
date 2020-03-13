@@ -1,0 +1,11 @@
+﻿@using System.IO;
+@model DirectoryView
+
+<ul>
+    <li>@Html.ActionLink("...", "Index", "Files")</li>
+    <li>@Html.ActionLink("..", "Index", "Files", new { path = Model.directoryAppInfo.ParentPath })</li>
+    @foreach (var dir in Model.Directories)
+    {
+        <li>@Html.ActionLink(dir.Name, "Index", "Files", new { path = dir.Path })</li>
+    }
+</ul>

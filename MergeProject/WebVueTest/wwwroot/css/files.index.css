@@ -1,0 +1,10 @@
+﻿#images {
+  max-height: 600px;
+  overflow-y: auto;
+  flex-wrap: wrap; }
+
+#images .card {
+  min-width: 22%;
+  width: 22%;
+  margin-right: 20px;
+  margin-bottom: 20px; }

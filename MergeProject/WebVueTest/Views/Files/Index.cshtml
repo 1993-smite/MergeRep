@@ -1,0 +1,57 @@
+﻿@using WebVueTest.Controllers;
+@using System.IO;
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Html;
+@model DirectoryView
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Files/Index";
+}
+
+<style type="text/css">
+    .table td, .table th {
+        padding: .15rem;
+    }
+</style>
+
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/jquery-ui.css" />
+</environment>
+
+<h2>@Model.directoryAppInfo.Name</h2>
+
+@section LibScripts{
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="~/js/popper.min.js"></script>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+           @Html.Partial("Directories", Model)
+        </div>
+        <div class="col-10">
+            <div class="row">
+                <div class="col-12">
+                    @Html.Partial("Files", Model.Files)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="col-6">
+                        <b>Директорий: </b> @Model.Directories.Count
+                    </div>
+                    <div class="col-6">
+                        <b>Файлов: </b> @Model.Files.Count
+                    </div>
+                    <div class="col-6">
+                        <b>Дата создания: </b> @Model.directoryAppInfo.CreateDtStr
+                    </div>
+                    <div class="col-6">
+                        <b>Дата изменения: </b> @Model.directoryAppInfo.LastUpdateStr
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+﻿@using WebVueTest.Controllers;
+@using System.IO;
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Html;
+@model List<FileSystemInfo>
+
+<link rel="stylesheet" href="~/css/files.index.min.css"></link>
+
+<div id="files">
+    <div id="images" class="d-flex flex-row bd-highlight mb-3">
+        <div v-for="(item, index) in files" :data-index="index" class="card">
+            <img :data-src="fullName[index]" class="lazy card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{item.name}}</h5>
+                <hr />
+                <p class="card-text">
+                    <b>Создан</b><br />
+                    <i>{{item.creationTimeStr}}</i>
+                </p>
+                <p class="card-text">
+                    <b>Изменен</b><br />
+                    <i>{{item.lastWriteTimeStr}}</i>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    var settings = new JsonSerializerSettings
+    {
+        Converters = new List<JsonConverter>
+        {
+        new FileSystemInfoConverter()
+        }
+    };
+}
+
+<script type="text/javascript">
+    let model = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model, settings).Replace("\\\\","\\\\\\\\"))');
+    let pathRelativeServer = '@ViewData[FilesController.ViewDataKyes.pathRelativeDirectory]';
+</script>
+<script type="text/javascript" src="~/js/Pages/page.files.files.js"></script>

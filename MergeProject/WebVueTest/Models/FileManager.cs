@@ -8,10 +8,28 @@ namespace WebVueTest.Models
 {
     public static class FileManager
     {
+
+        private static string getFullFileName(string path, string fileName)
+        {
+            return $"{path}\\{fileName}";
+        }
+
         private static bool checkFile(string path, string fileName)
         {
-            string fullName = $"{path}\\{fileName}";
+            string fullName = getFullFileName(path,fileName);
             return File.Exists(fullName);
+        }
+
+        public static bool MoveFile(string path, string newPath, string fileName)
+        {
+            if (!checkFile(path, fileName))
+                throw new ArgumentException($"File {fileName} not found by path {path}");
+            if (checkFile(newPath, fileName))
+            {
+                throw new ArgumentException($"File {fileName} already exist by path {newPath}");
+            }
+            File.Move(getFullFileName(path, fileName), getFullFileName(newPath,fileName));
+            return checkFile(newPath, fileName);
         }
 
         public static string GenerateFileName(string path, string fileName, string type = null)
@@ -34,6 +52,22 @@ namespace WebVueTest.Models
                 fname = $"{fileName} ({index++}).{type}";
             }
             return fname;
+        }
+
+        /// <summary>
+        /// получение файлов по директории
+        /// </summary>
+        /// <param name="pathToDirectory"></param>
+        /// <returns></returns>
+        public static IEnumerable<FileSystemInfo> GetFiles(string pathToDirectory)
+        {
+            var pathFiles = Directory.GetFiles(pathToDirectory);
+            var files = new List<FileSystemInfo>();
+            foreach (var path in pathFiles)
+            {
+                files.Add(new FileInfo(path));
+            }
+            return files;
         }
     }
 }
