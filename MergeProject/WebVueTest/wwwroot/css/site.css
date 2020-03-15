@@ -39,6 +39,10 @@ tr.check {
     width: 100%;
 }
 
+.error{
+    color: red;
+}
+
 /* QR code generator */
 #qrCode {
     margin: 15px;

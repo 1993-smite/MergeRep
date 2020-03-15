@@ -15,9 +15,10 @@ Vue.component('form-tr-input', {
                     <div class="col-md-4 form-block-control">                    
                         <input class="form-control" :id="id" :name="name"
                         :type="type | defType" :list="autocomplite"
-                        v-bind:value="value" v-on:input="$emit('input', $event.target.value)" />
+                        v-bind:value="value" v-on:input="$emit('input', $event.target.value)" />  
                     </div>
                     <slot></slot>
+                    <slot name="validation"></slot>
                </div>`
 });
 //file uploader

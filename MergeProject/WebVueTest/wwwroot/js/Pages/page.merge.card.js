@@ -13,7 +13,8 @@ var app = new Vue({
             workAddress: "",
             workFullAddress: false,
             uploadFiles: false,
-            comments: false
+            comments: false,
+            validate: false
         }),
     computed: {
         getFIO: function () {
@@ -30,6 +31,16 @@ var app = new Vue({
         },
         getWorkAddress: function () {
             return `${this.workCountry} ${this.workCity} ${this.workAddress}`;
+        }
+    },
+    validations: {
+        lastName: {
+            required: appValidators.required,
+            minLength: appValidators.minLength(3)
+        },
+        firstName: {
+            required: appValidators.required,
+            minLength: appValidators.minLength(3)
         }
     }
 })
@@ -86,14 +97,14 @@ $(function () {
 
     $(mainFormEl).validate({
         rules: {
-            lastName: strValid,
-            firstName: strValid,
-            middleName: strValid
+            LastName: strValid,
+            FirstName: strValid,
+            MiddleName: strValid
         },
         messages: {
-            lastName: strValidMessage("Фамилия"),
-            firstName: strValidMessage("Имя"),
-            middleName: strValidMessage("Отчество")
+            LastName: strValidMessage("Фамилия"),
+            FirstName: strValidMessage("Имя"),
+            MiddleName: strValidMessage("Отчество")
         }
     });
     /* end of jquery validate */
