@@ -19,7 +19,7 @@ namespace WebVueTest.Models
         }
     }
 
-    public class UserView
+    public class User
     {
         public int Id { get; set; }
 
@@ -32,6 +32,16 @@ namespace WebVueTest.Models
         [Display(Name = "Отчество")]
         public string MiddleName { get; set; }
 
+        public string FullName => $"{LastName} {FirstName} {MiddleName}";
+
+        public string Login => ($"{FirstName?.ToLower().FirstOrDefault() ?? ' '}{MiddleName?.ToLower().FirstOrDefault() ?? ' '}{LastName?.ToLower().Replace(" ","") ?? ""}").Trim();
+
+        [Display(Name = "Почта")]
+        public string Email => $"{LastName?.ToLower() ?? ""}@app.ru";
+    }
+
+    public class UserView: User
+    {
         [Display(Name = "День рождения")]
         public DateTime Birthday { get; set; }
 
@@ -81,6 +91,27 @@ namespace WebVueTest.Models
                 HomeAddress = $"homeAddress {i}",
                 Files = new List<UserFile>()
             };
+        }
+
+        public static User CreateUser(int i)
+        {
+            return new User()
+            {
+                Id = i,
+                LastName = $"lastName {i}",
+                FirstName = $"firstName {i}",
+                MiddleName = $"middleName {i}"
+            };
+        }
+
+        public static List<User> CreateUsers(int count)
+        {
+            List<User> users = new List<User>();
+            for(int i = 1; i <= count; i++)
+            {
+                users.Add(CreateUser(i));
+            }
+            return users;
         }
 
         public static int SaveUserView(UserView userView)

@@ -14,6 +14,9 @@
 
 <link rel="stylesheet" href="~/css/jquery.fias.min.css" />
 <link rel="stylesheet" href="~/css/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="~/css/jquery-comments.css">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
 <link rel="stylesheet" href="~/css/page.merge.card.css" />
 
 <style>
@@ -253,14 +256,24 @@
     <script src="~/js/components.js"></script>
     <script src="~/js/jquery.fias.min.js"></script>
     <script src="~/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.textcomplete/1.8.0/jquery.textcomplete.js"></script>
     <script src="~/js/observer-monitor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="~/js/Validations/vuelidate.min.js"></script>
     <script src="~/js/Validations/validators.min.js"></script>
     <script src="~/js/Pages/page.validate.js"></script>
     <script src="~/js/page.components.helper.js"></script>
+
     <script type="text/javascript">
         var model = JSON.parse('@Html.Raw(Json.Serialize(Model))');
     </script>
     <script src="~/js/Pages/page.merge.card.js"></script>
+
+    <script src="~/js/jquery-comments.js"></script>
+    <script type="text/javascript">
+        var users = JSON.parse('@Html.Raw(Json.Serialize(ViewData["Users"]))');
+        var comments = JSON.parse('@Html.Raw(Json.Serialize(ViewData["Comments"]))');
+
+    </script>
+    <script src="~/js/Pages/page.comments.js"></script>
 }

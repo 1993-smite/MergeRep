@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using Newtonsoft.Json;
 using WebVueTest.Models;
 
 namespace WebVueTest.Controllers
@@ -45,6 +46,9 @@ namespace WebVueTest.Controllers
         {
             GetData();
             var model = list.FirstOrDefault(x => x.Id == id);
+
+            ViewData["Users"] = FactoryUserView.CreateUsers(id);
+            ViewData["Comments"] = UserCommentFactory.CreateCommnets((List<User>)ViewData["Users"], 20);
             return View(model);
         }
 
@@ -73,7 +77,6 @@ namespace WebVueTest.Controllers
                     file.FullFileName = $"{uriBuilder.Uri.LocalPath}/{id}/{file.FileName}";
                 }
             }
-
             return View(mdl);
         }
 
