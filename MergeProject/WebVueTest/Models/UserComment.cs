@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using System.Threading.Tasks;
 
 namespace WebVueTest.Models
@@ -31,6 +32,13 @@ namespace WebVueTest.Models
 
     public class MergeUserComment : UserComment
     {
+        public static MapperConfiguration config = new MapperConfiguration(cfg => cfg.CreateMap<UserComment, MergeUserComment>()
+                    .ForMember("CreatedUser", opt => opt.MapFrom(c => c.CreatedUser))
+                    .ForMember("ParentId", opt => opt.MapFrom(c => c.ParentId))
+                    .ForMember("Text", opt => opt.MapFrom(c => c.Text))
+                    .ForMember("CreateDt", opt => opt.MapFrom(c => c.CreateDt))
+                    .ForMember("Id", opt => opt.MapFrom(src => src.Id)));
+
         public int CardId { get; set; }
 
         public MergeUserComment()
@@ -40,7 +48,6 @@ namespace WebVueTest.Models
 
         public MergeUserComment(int cardId,UserComment comment): base()
         {
-            this.CreatedUser = comment.CreatedUser;
             this.Id = comment.Id;
             this.ParentId = comment.ParentId;
             this.Text = comment.Text;
@@ -65,6 +72,14 @@ namespace WebVueTest.Models
                 UpdateDt = DateTime.Now.AddDays(rand.Next(-40, -20)),
                 Text = $"Comment {id}"
             };
+        }
+
+        public static MergeUserComment ConvertComment(UserComment comment, int Id)
+        {
+            var mapper = new Mapper(MergeUserComment.config);
+            var mergeComment = mapper.Map<UserComment, MergeUserComment>(comment);
+            mergeComment.CardId = Id;
+            return mergeComment;
         }
 
         public static IEnumerable<UserComment> CreateCommnets(List<User> users, int count)

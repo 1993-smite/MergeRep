@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
@@ -48,7 +49,12 @@ namespace WebVueTest.Controllers
             var model = list.FirstOrDefault(x => x.Id == id);
 
             ViewData["Users"] = FactoryUserView.CreateUsers(id);
-            ViewData["Comments"] = UserCommentFactory.CreateCommnets((List<User>)ViewData["Users"], 20).Select(x=>new MergeUserComment(model.Id,x));
+
+            var mapper = new Mapper(MergeUserComment.config);
+
+            ViewData["Comments"] = UserCommentFactory
+                .CreateCommnets((List<User>)ViewData["Users"], 20)
+                                .Select(x=> UserCommentFactory.ConvertComment(x,model.Id));
             return View(model);
         }
 

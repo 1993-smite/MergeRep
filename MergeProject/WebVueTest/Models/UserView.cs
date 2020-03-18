@@ -23,38 +23,38 @@ namespace WebVueTest.Models
     {
         public int Id { get; set; }
 
-        [Display(Name = "Фамилия")]
+        [Display(Name = "pLastName")]
         public string LastName { get; set; }
 
-        [Display(Name = "Имя")]
+        [Display(Name = "pName")]
         public string FirstName { get; set; }
 
-        [Display(Name = "Отчество")]
+        [Display(Name = "pMiddleName")]
         public string MiddleName { get; set; }
 
         public string FullName => $"{LastName} {FirstName} {MiddleName}";
 
         public string Login => ($"{FirstName?.ToLower().FirstOrDefault() ?? ' '}{MiddleName?.ToLower().FirstOrDefault() ?? ' '}{LastName?.ToLower().Replace(" ","") ?? ""}").Trim();
 
-        [Display(Name = "Почта")]
+        [Display(Name = "pEmail")]
         public string Email => $"{LastName?.ToLower() ?? ""}@app.ru";
     }
 
     public class UserView: User
     {
-        [Display(Name = "День рождения")]
+        [Display(Name = "pBirthday")]
         public DateTime Birthday { get; set; }
 
-        [Display(Name = "День смерти")]
+        [Display(Name = "pDeath")]
         public DateTime Death { get; set; }
 
-        [Display(Name = "Место работы")]
+        [Display(Name = "pWorkPlace")]
         public string WorkPlace { get; set; }
 
-        [Display(Name = "Должность")]
+        [Display(Name = "pWorkPosition")]
         public string WorkPosition { get; set; }
 
-        [Display(Name = "Адресс")]
+        [Display(Name = "pHomeAddress")]
         public string HomeAddress { get; set; }
 
         public List<UserFile> Files { get; set; }

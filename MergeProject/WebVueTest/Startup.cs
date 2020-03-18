@@ -40,6 +40,7 @@ namespace WebVueTest
             services.AddLocalization(option => option.ResourcesPath = "Resources");
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddDataAnnotationsLocalization()
                 .AddViewLocalization();
         }
 
