@@ -1,19 +1,22 @@
-﻿@model List<UserViewValidate>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model List<UserViewValidate>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "List";
 }
 
-<h2>Index</h2>
+<h2>@Localizer["hHeader"]</h2>
 
 
 <div id="users">
     <div class="row row-head">
-        <div class="col-md-3"><h3>Id FIO</h3></div>
-        <div class="col-md-2"><h3>Birthday</h3></div>
-        <div class="col-md-2"><h3>WorkPlace</h3></div>
-        <div class="col-md-2"><h3>WorkPosition</h3></div>
-        <div class="col-md-2"><h3>HomeAddress</h3></div>
+        <div class="col-md-3"><h3>@Localizer["hFIO"]</h3></div>
+        <div class="col-md-2"><h3>@Localizer["hBirthday"]</h3></div>
+        <div class="col-md-2"><h3>@Localizer["hWorkPlace"]</h3></div>
+        <div class="col-md-2"><h3>@Localizer["hWorkPosition"]</h3></div>
+        <div class="col-md-2"><h3>@Localizer["hHomeAddress"]</h3></div>
     </div>
     <div class="row" v-for="item in userList" v-bind:key="item.id">
         <div class="col-md-3">{{item.lastName}} {{item.firstName}} {{item.middleName}}</div>

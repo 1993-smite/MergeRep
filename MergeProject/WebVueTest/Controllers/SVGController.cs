@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System;
 
 namespace WebVueTest.Controllers
 {
@@ -69,18 +70,33 @@ namespace WebVueTest.Controllers
     public class SVGController : Controller
     {
         public static readonly string filterKey = "filter";
+
+        private Filter getFilter(string key)
+        {
+            var filter = new Filter();
+            try
+            {
+                filter = HttpContext.Session?
+                    .GetString(filterKey)?.JSONToObject<Filter>()
+                    ?? new Filter();
+            }
+            catch (Exception exception)
+            {
+                filter = new Filter();
+            }
+            return filter;
+        }
+
         public IActionResult Index()
         {
-            var filter = HttpContext.Session
-                .GetString(filterKey)?.JSONToObject<Filter>() 
-                ?? new Filter();
+            var filter = getFilter(filterKey);
             ViewData[filterKey] = filter;
             return View(PointFactory.GetPoints(filter));
         }
 
         public IActionResult GetPoints(string building, int level)
         {
-            HttpContext.Session.SetString(filterKey,new Filter(building,level).ObjectToJSON());
+            HttpContext.Session?.SetString(filterKey,new Filter(building,level).ObjectToJSON());
             var points = new List<Point>();
             for (int i = level*100; i < level * 100 + 50; i++)
             {
