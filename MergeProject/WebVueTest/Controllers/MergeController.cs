@@ -48,7 +48,7 @@ namespace WebVueTest.Controllers
             var model = list.FirstOrDefault(x => x.Id == id);
 
             ViewData["Users"] = FactoryUserView.CreateUsers(id);
-            ViewData["Comments"] = UserCommentFactory.CreateCommnets((List<User>)ViewData["Users"], 20);
+            ViewData["Comments"] = UserCommentFactory.CreateCommnets((List<User>)ViewData["Users"], 20).Select(x=>new MergeUserComment(model.Id,x));
             return View(model);
         }
 

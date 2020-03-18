@@ -1,5 +1,30 @@
 ﻿const commentSelector = "#comments-container";
 
+let commentEl; 
+let commentElsuccess; 
+
+const hubConnection = new signalR.HubConnectionBuilder()
+    .withUrl("/chat")
+    .build();
+
+function convertToComment(x) {
+    return {
+        id: x.id,
+        parent: x.parentId < 1 ? null : x.parentId,
+        content: x.text,
+        creator: x.createdUser.id,
+        pings: [],
+        fullname: x.createdUser.login,
+        created: moment(x.createDt).toDate(),
+        modified: moment(x.updateDt).toDate(),
+        created_by_admin: true,
+        created_by_current_user: false,
+        upvote_count: 0,
+        user_has_upvoted: false,
+        is_new: false
+    }
+}
+
 $(function () {
     /*var appComments = new Vue({
         el: commentSelector,
@@ -33,39 +58,28 @@ $(function () {
             }, 500);
         },
         getComments: function (success, error) {
-            var commentsArray = [{
-                id: 1,
-                created: '2015-10-01',
-                content: 'Lorem ipsum dolort sit amet',
-                fullname: 'Simon Powell',
-                upvote_count: 2,
-                user_has_upvoted: false
-            }];
-            let comm = comments.map(function (x) {
-                return {
-                    id: x.id,
-                    parent: x.parentId < 1 ? null : x.parentId,
-                    content: x.text,
-                    creator: x.createdUser.id,
-                    pings: [],
-                    fullname: x.createdUser.login,
-                    created: moment(x.createDt).toDate(),
-                    modified: moment(x.updateDt).toDate(),
-                    created_by_admin: true,
-                    created_by_current_user: false,
-                    upvote_count: 0,
-                    user_has_upvoted: false,
-                    is_new: false
-                };
-            });
+            let comm = comments.map(x => convertToComment(x));
+            commentEl = this;
+            commentElsuccess = success;
             success(comm);
         },
         postComment: function (data, success, error) {
-            setTimeout(function () {
+            var comment = {
+                CardId: model.id,
+                Id: 0,
+                ParentId: data.parent || 0,
+                Text: data.content,
+                CreateDt: data.created
+            };
+            console.log("post", data, comment);
+            hubConnection.invoke("Send", comment);
+            //hubConnection.invoke("SendText", data.content);
+            /*setTimeout(function () {
                 success(saveComment(data));
-            }, 500);
+            }, 500);*/
         },
         putComment: function (data, success, error) {
+            console.log("hello from hell");
             setTimeout(function () {
                 success(saveComment(data));
             }, 500);
@@ -86,5 +100,22 @@ $(function () {
             }, 500);
         },
     });
-});
 
+    hubConnection.on("Send", function (data) {
+        //$(commentSelector).comments({ putComment});
+        console.log(Date.now(), data);
+        let comments = saveComment(convertToComment(data));
+        commentEl.addComment.call(commentEl,comments);
+        //let comments = saveComment(convertToComment(data));
+        //success(comments);
+        //commentElsuccess.call(commentEl, comments);
+        //commentEl.putComment(comments);
+    });
+
+    hubConnection.start();
+
+    setTimeout(function () {
+        hubConnection.invoke("AddGroup", model.id);
+    }, 200)
+    //
+});

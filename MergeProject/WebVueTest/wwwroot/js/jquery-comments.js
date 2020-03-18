@@ -109,7 +109,8 @@
         // Default options
         // ===============
 
-        getDefaultOptions: function() {
+        getDefaultOptions: function () {
+            var self = this;
             return {
 
                 // User
@@ -172,6 +173,7 @@
                 textareaRowsOnFocus: 2,
                 textareaMaxRows: 5,
                 maxRepliesVisible: 2,
+                element: this,
 
                 fieldMappings: {
                     id: 'id',
@@ -194,6 +196,10 @@
                     userHasUpvoted: 'user_has_upvoted'
                 },
 
+                addComment: function (commentJSON) {
+                    console.log(this, self);
+                    self.createComment(commentJSON);
+                },
                 searchUsers: function(term, success, error) {success([])},
                 getComments: function(success, error) {success([])},
                 postComment: function(commentJSON, success, error) {success(commentJSON)},
@@ -342,7 +348,8 @@
                 // Update child array of the parent (append childs to the array of outer most parent)
                 if(commentModel.parent) {
                     var outermostParent = this.getOutermostParent(commentModel.parent);
-                    outermostParent.childs.push(commentModel.id);
+                    if (outermostParent)
+                        outermostParent.childs.push(commentModel.id);
                 }
             }
         },
@@ -495,8 +502,10 @@
             // Update the child array of outermost parent
             if(commentModel.parent) {
                 var outermostParent = this.getOutermostParent(commentModel.parent);
-                var indexToRemove = outermostParent.childs.indexOf(commentModel.id);
-                outermostParent.childs.splice(indexToRemove, 1);
+                if (outermostParent) {
+                    var indexToRemove = outermostParent.childs.indexOf(commentModel.id);
+                    outermostParent.childs.splice(indexToRemove, 1);
+                }
             }
 
             // Remove the comment from data model
@@ -2030,7 +2039,11 @@
             var parentId = directParentId;
             do {
                 var parentComment = this.commentsById[parentId];
-                parentId = parentComment.parent;
+
+                if (parentComment)
+                    parentId = parentComment.parent;
+                else
+                    break;
             } while(parentComment.parent != null);
             return parentComment;
         },
