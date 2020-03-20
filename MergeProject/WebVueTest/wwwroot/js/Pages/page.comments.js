@@ -14,7 +14,7 @@ function convertToComment(x) {
         content: x.text,
         creator: x.createdUser.id,
         pings: [],
-        fullname: x.createdUser.login,
+        fullname: x.createdUser.email,
         created: moment(x.createDt).toDate(),
         modified: moment(x.updateDt).toDate(),
         created_by_admin: true,
@@ -74,9 +74,9 @@ $(function () {
             console.log("post", data, comment);
             hubConnection.invoke("Send", comment);
             //hubConnection.invoke("SendText", data.content);
-            /*setTimeout(function () {
+            setTimeout(function () {
                 success(saveComment(data));
-            }, 500);*/
+            }, 500);
         },
         putComment: function (data, success, error) {
             console.log("hello from hell");
@@ -101,11 +101,21 @@ $(function () {
         },
     });
 
+    $(commentSelector).click(function () {
+        $("#clr-unread-msg").click();
+    });
+
+    $("#comment-list").on("click", ".comment-new", function () {
+        $(this).removeClass("comment-new");
+    });
+
     hubConnection.on("Send", function (data) {
         //$(commentSelector).comments({ putComment});
         console.log(Date.now(), data);
         let comments = saveComment(convertToComment(data));
-        commentEl.addComment.call(commentEl,comments);
+        commentEl.addComment.call(commentEl, comments);
+        $(".comment", "#comment-list").first().addClass("comment-new");
+        $("#new-unread-msg").click();
         //let comments = saveComment(convertToComment(data));
         //success(comments);
         //commentElsuccess.call(commentEl, comments);

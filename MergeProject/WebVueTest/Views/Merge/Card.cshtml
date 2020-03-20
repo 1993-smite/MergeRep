@@ -250,6 +250,18 @@
     </div>
 </fieldset>
 
+@section FixAlert{
+<div id="fix-alert" class="fix alert-msg alert-bottom alert-right">
+    <div class="relative">
+        <img src="~/css/images/mail-box.png" />
+        <span class="absolute block-circle alert-msg-info">{{unreadMsg}}</span>
+    </div>
+    <button id="new-unread-msg" class="hide block-circle" v-on:click="addUnreadMsg(1)">+</button>
+    <button id="clr-unread-msg" class="hide block-circle" v-on:click="subUnreadMsg(1)">0</button>
+    <button id="clr-unread-msg" class="hide block-circle" v-on:click="clrUnreadMsg">-</button>
+</div>
+}
+
 @section Scripts{
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/js/jblocks.js"></script>

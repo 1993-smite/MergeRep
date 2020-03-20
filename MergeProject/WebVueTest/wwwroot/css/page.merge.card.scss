@@ -21,6 +21,14 @@ body input{
     cursor: pointer;
 }
 
+.alert-msg-info{
+    left: 17px;
+    top: 10px;
+    background-color: #54d42b;
+    width: 25px;
+    text-align: center;
+}
+
 .glyphicon-remove:hover {
     @extend %icon-remove;
 }

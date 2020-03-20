@@ -14,7 +14,7 @@ namespace WebVueTest.Models
         public async Task Send(MergeUserComment comment)
         {
             comment.CreatedUser = FactoryUserView.Create(3);
-            await this.Clients.Group(getGroupName(comment.CardId)).SendAsync("Send", comment);
+            await this.Clients.GroupExcept(getGroupName(comment.CardId), Context.ConnectionId).SendAsync("Send", comment);
         }
 
         public async Task AddGroup(int cardId)

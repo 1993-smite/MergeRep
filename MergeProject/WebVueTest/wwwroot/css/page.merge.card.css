@@ -17,3 +17,10 @@ body input {
 .btn-pointer:hover span {
   background-color: white !important;
   cursor: pointer; }
+
+.alert-msg-info {
+  left: 17px;
+  top: 10px;
+  background-color: #54d42b;
+  width: 25px;
+  text-align: center; }

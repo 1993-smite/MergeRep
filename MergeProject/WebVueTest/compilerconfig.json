@@ -10,5 +10,17 @@
   {
     "outputFile": "wwwroot/css/files.index.css",
     "inputFile": "wwwroot/css/files.index.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/page.merge.card.css",
+    "inputFile": "wwwroot/css/page.merge.card.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/fix-alert.css",
+    "inputFile": "wwwroot/css/fix-alert.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/site.css",
+    "inputFile": "wwwroot/css/site.scss"
   }
 ]
