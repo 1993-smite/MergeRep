@@ -42,8 +42,9 @@ namespace WebVueTest.Models
             if (string.IsNullOrEmpty(type))
             {
                 var fileAttr = fileName.Split('.');
-                fileName = fileAttr[0];
-                type = fileAttr[1] ?? "";
+                type = fileAttr.LastOrDefault() ?? "";
+                fileName = string.Join('.',fileAttr.Take(fileAttr.Length - 2));
+                
             }
             string fname = $"{fileName}.{type}";
             int index = 1;

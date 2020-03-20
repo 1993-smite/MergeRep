@@ -19,6 +19,28 @@ namespace WebVueTest.Models
         }
     }
 
+    public class appUser
+    {
+        public static string sessionKey = "active-user-login";
+        public string Login { get; set; }
+
+        public string PasswordEnter { get; set; }
+        private string Password { get; }
+        public appUser()
+        {
+
+        }
+
+        public appUser(string login, string password)
+        {
+            Login = login;
+            Password = password;
+        }
+
+        public bool CheckPassword(string password) => 
+            string.Equals(Password, password, StringComparison.CurrentCultureIgnoreCase);
+    }
+
     public class User
     {
         public int Id { get; set; }
@@ -32,16 +54,18 @@ namespace WebVueTest.Models
         [Display(Name = "pMiddleName")]
         public string MiddleName { get; set; }
 
-        public string FullName => $"{LastName} {FirstName} {MiddleName}";
-
-        public string Login => ($"{FirstName?.ToLower().FirstOrDefault() ?? ' '}{MiddleName?.ToLower().FirstOrDefault() ?? ' '}{LastName?.ToLower().Replace(" ","") ?? ""}").Trim();
-
         [Display(Name = "pEmail")]
         public string Email => $"{LastName?.ToLower() ?? ""}@app.ru";
     }
 
     public class UserView: User
     {
+        public string FullName => $"{LastName} {FirstName} {MiddleName}";
+
+        public string Login => ($"{FirstName?.ToLower().FirstOrDefault() ?? ' '}" +
+                                $"{MiddleName?.ToLower().FirstOrDefault() ?? ' '}" +
+                                $"{LastName?.ToLower().Replace(" ", "") ?? ""}").Trim();
+
         [Display(Name = "pBirthday")]
         public DateTime Birthday { get; set; }
 

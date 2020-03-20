@@ -34,7 +34,7 @@ namespace WebVueTest
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(1);
+                options.IdleTimeout = TimeSpan.FromMinutes(5);
             });
             services.AddSignalR();
             services.AddLocalization(option => option.ResourcesPath = "Resources");

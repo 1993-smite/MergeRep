@@ -1,0 +1,28 @@
+﻿@model appUser
+@{
+    ViewData["Title"] = "Авторизация";
+}
+
+<h2>Авторизация</h2>
+
+<form action="@Url.Action("Index", "Login")" method="post">
+    <div class="input-group mb-3">
+        <div class="col-md-2">
+            <label for="login">Логин: </label>
+        </div>
+        <div class="col-md-4">
+            @Html.TextBoxFor(x => x.Login, new { id = "login", @class = "form-control", autocomplite = "off" })
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <div class="col-md-2">
+            <label for="password">Пароль: </label>
+        </div>
+        <div class="col-md-4">
+            @Html.TextBoxFor(x => x.PasswordEnter, new { id = "password", type = "password", @class = "form-control", autocomplite = "off" })
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <input type="submit" class="btn btn-success" value="Войти" />
+    </div>
+</form>

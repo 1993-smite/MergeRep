@@ -43,8 +43,24 @@ namespace WebVueTest.Controllers
             return View(list);
         }
 
+        public IActionResult ChangeUser(string login)
+        {
+            HttpContext.Response.Cookies.Append(appUser.sessionKey, login);
+            return Content("Ok");
+        }
+
         public IActionResult Card(int id = 5)
         {
+            string user = Login;
+                //HttpContext.Session.GetString(appUser.sessionKey);
+
+            if (string.IsNullOrEmpty(user))
+            {
+                return RedirectToActionPermanent("Index", "Login");
+            }
+
+            ViewData[appUser.sessionKey] = user;
+
             GetData();
             var model = list.FirstOrDefault(x => x.Id == id);
 
