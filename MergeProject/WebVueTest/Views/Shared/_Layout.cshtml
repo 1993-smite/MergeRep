@@ -10,7 +10,8 @@
         <link rel="stylesheet" href="~/css/fonts.css" />
         <link rel="stylesheet" href="~/components/file-upload/file-upload.css" />
         <link rel="stylesheet" href="~/components/comments/comments.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/fix-alert.min.css" />
+        <link rel="stylesheet" href="~/css/site.min.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
@@ -60,6 +61,11 @@
             <p>&copy; 2019 - ViewMerge</p>
         </footer>
     </div>
+
+    <div class="alert-block">
+        @RenderSection("FixAlert", required: false)
+    </div>
+    
 
     <environment include="Development">
         @*<script src="~/lib/jquery/dist/jquery.js"></script>

@@ -1,0 +1,30 @@
+﻿.alert-block {
+  position: absolute;
+  z-index: 1000;
+  top: 0%;
+  left: 80%;
+  pointer-events: none; }
+
+.fix {
+  position: fixed; }
+
+.relative {
+  position: relative; }
+
+.absolute {
+  position: absolute; }
+
+.alert-bottom {
+  top: 80%; }
+
+.alert-right {
+  left: 90%; }
+
+.alert-msg {
+  pointer-events: auto;
+  cursor: pointer;
+  background-color: antiquewhite;
+  border-radius: .50rem; }
+
+.alert-msg:hover {
+  background-color: burlywood; }
