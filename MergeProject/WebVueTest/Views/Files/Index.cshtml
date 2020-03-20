@@ -12,6 +12,12 @@
     .table td, .table th {
         padding: .15rem;
     }
+    .loupe {
+        background-color: #555;
+        background: rgba(0, 0, 0, 0.25);
+        border: 5px solid rgba(0, 0, 0, 0);
+        cursor: url(../../wwwroot/css/images/blank.png), url(../../wwwroot/css/images/blank.cur), none;
+    }
 </style>
 
 <environment include="Development">
@@ -23,12 +29,13 @@
 @section LibScripts{
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="~/js/popper.min.js"></script>
+    <script src="~/js/Components/jquery.loupe.js"></script>
 }
 
 <div class="container">
     <div class="row">
         <div class="col-2">
-           @Html.Partial("Directories", Model)
+            @Html.Partial("Directories", Model)
         </div>
         <div class="col-10">
             <div class="row">

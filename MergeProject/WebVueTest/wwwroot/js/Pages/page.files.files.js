@@ -26,6 +26,12 @@ $(function () {
     $(window).resize(function () {
         lazyLoad();
     });
+
+    $('.card-img-top','#images').loupe({
+        width: 200, // width of magnifier
+        height: 150, // height of magnifier
+        loupe: 'loupe' // css class for magnifier
+    });
 });
 
 //registerListener('load', setLazy);
