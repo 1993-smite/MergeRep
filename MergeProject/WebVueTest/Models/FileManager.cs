@@ -43,8 +43,8 @@ namespace WebVueTest.Models
             {
                 var fileAttr = fileName.Split('.');
                 type = fileAttr.LastOrDefault() ?? "";
-                fileName = string.Join('.',fileAttr.Take(fileAttr.Length - 2));
-                
+                fileName = string.Join('.',fileAttr.Take(fileAttr.Length - 2)).Trim();
+                fileName = string.IsNullOrEmpty(fileName) ? fileAttr[0] : fileName;
             }
             string fname = $"{fileName}.{type}";
             int index = 1;

@@ -128,7 +128,7 @@ namespace WebVueTest.Controllers
                     Port = request.Host.Port.HasValue ? request.Host.Port.Value : -1,
                     Path = fileDir
                 };
-
+                var fdata = fname.Split(".");
                 file.FullFileName = $"{uriBuilder.Uri.LocalPath}/{Id}/{fname}";
                 using (var fileStream = new FileStream(path, FileMode.Append))
                 {

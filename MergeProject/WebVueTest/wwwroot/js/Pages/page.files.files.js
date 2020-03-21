@@ -19,7 +19,7 @@ $(function () {
     setLazy();
     lazyLoad();
 
-    $("#images").scroll(function () {
+    $('#images').scroll(function () {
         console.info("test");
         lazyLoad();
     });
@@ -27,10 +27,11 @@ $(function () {
         lazyLoad();
     });
 
-    $('.card-img-top','#images').loupe({
-        width: 200, // width of magnifier
-        height: 150, // height of magnifier
-        loupe: 'loupe' // css class for magnifier
+    
+    $('#use-loupe').click(function () {
+        if ($(this).prop("checked") == true)
+            return;
+        $('.card-img-top', '#images').attr("data-use-loupe", "false");
     });
 });
 
@@ -54,6 +55,11 @@ function lazyLoad() {
                 lazy[i].src = lazy[i].getAttribute('data-src');
                 lazy[i].removeAttribute('data-src');
             }
+            $(lazy[i]).loupe({
+                width: 200, // width of magnifier
+                height: 150, // height of magnifier
+                loupe: 'loupe', // css class for magnifier
+            });
         }
     }
 

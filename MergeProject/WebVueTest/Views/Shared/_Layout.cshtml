@@ -21,7 +21,6 @@
     </environment>
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/components/file-upload/file-upload.js"></script>
         <script src="~/components/comments/comments.js"></script>
         <script src="~/js/moment.js"></script>
     </environment>
@@ -65,13 +64,13 @@
     <div class="alert-block">
         @RenderSection("FixAlert", required: false)
     </div>
-    
+
 
     <environment include="Development">
         @*<script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/components/file-upload/file-upload.js"></script>
-        <script src="~/components/comments/comments.js"></script>
-        <script src="~/js/moment.js"></script>*@
+            <script src="~/components/file-upload/file-upload.js"></script>
+            <script src="~/components/comments/comments.js"></script>
+            <script src="~/js/moment.js"></script>*@
         @*<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>*@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
@@ -93,5 +92,8 @@
     </div>
     @RenderSection("LibScripts", required: false)
     @RenderSection("Scripts", required: false)
+    <environment include="Development">
+        <script src="~/components/file-upload/file-upload.js"></script>
+    </environment>
 </body>
 </html>

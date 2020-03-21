@@ -6,7 +6,8 @@
 (function ($) {
 	$.fn.loupe = function (arg) {
 		var options = $.extend({
-			loupe: 'loupe',
+            loupe: 'loupe',
+            use: true,
 			width: 200,
 			height: 150
 		}, arg || {});
@@ -16,7 +17,7 @@
 				$small = $this.is('img') ? $this : $this.find('img:first'),
 				move, hide = function () { $loupe.hide(); },
 				time;
-
+            $small.attr("data-use-loupe", "true");
 			if ($this.data('loupe') != null) {
 				return $this.data('loupe', arg);
 			}
@@ -28,9 +29,13 @@
 					oW = options.width / 2,
 					oH = options.height / 2;
 
+                var use = $small.attr("data-use-loupe") == 'true';
+                console.log(use);
+
 				if (!$this.data('loupe') ||
 					e.pageX > sW + os.left + 10 || e.pageX < os.left - 10 ||
-					e.pageY > sH + os.top + 10 || e.pageY < os.top - 10) {
+                    e.pageY > sH + os.top + 10 || e.pageY < os.top - 10
+                    || !use) {
 					return hide();
 				}
 
