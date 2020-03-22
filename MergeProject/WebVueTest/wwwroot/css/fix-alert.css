@@ -15,10 +15,13 @@
   position: absolute; }
 
 .alert-bottom {
-  top: 80%; }
+  top: 90%; }
 
 .alert-right {
-  left: 90%; }
+  left: 94%; }
+
+.alert-toogle-right {
+  left: 100%; }
 
 .alert-msg {
   pointer-events: auto;
