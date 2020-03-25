@@ -12,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Localization;
 using WebVueTest.Models;
+using WebVueTest.MiddleWare;
+using WebVueTest.MiddleWare.Configurations;
 
 namespace WebVueTest
 {
@@ -53,27 +55,37 @@ namespace WebVueTest
             }
             else
             {
+                app.UseMiddleware<LoggerRequest>();
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseCookiePolicy();
             app.UseSession();
 
-            var supportedCultures = new[]
-            {
-                new CultureInfo("en"),
-                new CultureInfo("ru")
-            };
+
+            var defCultureInfo = Configuration[ConfigurationKyes.CultureInfoDefault];
+            var supportedCulturesString = Configuration[ConfigurationKyes.CultureInfosSupported];
+
+            List<CultureInfo> supportedCultures = supportedCulturesString.Split(',').Select(x => new CultureInfo(x)).ToList();
 
             app.UseRequestLocalization(
                 new RequestLocalizationOptions {
-                    DefaultRequestCulture = new RequestCulture("ru"),
+                    DefaultRequestCulture = new RequestCulture(defCultureInfo),
                     SupportedCultures = supportedCultures,
                     SupportedUICultures = supportedCultures
+                });
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.Cookies.Append(
+                    CookieRequestCultureProvider.DefaultCookieName,
+                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(defCultureInfo)),
+                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+                );
+                await next.Invoke();
             });
 
             app.UseMvc(routes =>
