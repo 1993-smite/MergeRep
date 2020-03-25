@@ -11,6 +11,19 @@
         "dist/browser/signalr.js.map",
         "dist/browser/signalr.min.js.map"
       ]
+    },
+    {
+      "library": "@popperjs/core@2",
+      "destination": "wwwroot/lib/@popperjs/core/",
+      "files": [
+        "src/enums.js",
+        "src/index.js",
+        "src/index.test.js",
+        "src/popper-base.js",
+        "src/popper-lite.js",
+        "src/popper.js",
+        "src/types.js"
+      ]
     }
   ]
 }

@@ -10,6 +10,7 @@
 <h2>@Localizer["hHeader"]</h2>
 
 
+
 <div id="users">
     <div class="row row-head">
         <div class="col-md-3"><h3>@Localizer["hFIO"]</h3></div>
@@ -38,3 +39,8 @@
         }
     })
 </script>
+@section FixAlert {
+    <div id="fix-alert" class="fix alert-msg alert-top alert-right">
+        @Html.RenderAction("Index","Language")
+    </div>
+}

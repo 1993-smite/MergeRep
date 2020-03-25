@@ -1,0 +1,34 @@
+﻿@using System.Collections.Generic;
+@using System.Globalization;
+@using WebVueTest.Controllers;
+@model IList<CultureInfo>
+
+@{
+    Layout = null;
+    var returnUrl = (string)ViewData[LanguageController.UrlViewData];
+    var checkedCulture = ((string)ViewData[LanguageController.CheckLanguageViewData]).Split('=').LastOrDefault();
+}
+
+<div>
+    <select id="select-language" class="input-sm" data-url="@Url.Action("SetLanguage","Language")" data-returnUrl="@returnUrl">
+        @foreach (var cultureItem in Model)
+        {
+            var selected = cultureItem.Name == checkedCulture ? "selected=selected" : "";
+            <option value='@cultureItem.Name'>@cultureItem.Name</option>
+        }
+    </select>
+</div>
+
+<script>
+    $(function () {
+        $(`option[value='@checkedCulture']`, '#select-language').prop('selected', true);
+        $('#select-language').change(function () {
+            $.post($(this).attr('data-url'), {
+                returnUrl: "",
+                culture: $(this).val()
+            }, function () {
+                location.reload();
+            });
+        });
+    });
+</script>

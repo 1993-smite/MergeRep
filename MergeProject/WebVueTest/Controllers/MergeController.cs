@@ -39,6 +39,7 @@ namespace WebVueTest.Controllers
 
         public IActionResult Index()
         {
+            var context = HttpContext.Response;
             GetData();
             return View(list);
         }
