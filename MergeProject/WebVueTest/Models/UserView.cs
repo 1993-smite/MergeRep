@@ -98,6 +98,27 @@ namespace WebVueTest.Models
         public string DeathStr => Death.ToString("dd.MM.yyyy");
     }
 
+
+    /// <summary>
+    /// альтернативная вью-модель модель валидации 
+    /// </summary>
+    /// <typeparam name="TUserView"></typeparam>
+    public class UserViewValidate<TUserView> where TUserView : UserView
+    {
+        public TUserView source { get; set; }
+
+        [Display(Name = nameof(UserView.Birthday))]
+        public string BirthdayStr => source.Birthday.ToString("dd.MM.yyyy");
+
+        [Display(Name = nameof(UserView.Death))]
+        public string DeathStr => source.Death.ToString("dd.MM.yyyy");
+
+        public UserViewValidate(TUserView _source)
+        {
+            source = _source;
+        }
+    }
+
     public static class FactoryUserView
     {
         public static UserViewValidate Create(int i)
