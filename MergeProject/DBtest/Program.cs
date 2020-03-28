@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using DB;
 using DB.Users;
+using System.Collections.Generic;
 
 namespace DBtest
 {
@@ -10,16 +11,37 @@ namespace DBtest
     {
         static void Main(string[] args)
         {
-            var users = UserMapper.GetUser(123);
 
-            var type = users.GetType();
+            var user = UserMapper.GetUser("trusveld"); //UserMapper.GetUser(4);
 
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            /*var user = new DBUser()
+            {
+                Id = 5,
+                Name = "Черчель Уинстон",
+                Age = 35,
+                City = new DBCity()
+                {
+                    Id = 3,
+                    Name = "Лондон"
+                },
+                Logins = new List<DBLogin>()
+                {
+                    new DBLogin()
+                    {
+                        UserId = 5,
+                        Login = "ucherchel",
+                        Password = "123456".GetHashCode().ToString()
+                    }
+                }
+            };
+
+            UserMapper.SaveUserLigin(user.Logins.FirstOrDefault());*/
+
+            var type = user.GetType();
 
             foreach (var item in type.GetProperties())
             {
-                Console.WriteLine($"\t{item.Name} : {item.GetValue(users)},\t");
+                Console.WriteLine($"\t{item.Name} : {item.GetValue(user)},\t");
             }
 
             Console.ReadLine();
