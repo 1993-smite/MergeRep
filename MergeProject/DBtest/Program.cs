@@ -1,6 +1,8 @@
 ﻿using PostgresApp;
 using System;
 using System.Linq;
+using DB;
+using DB.Users;
 
 namespace DBtest
 {
@@ -8,32 +10,16 @@ namespace DBtest
     {
         static void Main(string[] args)
         {
-            using (ApplicationContext db = new ApplicationContext())
+            var users = UserMapper.GetUser(123);
+
+            var type = users.GetType();
+
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+
+            foreach (var item in type.GetProperties())
             {
-                // получаем объекты из бд и выводим на консоль
-                var users = db.Users
-                    .Where(x=>x.Age == 20)
-                    .Take(10)
-                    .Join(
-                        db.Cities
-                       ,u=>u.CityId
-                       ,c=>c.Id
-                       ,(u,c)=> new User
-                       {
-                           Id = u.Id,
-                           Name = u.Name,
-                           Age = u.Age,
-                           City = new City()
-                           {
-                                Id = c.Id,
-                                Name = c.Name
-                           }
-                       }).ToList();
-                Console.WriteLine("Users list:");
-                foreach (User u in users)
-                {
-                    Console.WriteLine($"{u.Id}.{u.Name} - {u.Age} - {u.City.Name}");
-                }
+                Console.WriteLine($"\t{item.Name} : {item.GetValue(users)},\t");
             }
 
             Console.ReadLine();
