@@ -27,7 +27,7 @@ namespace DB.Users
         }
     }
 
-    public static class UserMapper
+    public static class UserRepository
     {
         #region Get
         public static DBUser GetUser(int Id)
@@ -55,7 +55,7 @@ namespace DB.Users
                     user = users.FirstOrDefault(x => x.Id == logins[i].UserId);
                     user = user == null ? db.Users.FirstOrDefault(x => x.Id == logins[i].UserId) : user;
                     if (user == null)
-                        throw new DbUpdateException($"Нет записи user с таким Login = {login}");
+                        throw new Exception($"Нет записи user с таким Login = {login}");
                     user.Logins = new List<DBLogin>();
                     user.Logins.Add(logins[i]);
                     users.Add(user);
@@ -93,8 +93,10 @@ namespace DB.Users
                 {
                     usr = db.Users.FirstOrDefault(x => x.Id == userId);
                     if (usr == null)
-                        throw new DbUpdateException($"Нет записи user с таким Id = {userId}");
-                    usr = user;
+                        throw new Exception($"Нет записи user с таким Id = {userId}");
+                    user.CityId = usr.CityId;
+                    db.Entry(usr).CurrentValues.SetValues(user);
+                    //db.Update(usr);
                 }
 
                 db.SaveChanges();

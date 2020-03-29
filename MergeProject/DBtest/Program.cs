@@ -36,7 +36,7 @@ namespace DBtest
                 }
             };
 
-            UserMapper.SaveUser(user);
+            UserRepository.SaveUser(user);
 
             var type = user.GetType();
 

@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DB\DB.csproj" />
     <ProjectReference Include="..\MergeLib\MergeLib.csproj" />
   </ItemGroup>
 

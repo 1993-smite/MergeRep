@@ -62,8 +62,8 @@ namespace WebVueTest.Controllers
 
             ViewData[appUser.sessionKey] = user;
 
-            GetData();
-            var model = list.FirstOrDefault(x => x.Id == id);
+            //GetData();
+            var model = FactoryUserView.Convert<User,UserViewValidate>(FactoryUserView.GetUser(id));//list.FirstOrDefault(x => x.Id == id);
 
             ViewData["Users"] = FactoryUserView.CreateUsers(id);
 
@@ -79,28 +79,34 @@ namespace WebVueTest.Controllers
         public IActionResult Card(UserViewValidate mdl)
         {
             int lastId = mdl.Id;
-            int id = FactoryUserView.SaveUserView((UserView)mdl);
+            int id = 0;//FactoryUserView.SaveUserView((UserView)mdl);
 
-            foreach(var file in mdl.Files)
+            if (mdl.Files != null)
             {
-                string path = $"{fileManager}\\{lastId}";
-                string targetPath = $"{fileManager}\\{id}";
-                if (id != lastId)
+                foreach(var file in mdl.Files)
                 {
-                    FileManager.MoveFile(path, targetPath, file.FileName);
-                    var request = HttpContext.Request;
-                    var uriBuilder = new UriBuilder
+                    string path = $"{fileManager}\\{lastId}";
+                    string targetPath = $"{fileManager}\\{id}";
+                    if (id != lastId)
                     {
-                        Host = request.Host.Host,
-                        Scheme = request.Scheme,
-                        Port = request.Host.Port.HasValue ? request.Host.Port.Value : -1,
-                        Path = fileDir
-                    };
+                        FileManager.MoveFile(path, targetPath, file.FileName);
+                        var request = HttpContext.Request;
+                        var uriBuilder = new UriBuilder
+                        {
+                            Host = request.Host.Host,
+                            Scheme = request.Scheme,
+                            Port = request.Host.Port.HasValue ? request.Host.Port.Value : -1,
+                            Path = fileDir
+                        };
 
-                    file.FullFileName = $"{uriBuilder.Uri.LocalPath}/{id}/{file.FileName}";
+                        file.FullFileName = $"{uriBuilder.Uri.LocalPath}/{id}/{file.FileName}";
+                    }
                 }
             }
-            return View(mdl);
+
+            id = FactoryUserView.SaveUser(mdl);
+
+            return RedirectToActionPermanent("Card", "Merge", new { Id = id });
         }
 
         [HttpPost]

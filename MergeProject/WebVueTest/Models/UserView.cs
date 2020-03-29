@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using WebVueTest.DB.Mappers;
+using Newtonsoft.Json;
 
 namespace WebVueTest.Models
 {
@@ -149,6 +151,10 @@ namespace WebVueTest.Models
             };
         }
 
+        public static User GetUser(int Id) => UserMapper.GetUser(Id);
+
+        public static int SaveUser(User user) => UserMapper.SaveUser(user);
+
         public static List<User> CreateUsers(int count)
         {
             List<User> users = new List<User>();
@@ -164,6 +170,12 @@ namespace WebVueTest.Models
             if (userView.Id < 3)
                 userView.Id = 10001;
             return userView.Id;
+        }
+
+        public static RType Convert<T,RType>(T model)
+        {
+            string output = JsonConvert.SerializeObject(model);
+            return JsonConvert.DeserializeObject<RType>(output);
         }
 
         public static UserViewValidate ConvertToValidate(UserView userView)
