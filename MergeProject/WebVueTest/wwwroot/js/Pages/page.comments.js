@@ -71,6 +71,13 @@ $(function () {
                 Text: data.content,
                 CreateDt: data.created
             };
+            $.post("../../Merge/SaveUserComment",
+                {
+                    comment: comment
+                },
+                function (data) {
+                    console.log(data);
+                });
             console.log("post", data, comment);
             hubConnection.invoke("Send", comment);
             //hubConnection.invoke("SendText", data.content);

@@ -135,5 +135,33 @@ namespace DB.Users
                 db.SaveChanges();
             }
         }
+
+        public static int SaveUserComment(DBUserComment comment)
+        {
+            int id = comment.Id;
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var dBUserComment = db.UserComments
+                    .FirstOrDefault(
+                        x => x.Id == comment.Id
+                          && x.UserId == comment.UserId);
+                if (id < 1)
+                {
+                    id = db.UserComments.OrderBy(x => x.Id).LastOrDefault()?.Id ?? 0;
+                    id = ++id;
+                    comment.Id = id;
+                    db.UserComments.Add(comment);
+                }
+                else
+                {
+                    if (comment == null)
+                        throw new Exception($"Нет записи user с таким Id = {comment.Id} и UserId = {comment.UserId}");
+                    db.Entry(dBUserComment).CurrentValues.SetValues(comment);
+                }
+
+                db.SaveChanges();
+            }
+            return id;
+        }
     }
 }

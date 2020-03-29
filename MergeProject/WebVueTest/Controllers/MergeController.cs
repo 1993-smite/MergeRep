@@ -50,6 +50,14 @@ namespace WebVueTest.Controllers
             return Content("Ok");
         }
 
+        [HttpPost]
+        public IActionResult SaveUserComment(MergeUserComment comment)
+        {
+            comment.CreatedUser = new User() { Id=comment.CardId };
+            UserCommentFactory.SaveUserComment(comment);
+            return Content("Ok");
+        }
+
         public IActionResult Card(int id = 5)
         {
             string user = Login;

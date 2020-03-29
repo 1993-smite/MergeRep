@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using System.Threading.Tasks;
+using WebVueTest.DB.Converters;
+using WebVueTest.DB.Mappers;
 
 namespace WebVueTest.Models
 {
@@ -38,6 +40,8 @@ namespace WebVueTest.Models
                     .ForMember("Text", opt => opt.MapFrom(c => c.Text))
                     .ForMember("CreateDt", opt => opt.MapFrom(c => c.CreateDt))
                     .ForMember("Id", opt => opt.MapFrom(src => src.Id)));
+
+        public int UserId => CreatedUser == null ? 0 : CreatedUser.Id;
 
         public int CardId { get; set; }
 
@@ -100,5 +104,11 @@ namespace WebVueTest.Models
             }
             return comments;
         }
+
+        public static async void SaveUserCommentAsync(MergeUserComment userComment) {
+            UserMapper.SaveUserComment(userComment);
+        }
+
+        public static int SaveUserComment(MergeUserComment userComment) => UserMapper.SaveUserComment(userComment);
     }
 }

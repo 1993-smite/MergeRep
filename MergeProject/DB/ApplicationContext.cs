@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -50,11 +51,30 @@ namespace PostgresApp
         public List<DBLogin> Logins { get; set; } = new List<DBLogin>();
     }
 
+    [Table("user-comments")]
+    public class DBUserComment
+    {
+        [Column("id")]
+        public int Id { get; set; }
+        [Column("user_id")]
+        public int UserId { get; set; }
+        public DBUser User { get; set; }
+        [Column("parent_id")]
+        public int ParentId { get; set; }
+        [Column("create-dt")]
+        public DateTime CreateDT { get; set; }
+        /*[Column("update-dt")]
+        public DateTime? UpdateDT { get; set; }*/
+        [Column("text")]
+        public string Text { get; set; }
+    }
+
     public class ApplicationContext : DbContext
     {
         public DbSet<DBUser> Users { get; set; }
         public DbSet<DBCity> Cities { get; set; }
         public DbSet<DBLogin> Logins { get; set; }
+        public DbSet<DBUserComment> UserComments { get; set; }
 
         public ApplicationContext()
         {

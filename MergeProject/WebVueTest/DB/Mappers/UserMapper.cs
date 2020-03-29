@@ -19,5 +19,10 @@ namespace WebVueTest.DB.Mappers
         {
             return UserRepository.SaveUser(UserConverter.Convert(user));
         }
+
+        public static int SaveUserComment(MergeUserComment comment)
+        {
+            return UserRepository.SaveUserComment(UserCommentConverter.Convert(comment));
+        }
     }
 }
