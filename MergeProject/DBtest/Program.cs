@@ -12,30 +12,31 @@ namespace DBtest
         static void Main(string[] args)
         {
 
-            var user = UserMapper.GetUser("trusveld"); //UserMapper.GetUser(4);
+            //var user = UserMapper.GetUser("trusveld"); //UserMapper.GetUser(4);
 
-            /*var user = new DBUser()
+            var user = new DBUser()
             {
-                Id = 5,
-                Name = "Черчель Уинстон",
-                Age = 35,
-                City = new DBCity()
+                Id = 0,
+                Name = "Блом Владимир",
+                Age = 36,
+                CityId = 1,
+                /*City = new DBCity()
                 {
-                    Id = 3,
-                    Name = "Лондон"
-                },
+                    Id = 1,
+                    Name = "Москва"
+                },*/
                 Logins = new List<DBLogin>()
                 {
                     new DBLogin()
                     {
                         UserId = 5,
-                        Login = "ucherchel",
+                        Login = "vblom",
                         Password = "123456".GetHashCode().ToString()
                     }
                 }
             };
 
-            UserMapper.SaveUserLigin(user.Logins.FirstOrDefault());*/
+            UserMapper.SaveUser(user);
 
             var type = user.GetType();
 

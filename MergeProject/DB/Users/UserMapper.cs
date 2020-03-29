@@ -122,7 +122,7 @@ namespace DB.Users
             return userId;
         }
 
-        public static void SaveUserLigin(DBLogin login)
+        public static void SaveUserLogin(DBLogin login)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
