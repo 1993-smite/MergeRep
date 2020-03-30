@@ -25,7 +25,11 @@ namespace WebVueTest.Controllers
             if (string.IsNullOrEmpty(user.Login))
                 return View(user);
 
-            var usr = _mapper.Value.GetAppUsers(user.Login);
+            var usr = _mapper.Value.GetAppDBUser(user.Login);
+            if (usr == null)
+            {
+                return View(user);
+            }
             var checkUser = usr.CheckPassword(user.PasswordEnter);
 
             if (checkUser)

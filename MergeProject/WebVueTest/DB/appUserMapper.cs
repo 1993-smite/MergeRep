@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebVueTest.DB.Mappers;
 using WebVueTest.Models;
 
 namespace WebVueTest.DB
@@ -19,6 +20,12 @@ namespace WebVueTest.DB
                 users.Add(new appUser(data[0],data[1]));
             }
             return users;
+        }
+
+        public appUser GetAppDBUser(string login)
+        {
+            var user = UserMapper.GetUser(login);
+            return user;
         }
 
         public appUser GetAppUsers(string login)

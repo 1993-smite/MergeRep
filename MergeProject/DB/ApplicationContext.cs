@@ -59,6 +59,9 @@ namespace PostgresApp
         [Column("user_id")]
         public int UserId { get; set; }
         public DBUser User { get; set; }
+        [Column("create-user_id")]
+        public int? CreateUserId { get; set; }
+        public DBUser CreateUser { get; set; }
         [Column("parent_id")]
         public int ParentId { get; set; }
         [Column("create-dt")]

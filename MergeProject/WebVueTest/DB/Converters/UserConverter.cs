@@ -12,11 +12,11 @@ namespace WebVueTest.DB.Converters
     public static class UserConverter
     {
         public static MapperConfiguration configToMdl = new MapperConfiguration(cfg => cfg.CreateMap<DBUser, User>()
-                    .ForMember("Id", opt => opt.MapFrom(src => src.Id))
-                    .ForMember("LastName", opt => opt.MapFrom(c => c.LastName))
-                    .ForMember("FirstName", opt => opt.MapFrom(c => c.Name))
-                    .ForMember("MiddleName", opt => opt.MapFrom(c => c.MiddleName))
-                    .ForMember("Email", opt => opt.MapFrom(c => c.Email))
+                    .ForMember(tgt=>tgt.Id, opt => opt.MapFrom(src => src.Id))
+                    .ForMember(tgt => tgt.LastName, opt => opt.MapFrom(c => c.LastName))
+                    .ForMember(tgt => tgt.FirstName, opt => opt.MapFrom(c => c.Name))
+                    .ForMember(tgt => tgt.MiddleName, opt => opt.MapFrom(c => c.MiddleName))
+                    .ForMember(tgt => tgt.Email, opt => opt.MapFrom(c => c.Email))
                     );
 
         public static MapperConfiguration configToDB = new MapperConfiguration(cfg => cfg.CreateMap<User, DBUser>()
@@ -30,7 +30,14 @@ namespace WebVueTest.DB.Converters
         public static User Convert(DBUser dBUser)
         {
             var mapper = new Mapper(UserConverter.configToMdl);
-            return mapper.Map<DBUser, User>(dBUser);
+            var user = mapper.Map<DBUser, User>(dBUser);
+            var userLogin = dBUser.Logins.FirstOrDefault();
+            if (userLogin != null)
+            {
+                user.Login = userLogin.Login;
+                user.DBPassword = userLogin.Password;
+            }
+            return user;
         }
 
         public static DBUser Convert(User user)
@@ -64,7 +71,10 @@ namespace WebVueTest.DB.Converters
         public static MergeUserComment Convert(DBUserComment dBComment)
         {
             var mapper = new Mapper(UserCommentConverter.configToMdl);
-            return mapper.Map<DBUserComment, MergeUserComment>(dBComment);
+            var comment = mapper.Map<DBUserComment, MergeUserComment>(dBComment);
+            comment.CreatedUser = UserConverter.Convert(dBComment.CreateUser);
+            //comment.CreatedUser = UserConverter.Convert(dBComment.User);
+            return comment;
         }
 
         public static DBUserComment Convert(MergeUserComment comment)

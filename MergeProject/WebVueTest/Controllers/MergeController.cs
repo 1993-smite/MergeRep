@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
+using WebVueTest.DB;
+using WebVueTest.DB.Mappers;
 using WebVueTest.Models;
 
 namespace WebVueTest.Controllers
@@ -20,6 +22,8 @@ namespace WebVueTest.Controllers
         private readonly string fileManager;//;= IServer.MapPath("~/images/Users");//@"D:\Files";
         private readonly string fileDir = "images\\Users";
         private string fileHostManager;
+        private Lazy<ChatHub> chat = new Lazy<ChatHub>(() => new ChatHub());
+
         public MergeController(IHostingEnvironment he): base()
         {
             _he = he;
@@ -53,8 +57,9 @@ namespace WebVueTest.Controllers
         [HttpPost]
         public IActionResult SaveUserComment(MergeUserComment comment)
         {
-            comment.CreatedUser = new User() { Id=comment.CardId };
+            comment.CreatedUser = UserMapper.GetUser(Login);
             UserCommentFactory.SaveUserComment(comment);
+            chat.Value.SendToGroup(comment);
             return Content("Ok");
         }
 
@@ -77,9 +82,10 @@ namespace WebVueTest.Controllers
 
             var mapper = new Mapper(MergeUserComment.config);
 
-            ViewData["Comments"] = UserCommentFactory
+            ViewData["Comments"] = UserCommentFactory.GetUserComments(id);
+                /*UserCommentFactory
                 .CreateCommnets((List<User>)ViewData["Users"], 20)
-                                .Select(x=> UserCommentFactory.ConvertComment(x,model.Id));
+                                .Select(x=> UserCommentFactory.ConvertComment(x,model.Id));*/
             return View(model);
         }
 

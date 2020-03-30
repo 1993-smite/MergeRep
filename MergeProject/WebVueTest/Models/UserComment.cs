@@ -41,7 +41,9 @@ namespace WebVueTest.Models
                     .ForMember("CreateDt", opt => opt.MapFrom(c => c.CreateDt))
                     .ForMember("Id", opt => opt.MapFrom(src => src.Id)));
 
-        public int UserId => CreatedUser == null ? 0 : CreatedUser.Id;
+        public int UserId => CardId;
+
+        public int CreateUserId => CreatedUser == null ? 0 : CreatedUser.Id;
 
         public int CardId { get; set; }
 
@@ -104,6 +106,8 @@ namespace WebVueTest.Models
             }
             return comments;
         }
+
+        public static List<MergeUserComment> GetUserComments(int userId) => UserMapper.GetUserComments(userId);
 
         public static async void SaveUserCommentAsync(MergeUserComment userComment) {
             UserMapper.SaveUserComment(userComment);

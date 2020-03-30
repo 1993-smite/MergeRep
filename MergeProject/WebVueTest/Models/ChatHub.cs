@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 using WebVueTest.Controllers;
@@ -15,6 +16,11 @@ namespace WebVueTest.Models
         public async Task Send(MergeUserComment comment)
         {
             comment.CreatedUser = new User { Id=comment.CardId };
+            await this.Clients.GroupExcept(getGroupName(comment.CardId), Context.ConnectionId).SendAsync("Send", comment);
+        }
+
+        public async Task SendToGroup(MergeUserComment comment)
+        {
             await this.Clients.GroupExcept(getGroupName(comment.CardId), Context.ConnectionId).SendAsync("Send", comment);
         }
 

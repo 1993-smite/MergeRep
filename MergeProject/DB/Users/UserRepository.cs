@@ -64,6 +64,16 @@ namespace DB.Users
             return users.FirstOrDefault();
         }
 
+        public static List<DBUserComment> GetUserComments(int userId)
+        {
+            var userComments = new List<DBUserComment>();
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                userComments = db.UserComments.Where(x=>x.UserId == userId).Include(x=>x.User).Include(x=>x.CreateUser).ToList();
+            }
+            return userComments;
+        }
+
         public static List<DBUser> GetUsers(string name)
         {
             var filter = new FilterUser() { Name = name }.ToFilter();

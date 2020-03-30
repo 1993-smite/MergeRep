@@ -27,7 +27,13 @@ namespace WebVueTest.Models
         public string Login { get; set; }
 
         public string PasswordEnter { get; set; }
-        private string Password { get; }
+        private string Password { get; set; }
+
+        public string DBPassword { set
+            {
+                Password = value;
+            }
+        }
         public appUser()
         {
 
@@ -43,7 +49,7 @@ namespace WebVueTest.Models
             string.Equals(Password, password, StringComparison.CurrentCultureIgnoreCase);
     }
 
-    public class User
+    public class User: appUser
     {
         public int Id { get; set; }
 
@@ -63,10 +69,6 @@ namespace WebVueTest.Models
     public class UserView: User
     {
         public string FullName => $"{LastName} {FirstName} {MiddleName}";
-
-        public string Login => ($"{FirstName?.ToLower().FirstOrDefault() ?? ' '}" +
-                                $"{MiddleName?.ToLower().FirstOrDefault() ?? ' '}" +
-                                $"{LastName?.ToLower().Replace(" ", "") ?? ""}").Trim();
 
         [Display(Name = "pBirthday")]
         public DateTime Birthday { get; set; }
