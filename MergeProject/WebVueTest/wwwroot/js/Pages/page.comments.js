@@ -77,13 +77,16 @@ $(function () {
                 },
                 function (data) {
                     console.log(data);
+                    hubConnection.invoke("Send", data);
+                    let comments = saveComment(convertToComment(data));
+                    commentEl.addComment.call(commentEl, comments);
                 });
             console.log("post", data, comment);
-            hubConnection.invoke("Send", comment);
+            //hubConnection.invoke("Send", comment);
             //hubConnection.invoke("SendText", data.content);
-            setTimeout(function () {
+            /*setTimeout(function () {
                 success(saveComment(data));
-            }, 500);
+            }, 500);*/
         },
         putComment: function (data, success, error) {
             console.log("hello from hell");

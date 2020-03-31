@@ -38,6 +38,11 @@ namespace WebVueTest.DB.Mappers
             return mergeUserComments;
         }
 
+        public static MergeUserComment GetUserComment(int id)
+        {
+            return UserCommentConverter.Convert(UserRepository.GetUserComment(id));
+        }
+
         public static int SaveUserComment(MergeUserComment comment)
         {
             return UserRepository.SaveUserComment(UserCommentConverter.Convert(comment));

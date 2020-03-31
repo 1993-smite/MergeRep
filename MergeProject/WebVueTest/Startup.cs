@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Localization;
 using WebVueTest.Models;
 using WebVueTest.MiddleWare;
 using WebVueTest.MiddleWare.Configurations;
+using PostgresApp;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebVueTest
 {
@@ -38,6 +40,8 @@ namespace WebVueTest
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(5);
             });
+            services.AddIdentity<appUser, IdentityRole>()
+                    .AddEntityFrameworkStores<ApplicationContext>();
             services.AddSignalR();
             services.AddLocalization(option => option.ResourcesPath = "Resources");
             services.AddMvc()
@@ -87,6 +91,9 @@ namespace WebVueTest
                 );
                 await next.Invoke();
             });
+
+            app.UseAuthentication();    // подключение аутентификации
+            //app.UseAuthorization();
 
             app.UseMvc(routes =>
             {

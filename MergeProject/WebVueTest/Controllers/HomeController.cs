@@ -18,7 +18,7 @@ namespace WebVueTest.Controllers
         public IActionResult Index()
         {
             //return RedirectToAction("Index","Merge");
-            return RedirectToAction("Card", "Merge");
+            return RedirectToAction("Card", "Merge", 3);
             //return RedirectToAction("Index","SVG");
             //return View();
         }

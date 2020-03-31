@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebVueTest.DB.Mappers;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebVueTest.Models
 {
@@ -21,7 +22,7 @@ namespace WebVueTest.Models
         }
     }
 
-    public class appUser
+    public class appUser : IdentityUser
     {
         public static string sessionKey = "active-user-login";
         public string Login { get; set; }
