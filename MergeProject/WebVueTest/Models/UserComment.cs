@@ -12,8 +12,9 @@ namespace WebVueTest.Models
     {
         public int Id { get; set; }
         public int ParentId { get; set; }
+        public int Invoit { get; set; }
         public DateTime CreateDt { get; set; }
-        public DateTime UpdateDt { get; set; }
+        public DateTime? UpdateDt { get; set; }
         public string Text { get; set; }
 
         public Comment()

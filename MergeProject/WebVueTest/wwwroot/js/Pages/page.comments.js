@@ -2,6 +2,7 @@
 
 let commentEl; 
 let commentElsuccess; 
+let saveComment;
 
 const hubConnection = new signalR.HubConnectionBuilder()
     .withUrl("/chat")
@@ -19,10 +20,33 @@ function convertToComment(x) {
         modified: moment(x.updateDt).toDate(),
         created_by_admin: true,
         created_by_current_user: false,
-        upvote_count: 0,
+        upvote_count: x.invoit,
         user_has_upvoted: false,
         is_new: false
     }
+}
+
+function saveCommentToServer(data, type = 0) {
+    var comment = {
+        CardId: model.id,
+        Id: data.id,
+        ParentId: data.parent || 0,
+        Text: data.content,
+        CreateDt: data.created
+    };
+    $.post("../../Merge/SaveUserComment",
+    {
+        comment: comment,
+        type: type
+    },
+    function (data) {
+        console.log(data);
+        if (type == 0) {
+            hubConnection.invoke("Send", data);
+            let comments = saveComment(convertToComment(data));
+            commentEl.addComment.call(commentEl, comments);
+        }
+    });
 }
 
 $(function () {
@@ -30,7 +54,7 @@ $(function () {
         el: commentSelector,
         data: comments
     });*/
-    var saveComment = function (data) {
+    saveComment = function (data) {
 
         // Convert pings to human readable format
         $(Object.keys(data.pings)).each(function (index, userId) {
@@ -64,24 +88,7 @@ $(function () {
             success(comm);
         },
         postComment: function (data, success, error) {
-            var comment = {
-                CardId: model.id,
-                Id: 0,
-                ParentId: data.parent || 0,
-                Text: data.content,
-                CreateDt: data.created
-            };
-            $.post("../../Merge/SaveUserComment",
-                {
-                    comment: comment
-                },
-                function (data) {
-                    console.log(data);
-                    hubConnection.invoke("Send", data);
-                    let comments = saveComment(convertToComment(data));
-                    commentEl.addComment.call(commentEl, comments);
-                });
-            console.log("post", data, comment);
+            saveCommentToServer(data, 0);
             //hubConnection.invoke("Send", comment);
             //hubConnection.invoke("SendText", data.content);
             /*setTimeout(function () {
@@ -100,9 +107,11 @@ $(function () {
             }, 500);
         },
         upvoteComment: function (data, success, error) {
-            setTimeout(function () {
+            console.log('upvoteComment');
+            saveCommentToServer(data, 1);
+            /*setTimeout(function () {
                 success(data);
-            }, 500);
+            }, 500);*/
         },
         uploadAttachments: function (dataArray, success, error) {
             setTimeout(function () {
@@ -122,9 +131,10 @@ $(function () {
     hubConnection.on("Send", function (data) {
         //$(commentSelector).comments({ putComment});
         console.log(Date.now(), data);
+        let id = data.id;
         let comments = saveComment(convertToComment(data));
         commentEl.addComment.call(commentEl, comments);
-        $(".comment", "#comment-list").first().addClass("comment-new");
+        $(`.comment[data-id='${id}']`, "#comment-list").first().addClass("comment-new");
         $("#new-unread-msg").click();
         //let comments = saveComment(convertToComment(data));
         //success(comments);

@@ -171,12 +171,14 @@ namespace DB.Users
                     id = db.UserComments.OrderBy(x => x.Id).LastOrDefault()?.Id ?? 0;
                     id = ++id;
                     comment.Id = id;
+                    comment.UpdateDT = comment.CreateDT; 
                     db.UserComments.Add(comment);
                 }
                 else
                 {
                     if (comment == null)
                         throw new Exception($"Нет записи user с таким Id = {comment.Id} и UserId = {comment.UserId}");
+                    comment.UpdateDT = DateTime.Now;
                     db.Entry(dBUserComment).CurrentValues.SetValues(comment);
                 }
 

@@ -66,10 +66,12 @@ namespace PostgresApp
         public int ParentId { get; set; }
         [Column("create-dt")]
         public DateTime CreateDT { get; set; }
-        /*[Column("update-dt")]
-        public DateTime? UpdateDT { get; set; }*/
+        [Column("update-dt")]
+        public DateTime? UpdateDT { get; set; }
         [Column("text")]
         public string Text { get; set; }
+        [Column("invoit")]
+        public int? Invoit { get; set; }
     }
 
     public class ApplicationContext : DbContext

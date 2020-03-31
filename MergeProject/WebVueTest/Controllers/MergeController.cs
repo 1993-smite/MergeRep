@@ -16,6 +16,12 @@ using WebVueTest.Models;
 
 namespace WebVueTest.Controllers
 {
+    public enum SaveCommentType
+    {
+        New,
+        Invoit
+    }
+
     public class MergeController : AppController
     {
         private IHostingEnvironment _he;
@@ -55,10 +61,24 @@ namespace WebVueTest.Controllers
         }
 
         [HttpPost]
-        public MergeUserComment SaveUserComment(MergeUserComment comment)
+        public MergeUserComment SaveUserComment(MergeUserComment comment, SaveCommentType type)
         {
-            comment.CreatedUser = UserMapper.GetUser(Login);
-            int id = UserCommentFactory.SaveUserComment(comment);
+            switch (type)
+            {
+                case SaveCommentType.New:
+                    comment.CreatedUser = UserMapper.GetUser(Login);
+                    comment.UpdateDt = comment.CreateDt;
+                    break;
+                case SaveCommentType.Invoit:
+                    comment = UserCommentFactory.GetUserComment(comment.Id);
+                    comment.CardId = comment.UserId;
+                    comment.Invoit++;
+                    break;
+                default:
+                    throw new ArgumentException("Invalid argument 'type'");
+                    break;
+            }
+            comment.Id = UserCommentFactory.SaveUserComment(comment);
             comment.CardId = comment.UserId;
             return comment;
         }

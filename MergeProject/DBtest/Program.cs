@@ -43,7 +43,7 @@ namespace DBtest
                 var comments = db.UserComments.ToList();
                 for(int index = 0;index < comments.Count; index++)
                 {
-                    comments[index].CreateUserId = comments[index].UserId;
+                    comments[index].UpdateDT = comments[index].CreateDT;
                 }
                 db.SaveChanges();
             }

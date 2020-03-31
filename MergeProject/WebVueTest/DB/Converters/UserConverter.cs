@@ -51,20 +51,23 @@ namespace WebVueTest.DB.Converters
     public static class UserCommentConverter
     {
         public static MapperConfiguration configToMdl = new MapperConfiguration(cfg => cfg.CreateMap<DBUserComment, MergeUserComment>()
-                    .ForMember("Id", opt => opt.MapFrom(src => src.Id))
-                    .ForMember("UserId", opt => opt.MapFrom(c => c.UserId))
-                    .ForMember("ParentId", opt => opt.MapFrom(c => c.ParentId))
-                    .ForMember("CreateDt", opt => opt.MapFrom(c => c.CreateDT))
-                    //.ForMember("UpdateDT", opt => opt.MapFrom(c => c.UpdateDT))
-                    .ForMember("Text", opt => opt.MapFrom(c => c.Text))
+                    .ForMember(f => f.Id, opt => opt.MapFrom(src => src.Id))
+                    .ForMember(f => f.UserId, opt => opt.MapFrom(c => c.UserId))
+                    .ForMember(f => f.CardId, opt => opt.MapFrom(c => c.UserId))
+                    .ForMember(f => f.ParentId, opt => opt.MapFrom(c => c.ParentId))
+                    .ForMember(f => f.CreateDt, opt => opt.MapFrom(c => c.CreateDT))
+                    .ForMember(f => f.UpdateDt, opt => opt.MapFrom(c => c.UpdateDT))
+                    .ForMember(f => f.Text, opt => opt.MapFrom(c => c.Text))
+                    .ForMember(f => f.Invoit, opt => opt.MapFrom(c => c.Invoit))
                );
 
         public static MapperConfiguration configToDB = new MapperConfiguration(cfg => cfg.CreateMap<MergeUserComment, DBUserComment>()
                     .ForMember(f => f.Id, opt => opt.MapFrom(src => src.Id))
                     .ForMember(f => f.ParentId, opt => opt.MapFrom(c => c.ParentId))
                     .ForMember(f => f.UserId, opt => opt.MapFrom(c => c.UserId))
+                    .ForMember(f => f.Invoit, opt => opt.MapFrom(c => c.Invoit))
                     .ForMember(f => f.CreateDT, opt => opt.MapFrom(c => c.CreateDt))
-                    //.ForMember(f => f.UpdateDT, opt => opt.MapFrom(c => c.UpdateDt))
+                    .ForMember(f => f.UpdateDT, opt => opt.MapFrom(c => c.UpdateDt))
                     .ForMember(f => f.Text, opt => opt.MapFrom(c => c.Text))
                );
 
