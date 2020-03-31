@@ -49,7 +49,7 @@
             </ul>
             <div>
                 <button class="btn btn-outline-error my-2 my-sm-0" type="submit">
-                    <a class="nav-link" style="color:red" href="@Url.Action("Index", "Login")">RELOGIN</a>
+                    <a class="nav-link" style="color:red" href="@Url.Action("Index", "Login")">EXIT(<b>@await Component.InvokeAsync("User")</b>)</a>
                 </button>
             </div>
             <form class="form-inline my-2 my-lg-0">
