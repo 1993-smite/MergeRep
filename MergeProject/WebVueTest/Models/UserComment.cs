@@ -109,6 +109,8 @@ namespace WebVueTest.Models
 
         public static List<MergeUserComment> GetUserComments(int userId) => UserMapper.GetUserComments(userId);
 
+        public static MergeUserComment GetUserComment(int id) => UserMapper.GetUserComment(id);
+
         public static async void SaveUserCommentAsync(MergeUserComment userComment) {
             UserMapper.SaveUserComment(userComment);
         }

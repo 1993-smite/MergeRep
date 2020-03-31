@@ -15,8 +15,10 @@ namespace WebVueTest.Models
 
         public async Task Send(MergeUserComment comment)
         {
-            comment.CreatedUser = new User { Id=comment.CardId };
-            await this.Clients.GroupExcept(getGroupName(comment.CardId), Context.ConnectionId).SendAsync("Send", comment);
+            //comment.CreatedUser = new User { Id=comment.CardId };
+            var groupName = getGroupName(comment.UserId);
+            var group = this.Clients.Group(groupName);
+            await this.Clients.GroupExcept(groupName, Context.ConnectionId).SendAsync("Send", comment);
         }
 
         public async Task SendToGroup(MergeUserComment comment)

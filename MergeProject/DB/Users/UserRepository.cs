@@ -29,7 +29,7 @@ namespace DB.Users
 
     public static class UserRepository
     {
-        #region Get
+        #region GetUser
         public static DBUser GetUser(int Id)
         {
             var filter = new FilterUser() { Id = Id }.ToFilter();
@@ -62,16 +62,6 @@ namespace DB.Users
                 }
             }
             return users.FirstOrDefault();
-        }
-
-        public static List<DBUserComment> GetUserComments(int userId)
-        {
-            var userComments = new List<DBUserComment>();
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                userComments = db.UserComments.Where(x=>x.UserId == userId).Include(x=>x.User).Include(x=>x.CreateUser).ToList();
-            }
-            return userComments;
         }
 
         public static List<DBUser> GetUsers(string name)
@@ -146,6 +136,27 @@ namespace DB.Users
             }
         }
 
+        #region UserComment
+        public static List<DBUserComment> GetUserComments(int userId)
+        {
+            var userComments = new List<DBUserComment>();
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                userComments = db.UserComments.Where(x => x.UserId == userId).Include(x => x.User).Include(x => x.CreateUser).ToList();
+            }
+            return userComments;
+        }
+
+        public static DBUserComment GetUserComment(int id)
+        {
+            var userComment = new DBUserComment();
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                userComment = db.UserComments.Where(x => x.Id == id).Include(x => x.User).Include(x => x.CreateUser).FirstOrDefault();
+            }
+            return userComment;
+        }
+
         public static int SaveUserComment(DBUserComment comment)
         {
             int id = comment.Id;
@@ -173,5 +184,6 @@ namespace DB.Users
             }
             return id;
         }
+        #endregion
     }
 }

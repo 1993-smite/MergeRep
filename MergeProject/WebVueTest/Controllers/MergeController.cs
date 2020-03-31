@@ -55,18 +55,20 @@ namespace WebVueTest.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveUserComment(MergeUserComment comment)
+        public MergeUserComment SaveUserComment(MergeUserComment comment)
         {
             comment.CreatedUser = UserMapper.GetUser(Login);
-            UserCommentFactory.SaveUserComment(comment);
-            chat.Value.SendToGroup(comment);
-            return Content("Ok");
+            int id = UserCommentFactory.SaveUserComment(comment);
+            comment.CardId = comment.UserId;
+            return comment;
         }
 
         public IActionResult Card(int id = 5)
         {
             string user = Login;
-                //HttpContext.Session.GetString(appUser.sessionKey);
+            //HttpContext.Session.GetString(appUser.sessionKey);
+
+            var fff = User.Identity;
 
             if (string.IsNullOrEmpty(user))
             {
