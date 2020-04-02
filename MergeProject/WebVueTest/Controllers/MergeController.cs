@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using DB.Users;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
@@ -68,17 +69,19 @@ namespace WebVueTest.Controllers
                 case SaveCommentType.New:
                     comment.CreatedUser = UserMapper.GetUser(Login);
                     comment.UpdateDt = comment.CreateDt;
+                    comment.Id = UserCommentFactory.SaveUserComment(comment);
                     break;
                 case SaveCommentType.Invoit:
-                    comment = UserCommentFactory.GetUserComment(comment.Id);
-                    comment.CardId = comment.UserId;
-                    comment.Invoit++;
+                    UserRepository.SaveUserCommentInvoit(new PostgresApp.DBUserCommentInvoit()
+                    {
+                        UserCommentId = comment.Id,
+                        UserId = comment.UserId
+                    });
                     break;
                 default:
                     throw new ArgumentException("Invalid argument 'type'");
                     break;
             }
-            comment.Id = UserCommentFactory.SaveUserComment(comment);
             comment.CardId = comment.UserId;
             return comment;
         }

@@ -143,6 +143,10 @@ namespace DB.Users
             using (ApplicationContext db = new ApplicationContext())
             {
                 userComments = db.UserComments.Where(x => x.UserId == userId).Include(x => x.User).Include(x => x.CreateUser).ToList();
+                foreach(var comment in userComments)
+                {
+                    comment.Invoits = db.UserCommentInvoits.Where(x => x.UserCommentId == comment.Id).Include(x => x.User).ToList();
+                }
             }
             return userComments;
         }
@@ -153,6 +157,7 @@ namespace DB.Users
             using (ApplicationContext db = new ApplicationContext())
             {
                 userComment = db.UserComments.Where(x => x.Id == id).Include(x => x.User).Include(x => x.CreateUser).FirstOrDefault();
+                userComment.Invoits = db.UserCommentInvoits.Where(x => x.UserCommentId == userComment.Id).Include(x => x.User).ToList();
             }
             return userComment;
         }
@@ -185,6 +190,28 @@ namespace DB.Users
                 db.SaveChanges();
             }
             return id;
+        }
+        public static void SaveUserCommentInvoit(DBUserCommentInvoit commentInvoit)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var dBUserCommentInvoit = db.UserCommentInvoits
+                    .FirstOrDefault(
+                        x => x.UserCommentId == commentInvoit.UserCommentId
+                          && x.UserId == commentInvoit.UserId);
+                if (dBUserCommentInvoit == null)
+                {
+                    var lastId = db.UserCommentInvoits.LastOrDefault().Id;
+                    commentInvoit.Id = ++lastId;
+                    db.UserCommentInvoits.Add(commentInvoit);
+                }
+                else
+                {
+                    db.UserCommentInvoits.Remove(dBUserCommentInvoit);
+                }
+
+                db.SaveChanges();
+            }
         }
         #endregion
     }

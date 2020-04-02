@@ -37,13 +37,24 @@ namespace DBtest
             };
 
             UserRepository.SaveUser(user);*/
-
+            Random rand = new Random();
+            int cnt = 0;
+            int id = 19;
             using (ApplicationContext db = new ApplicationContext())
             {
                 var comments = db.UserComments.ToList();
                 for(int index = 0;index < comments.Count; index++)
                 {
-                    comments[index].UpdateDT = comments[index].CreateDT;
+                    cnt = rand.Next(1, 4);
+                    for(int count = 0; count < cnt; count++)
+                    {
+                        UserRepository.SaveUserCommentInvoit(new DBUserCommentInvoit()
+                        {
+                            Id = id++,
+                            UserCommentId = comments[index].Id,
+                            UserId = rand.Next(2,8)
+                        });
+                    }
                 }
                 db.SaveChanges();
             }

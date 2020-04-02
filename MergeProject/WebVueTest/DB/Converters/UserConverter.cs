@@ -29,6 +29,8 @@ namespace WebVueTest.DB.Converters
 
         public static User Convert(DBUser dBUser)
         {
+            if (dBUser == null)
+                return new User() { Id = 0 };
             var mapper = new Mapper(UserConverter.configToMdl);
             var user = mapper.Map<DBUser, User>(dBUser);
             var userLogin = dBUser.Logins.FirstOrDefault();
@@ -58,14 +60,14 @@ namespace WebVueTest.DB.Converters
                     .ForMember(f => f.CreateDt, opt => opt.MapFrom(c => c.CreateDT))
                     .ForMember(f => f.UpdateDt, opt => opt.MapFrom(c => c.UpdateDT))
                     .ForMember(f => f.Text, opt => opt.MapFrom(c => c.Text))
-                    .ForMember(f => f.Invoit, opt => opt.MapFrom(c => c.Invoit))
+                    .ForMember(f => f.Invoit, opt => opt.MapFrom(c => c.InvoitCount))
                );
 
         public static MapperConfiguration configToDB = new MapperConfiguration(cfg => cfg.CreateMap<MergeUserComment, DBUserComment>()
                     .ForMember(f => f.Id, opt => opt.MapFrom(src => src.Id))
                     .ForMember(f => f.ParentId, opt => opt.MapFrom(c => c.ParentId))
                     .ForMember(f => f.UserId, opt => opt.MapFrom(c => c.UserId))
-                    .ForMember(f => f.Invoit, opt => opt.MapFrom(c => c.Invoit))
+                    .ForMember(f => f.InvoitCount, opt => opt.MapFrom(c => c.Invoit))
                     .ForMember(f => f.CreateDT, opt => opt.MapFrom(c => c.CreateDt))
                     .ForMember(f => f.UpdateDT, opt => opt.MapFrom(c => c.UpdateDt))
                     .ForMember(f => f.Text, opt => opt.MapFrom(c => c.Text))
@@ -76,6 +78,7 @@ namespace WebVueTest.DB.Converters
             var mapper = new Mapper(UserCommentConverter.configToMdl);
             var comment = mapper.Map<DBUserComment, MergeUserComment>(dBComment);
             comment.CreatedUser = UserConverter.Convert(dBComment.CreateUser);
+            comment.IsSelfUserComment = dBComment.Invoits?.Exists(x=>x.UserId == comment.CreateUserId) ?? false;
             //comment.CreatedUser = UserConverter.Convert(dBComment.User);
             return comment;
         }

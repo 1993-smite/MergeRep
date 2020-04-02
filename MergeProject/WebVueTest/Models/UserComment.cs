@@ -46,6 +46,8 @@ namespace WebVueTest.Models
 
         public int CreateUserId => CreatedUser == null ? 0 : CreatedUser.Id;
 
+        public bool IsSelfUserComment { get; set; }
+
         public int CardId { get; set; }
 
         public MergeUserComment()

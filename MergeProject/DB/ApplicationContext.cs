@@ -55,6 +55,7 @@ namespace PostgresApp
     public class DBUserComment
     {
         [Column("id")]
+        [Key]
         public int Id { get; set; }
         [Column("user_id")]
         public int UserId { get; set; }
@@ -70,8 +71,22 @@ namespace PostgresApp
         public DateTime? UpdateDT { get; set; }
         [Column("text")]
         public string Text { get; set; }
-        [Column("invoit")]
-        public int? Invoit { get; set; }
+        public int InvoitCount => Invoits?.Count ?? 0;
+        public List<DBUserCommentInvoit> Invoits { get; set; }
+    }
+
+    [Table("user-comment-invoits")]
+    public class DBUserCommentInvoit
+    {
+        [Column("id")]
+        [Key]
+        public int Id { get; set; }
+        [Column("UserCommentId")]
+        public DBUserComment UserComment { get; set; }
+        public int UserCommentId { get; set; }
+        [Column("user_id")]
+        public int UserId { get; set; }
+        public DBUser User { get; set; }
     }
 
     public class ApplicationContext : DbContext
@@ -80,6 +95,7 @@ namespace PostgresApp
         public DbSet<DBCity> Cities { get; set; }
         public DbSet<DBLogin> Logins { get; set; }
         public DbSet<DBUserComment> UserComments { get; set; }
+        public DbSet<DBUserCommentInvoit> UserCommentInvoits { get; set; }
 
         public ApplicationContext()
         {

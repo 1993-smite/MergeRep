@@ -21,7 +21,7 @@ function convertToComment(x) {
         created_by_admin: true,
         created_by_current_user: false,
         upvote_count: x.invoit,
-        user_has_upvoted: false,
+        user_has_upvoted: x.isSelfUserComment,
         is_new: false
     }
 }
