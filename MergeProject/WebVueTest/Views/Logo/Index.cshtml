@@ -1,0 +1,38 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>SVG interactive image <timer></timer></h2>
+<div class="row">
+    <object data="~/css/logo.svg" type="image/svg+xml" id="svgmap" width="300" height="300"></object>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let svgdom;
+            function loadEventForLogo() {
+                let svgObject = document.getElementById('svgmap');
+                if ('contentDocument' in svgObject) {
+                    // получаем доступ к объектной модели SVG-файла
+                    svgdom = $(svgObject.contentDocument);
+                    let $paths = $(`path[id^='path-']`, svgdom);
+                    console.log($paths);
+                    for (let path of $paths) {
+                        $(path).click(function () {
+                            let id = $(this).attr('id');
+                            let routes = id.split('-');
+                            console.log("click", id.split('-'));
+                            let url = `${location.origin}/${routes[1]}/${routes[2]}`;
+                            location.href = url;
+                        });
+                    }
+                } else {
+                }
+            }
+
+            setTimeout(() => loadEventForLogo(), 700);
+        });
+    </script>
+}
