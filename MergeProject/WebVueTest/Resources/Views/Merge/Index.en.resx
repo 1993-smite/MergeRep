@@ -120,6 +120,9 @@
   <data name="hBirthday" xml:space="preserve">
     <value>Birthday</value>
   </data>
+  <data name="hEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
   <data name="hFIO" xml:space="preserve">
     <value>FIO</value>
   </data>
@@ -128,6 +131,9 @@
   </data>
   <data name="hHomeAddress" xml:space="preserve">
     <value>HomeAddress</value>
+  </data>
+  <data name="hId" xml:space="preserve">
+    <value>Id</value>
   </data>
   <data name="hWorkPlace" xml:space="preserve">
     <value>WorkPlace</value>

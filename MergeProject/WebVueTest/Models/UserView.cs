@@ -154,6 +154,8 @@ namespace WebVueTest.Models
             };
         }
 
+        public static List<User> GetUsers() => UserMapper.GetUsers();
+
         public static User GetUser(int Id) => UserMapper.GetUser(Id);
 
         public static int SaveUser(User user) => UserMapper.SaveUser(user);

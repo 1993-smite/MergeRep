@@ -21,6 +21,17 @@ namespace WebVueTest.DB.Mappers
             return UserConverter.Convert(UserRepository.GetUser(login));
         }
 
+        public static List<User> GetUsers()
+        {
+            var dbUsers = UserRepository.GetUsers();
+            var users = new List<User>();
+            foreach(var dbuser in dbUsers)
+            {
+                users.Add(UserConverter.Convert(dbuser));
+            }
+            return users;
+        }
+
         public static int SaveUser(User user)
         {
             return UserRepository.SaveUser(UserConverter.Convert(user));

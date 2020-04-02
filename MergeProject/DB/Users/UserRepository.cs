@@ -64,7 +64,7 @@ namespace DB.Users
             return users.FirstOrDefault();
         }
 
-        public static List<DBUser> GetUsers(string name)
+        public static List<DBUser> GetUsers(string name = "")
         {
             var filter = new FilterUser() { Name = name }.ToFilter();
             var user = new List<DBUser>();
