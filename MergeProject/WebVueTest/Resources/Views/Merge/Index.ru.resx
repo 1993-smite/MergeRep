@@ -120,6 +120,9 @@
   <data name="hBirthday" xml:space="preserve">
     <value>День рождения</value>
   </data>
+  <data name="hCity" xml:space="preserve">
+    <value>Город</value>
+  </data>
   <data name="hEmail" xml:space="preserve">
     <value>Почта</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="hId" xml:space="preserve">
     <value>Идентификатор</value>
+  </data>
+  <data name="hLogin" xml:space="preserve">
+    <value>Логин</value>
   </data>
   <data name="hWorkPlace" xml:space="preserve">
     <value>Рабочее место</value>

@@ -16,7 +16,8 @@
         <div class="col-md-2"><h3>@Localizer["hId"]</h3></div>
         <div class="col-md-3"><h3>@Localizer["hFIO"]</h3></div>
         <div class="col-md-2"><h3>@Localizer["hEmail"]</h3></div>
-        <div class="col-md-2"><h3>@Localizer["hBirthday"]</h3></div>
+        <div class="col-md-2"><h3>@Localizer["hCity"]</h3></div>
+        <div class="col-md-2"><h3>@Localizer["hLogin"]</h3></div>
         @*<div class="col-md-2"><h3>@Localizer["hWorkPlace"]</h3></div>
         <div class="col-md-2"><h3>@Localizer["hWorkPosition"]</h3></div>
         <div class="col-md-2"><h3>@Localizer["hHomeAddress"]</h3></div>*@
@@ -25,7 +26,8 @@
         <div class="col-md-2">{{item.id}}</div>
         <div class="col-md-3"><a v-bind:href="getItemURL(item.id)">{{item.lastName}} {{item.firstName}} {{item.middleName}}</a></div>
         <div class="col-md-2">{{item.email}}</div>
-        <div class="col-md-2">{{item.birthdayStr}}</div>
+        <div class="col-md-2">{{item.city}}</div>
+        <div class="col-md-2">{{item.login}}</div>
         @*<div class="col-md-2">{{item.workPlace}}</div>
         <div class="col-md-2">{{item.workPosition}}</div>
         <div class="col-md-2">{{item.homeAddress}}</div>*@

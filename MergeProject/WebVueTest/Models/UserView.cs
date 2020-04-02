@@ -65,6 +65,9 @@ namespace WebVueTest.Models
 
         [Display(Name = "pEmail")]
         public string Email => $"{LastName?.ToLower() ?? ""}@app.ru";
+
+        [Display(Name = "pCity")]
+        public string City { get; set; }
     }
 
     public class UserView: User

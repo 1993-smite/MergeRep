@@ -120,6 +120,9 @@
   <data name="pBirthday" xml:space="preserve">
     <value>Birthday</value>
   </data>
+  <data name="pCity" xml:space="preserve">
+    <value>City</value>
+  </data>
   <data name="pDeath" xml:space="preserve">
     <value>Death</value>
   </data>

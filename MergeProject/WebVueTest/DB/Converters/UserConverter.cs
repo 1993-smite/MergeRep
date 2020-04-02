@@ -17,14 +17,15 @@ namespace WebVueTest.DB.Converters
                     .ForMember(tgt => tgt.FirstName, opt => opt.MapFrom(c => c.Name))
                     .ForMember(tgt => tgt.MiddleName, opt => opt.MapFrom(c => c.MiddleName))
                     .ForMember(tgt => tgt.Email, opt => opt.MapFrom(c => c.Email))
+                    .ForMember(tgt => tgt.City, opt => opt.MapFrom(c => (c.City == null ? "" : c.City.Name )))
                     );
 
         public static MapperConfiguration configToDB = new MapperConfiguration(cfg => cfg.CreateMap<User, DBUser>()
-                    .ForMember("Id", opt => opt.MapFrom(src => src.Id))
-                    .ForMember("LastName", opt => opt.MapFrom(c => c.LastName))
-                    .ForMember("Name", opt => opt.MapFrom(c => c.FirstName))
-                    .ForMember("MiddleName", opt => opt.MapFrom(c => c.MiddleName))
-                    .ForMember("Email", opt => opt.MapFrom(c => c.Email))
+                    .ForMember(tgt => tgt.Id, opt => opt.MapFrom(src => src.Id))
+                    .ForMember(tgt => tgt.LastName, opt => opt.MapFrom(c => c.LastName))
+                    .ForMember(tgt => tgt.Name, opt => opt.MapFrom(c => c.FirstName))
+                    .ForMember(tgt => tgt.MiddleName, opt => opt.MapFrom(c => c.MiddleName))
+                    .ForMember(tgt => tgt.Email, opt => opt.MapFrom(c => c.Email))
                     );
 
         public static User Convert(DBUser dBUser)

@@ -67,12 +67,19 @@ namespace DB.Users
         public static List<DBUser> GetUsers(string name = "")
         {
             var filter = new FilterUser() { Name = name }.ToFilter();
-            var user = new List<DBUser>();
+            var users = new List<DBUser>();
             using (ApplicationContext db = new ApplicationContext())
             {
-                user = db.Users.Where(filter).ToList();
+                users = db.Users.Include(x=>x.City).Where(filter).ToList();
+                foreach(var usr in users)
+                {
+                    var login = db.Logins.FirstOrDefault(x => x.UserId == usr.Id).Login;
+                    usr.Logins.Add(new DBLogin() {
+                        Login = login
+                    });
+                }
             }
-            return user;
+            return users;
         }
         #endregion
         public static int SaveUser(DBUser user)
