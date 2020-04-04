@@ -14,11 +14,10 @@ namespace WebVueTest.Controllers
     {
         public string Login =>
             HttpContext.Request.Cookies[appUser.sessionKey];
-            //HttpContext.Session.GetString(appUser.sessionKey);
+        //HttpContext.Session.GetString(appUser.sessionKey);
 
         public AppController()
         {
-
         }
     }
 }

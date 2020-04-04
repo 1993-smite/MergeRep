@@ -8,6 +8,12 @@
     <object data="~/css/logo.svg" type="image/svg+xml" id="svgmap" width="300" height="300"></object>
 </div>
 
+<div id="div">текст</div>
+<script>
+    div.insertAdjacentHTML('afterBegin', '<p>Привет</p>');
+    div.insertAdjacentHTML('beforeEnd', '<p>Пока</p>');
+</script>
+
 @section Scripts{
     <script type="text/javascript">
         $(document).ready(function () {

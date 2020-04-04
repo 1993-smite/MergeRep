@@ -13,12 +13,16 @@ namespace WebVueTest.Models
             return $"Merge.Card.{cardId}.Group";
         }
 
-        public async Task Send(MergeUserComment comment)
+        public async Task SaveComment(MergeUserComment comment, string groupName)
         {
-            //comment.CreatedUser = new User { Id=comment.CardId };
-            var groupName = getGroupName(comment.UserId);
             var group = this.Clients.Group(groupName);
-            await this.Clients.GroupExcept(groupName, Context.ConnectionId).SendAsync("Send", comment);
+            await this.Clients.GroupExcept(groupName, Context.ConnectionId).SendAsync("SaveComment", comment);
+        }
+
+        public async Task ChangeModel(string groupName)
+        {
+            var group = this.Clients.Group(groupName);
+            await this.Clients.GroupExcept(groupName, Context.ConnectionId).SendAsync("ChangeModel");
         }
 
         public async Task SendToGroup(MergeUserComment comment)
@@ -26,10 +30,9 @@ namespace WebVueTest.Models
             await this.Clients.GroupExcept(getGroupName(comment.CardId), Context.ConnectionId).SendAsync("Send", comment);
         }
 
-        public async Task AddGroup(int cardId)
+        public async Task AddGroup(string group)
         {
-            string groupName = getGroupName(cardId);
-            this.Groups.AddToGroupAsync(Context.ConnectionId,groupName);            
+            this.Groups.AddToGroupAsync(Context.ConnectionId, group);            
         }
 
         public async Task SendText(string message)
