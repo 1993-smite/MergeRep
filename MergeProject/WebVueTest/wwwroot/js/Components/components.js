@@ -68,5 +68,31 @@ jBlocks.define('input-change',
     }
 });
 /***************************************************************************/
+jBlocks.define('tooltip',
+{
+    events: {
+        'mouseover': 'focus',
+    },
 
+    methods: {
+        oninit: function () {
+            this._title = this.props.title || "please, wait...";
+        },
+        ondestroy: function () {
+            this._title = null
+        },
+        /**
+        * Increases the counter, emits changed event
+        */
+        focus: function () {
+            //this.emit('getTitle', { element: this });
+            this.emit('getTitle', { element: this, callback: this.show });
+            console.log(Date.now(), this._title, this);
+        },
+
+        show: function () {
+            console.log(Date.now(), this._title, this);
+        }
+    }
+});
 /***************************************************************************/
