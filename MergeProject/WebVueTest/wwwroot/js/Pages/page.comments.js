@@ -1,15 +1,8 @@
 ﻿const commentSelector = "#comments-container";
 
-const commentUserGroup = `User[${model.id}].Comment`; 
-const userGroup = `User[${model.id}]`; 
-
 let commentEl; 
 let commentElsuccess; 
 let saveComment;
-
-const hubConnection = new signalR.HubConnectionBuilder()
-    .withUrl("/chat")
-    .build();
 
 function convertToComment(x) {
     return {
@@ -45,7 +38,7 @@ function saveCommentToServer(data, type = 0) {
     function (data) {
         //console.log(data);
         if (type == 0) {
-            hubConnection.invoke("SaveComment", data, userGroup);
+            hubCommonConnection.invoke("SaveComment", data, localSignalGroup);
             let comments = saveComment(convertToComment(data));
             commentEl.addComment.call(commentEl, comments);
         }
@@ -131,7 +124,7 @@ $(function () {
         $(this).removeClass("comment-new");
     });
 
-    hubConnection.on("SaveComment", function (data) {
+    hubCommonConnection.on("SaveComment", function (data) {
         //$(commentSelector).comments({ putComment});
         //console.log(Date.now(), data);
         let id = data.id;
@@ -144,24 +137,10 @@ $(function () {
         //commentElsuccess.call(commentEl, comments);
         //commentEl.putComment(comments);
     });
-
-    hubConnection.start();
-
-    $(".form-control").change(function () {
-        hubConnection.invoke("ChangeModel", userGroup);
-    });
-
-    hubConnection.on("ChangeModel", function () {
-        //$(commentSelector).comments({ putComment});
-        let text = "Юзер изменился, обновите страницу"; 
-        console.log(Date.now(), text);
-        $("#alert-title").html(text);
-        $('#alert-container').addClass("show");
-    });
+    //
 
     setTimeout(function () {
         //hubConnection.invoke("AddGroup", commentUserGroup);
-        hubConnection.invoke("AddGroup", userGroup);
+        hubCommonConnection.invoke("AddGroup", localSignalGroup);
     }, 200)
-    //
 });

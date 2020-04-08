@@ -63,6 +63,8 @@ namespace WebVueTest.Models
         [Display(Name = "pMiddleName")]
         public string MiddleName { get; set; }
 
+        public string FullName => $"{LastName} {FirstName} {MiddleName}";
+
         [Display(Name = "pEmail")]
         public string Email => $"{LastName?.ToLower() ?? ""}@app.ru";
 

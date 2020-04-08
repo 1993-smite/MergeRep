@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using WebVueTest.DB;
@@ -25,14 +26,29 @@ namespace WebVueTest.Controllers
 
     public class MergeController : AppController
     {
+        public static class MergeUserHub
+        {
+            public const string TemplateGroupCard = "Merge[{0}].Card";
+            public const string TemplateGroupCommon = "Merge";
+            public const string ChangeModel = "ChangeModel";
+            public const string SaveComment = "SaveComment";
+        }
+
         private IHostingEnvironment _he;
         private readonly string fileManager;//;= IServer.MapPath("~/images/Users");//@"D:\Files";
         private readonly string fileDir = "images\\Users";
         private string fileHostManager;
-        private Lazy<ChatHub> chat = new Lazy<ChatHub>(() => new ChatHub());
 
-        public MergeController(IHostingEnvironment he): base()
+        private readonly IHubContext<CommonHub> _hubContext;
+        private async Task SendMessage(string groupName, string message)
         {
+            var group = _hubContext.Clients.Group(groupName);
+            await _hubContext.Clients.Group(groupName).SendAsync("ChangeModel",message);
+        }
+
+        public MergeController(IHostingEnvironment he, IHubContext<CommonHub> hubContext) : base()
+        {
+            _hubContext = hubContext;
             _he = he;
             //var request = HttpContext.Request;
             fileManager = $"{_he.WebRootPath}\\{fileDir}";
@@ -46,6 +62,12 @@ namespace WebVueTest.Controllers
             {
                 list.Add(FactoryUserView.Create(i));
             }
+        }
+
+        public string GetMessage(int userId)
+        {
+            var user = FactoryUserView.GetUser(userId);
+            return user.City;
         }
 
         public IActionResult Index()
@@ -150,7 +172,14 @@ namespace WebVueTest.Controllers
 
             id = FactoryUserView.SaveUser(mdl);
 
-            return RedirectToActionPermanent("Card", "Merge", new { Id = id });
+            string message = mdl.Id < 1 ? "Добавился" : "Изменился";
+            message = $"{message} юзер \"{mdl.FullName}\"";
+            SendMessage(MergeUserHub.TemplateGroupCommon, message);
+
+            if (mdl.Id > 0)
+                SendMessage(string.Format(MergeUserHub.TemplateGroupCard, id), message);
+
+            return RedirectToActionPermanent("Index", "Merge");
         }
 
         [HttpPost]
