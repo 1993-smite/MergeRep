@@ -3,16 +3,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<link rel="stylesheet" href="~/css/tooltip.css" />
+
 <h2>SVG interactive image <timer></timer></h2>
 <div class="row">
     <object data="~/css/logo.svg" type="image/svg+xml" id="svgmap" width="300" height="300"></object>
 </div>
 
-<div id="div">текст</div>
-<script>
-    div.insertAdjacentHTML('afterBegin', '<p>Привет</p>');
-    div.insertAdjacentHTML('beforeEnd', '<p>Пока</p>');
-</script>
+<a class="Button" href="#0" data-tooltip="File size: 50MB">
+    <span class="Button__textWrapper">
+        <span class="Button__text">Download</span>
+    </span>
+</a>
 
 @section Scripts{
     <script type="text/javascript">
