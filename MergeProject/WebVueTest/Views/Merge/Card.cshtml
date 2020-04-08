@@ -1,4 +1,5 @@
-﻿@using MergeLib;
+﻿@using WebVueTest.Controllers;
+@using MergeLib;
 @model UserViewValidate
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -286,7 +287,9 @@
     <script type="text/javascript">
         var users = JSON.parse('@Html.Raw(Json.Serialize(ViewData["Users"]))');
         var comments = JSON.parse('@Html.Raw(Json.Serialize(ViewData["Comments"]))');
-
+        var commonSignalGroup = null;
+        var localSignalGroup = '@string.Format(MergeController.MergeUserHub.TemplateGroupCard, Model.Id)';
     </script>
+    <script src="~/js/Pages/pages.common.alert.signalr.js"></script>
     <script src="~/js/Pages/page.comments.js"></script>
 }

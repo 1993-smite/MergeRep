@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
+﻿@using WebVueTest.Controllers;
+@using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 
 @model List<UserViewValidate>
@@ -10,29 +11,33 @@
 <h2>@Localizer["hHeader"]</h2>
 
 
-
-<div id="users">
-    <div class="row row-head">
-        <div class="col-md-2"><h3>@Localizer["hId"]</h3></div>
-        <div class="col-md-3"><h3>@Localizer["hFIO"]</h3></div>
-        <div class="col-md-2"><h3>@Localizer["hEmail"]</h3></div>
-        <div class="col-md-2"><h3>@Localizer["hCity"]</h3></div>
-        <div class="col-md-2"><h3>@Localizer["hLogin"]</h3></div>
-        @*<div class="col-md-2"><h3>@Localizer["hWorkPlace"]</h3></div>
-        <div class="col-md-2"><h3>@Localizer["hWorkPosition"]</h3></div>
-        <div class="col-md-2"><h3>@Localizer["hHomeAddress"]</h3></div>*@
+<fieldset>
+    <div id="alert-container" class="alert alert-warning alert-dismissible" role="alert">
+        <div id="alert-title"></div>
     </div>
-    <div class="row" v-for="item in userList" v-bind:key="item.id">
-        <div class="col-md-2">{{item.id}}</div>
-        <div class="col-md-3"><a v-bind:href="getItemURL(item.id)">{{item.lastName}} {{item.firstName}} {{item.middleName}}</a></div>
-        <div class="col-md-2">{{item.email}}</div>
-        <div class="col-md-2">{{item.city}}</div>
-        <div class="col-md-2">{{item.login}}</div>
-        @*<div class="col-md-2">{{item.workPlace}}</div>
-        <div class="col-md-2">{{item.workPosition}}</div>
-        <div class="col-md-2">{{item.homeAddress}}</div>*@
+    <div id="users">
+        <div class="row row-head">
+            <div class="col-md-2"><h3>@Localizer["hId"]</h3></div>
+            <div class="col-md-3"><h3>@Localizer["hFIO"]</h3></div>
+            <div class="col-md-2"><h3>@Localizer["hEmail"]</h3></div>
+            <div class="col-md-2"><h3>@Localizer["hCity"]</h3></div>
+            <div class="col-md-2"><h3>@Localizer["hLogin"]</h3></div>
+            @*<div class="col-md-2"><h3>@Localizer["hWorkPlace"]</h3></div>
+                <div class="col-md-2"><h3>@Localizer["hWorkPosition"]</h3></div>
+                <div class="col-md-2"><h3>@Localizer["hHomeAddress"]</h3></div>*@
+        </div>
+        <div class="row" v-for="item in userList" v-bind:key="item.id">
+            <div class="col-md-2">{{item.id}}</div>
+            <div class="col-md-3"><a class="user-fio" v-bind:href="getItemURL(item.id)" data-component="tooltip" data-props='{ "title": "fio" }'>{{item.lastName}} {{item.firstName}} {{item.middleName}}</a></div>
+            <div class="col-md-2">{{item.email}}</div>
+            <div class="col-md-2">{{item.city}}</div>
+            <div class="col-md-2">{{item.login}}</div>
+            @*<div class="col-md-2">{{item.workPlace}}</div>
+                <div class="col-md-2">{{item.workPosition}}</div>
+                <div class="col-md-2">{{item.homeAddress}}</div>*@
+        </div>
     </div>
-</div>
+</fieldset>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script type="text/javascript">
@@ -49,10 +54,47 @@
                 return `${url}/${id}`
             }
         }
-    })
+    });
+    var commonSignalGroup = '@MergeController.MergeUserHub.TemplateGroupCommon';
 </script>
 @section FixAlert {
     <div id="fix-alert" class="fix alert-msg alert-top alert-right">
-        @Html.RenderAction("Index","Language")
+        @Html.RenderAction("Index", "Language")
+        <div id="fix-alert-msg">
+        </div>
     </div>
+    <div id="fix-alert-logger" class="fix alert-msg alert-bottom" style="max-height: 200px;overflow-y:auto; top: 70%">
+    </div>
+}
+
+@section Scripts{
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/Pages/pages.common.alert.signalr.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            if (!(hubCommonConnection === null)) {
+                hubCommonConnection.on("ChangeModel", function (data) {
+                    //alert(data);
+                    console.log(data);
+                    $("#fix-alert-logger").prepend(`<div>${moment().format('LTS')} - ${data}</div><br/>`);
+                });
+            }
+        });
+    </script>
+
+    <script src="~/js/jblocks.js"></script>
+    <script src="~/js/Components/components.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var userFioEls = jBlocks.get(document.querySelector('.user-fio'));
+            userFioEls.on('getTitle', function (element) {
+                console.log(Date.now(), "get to server");
+                $.get("/Merge/GetMessage", { userId: 3 }, function (data) {
+                    element._title = data;
+                    element.callback();
+                });
+            });
+        });
+    </script>
 }

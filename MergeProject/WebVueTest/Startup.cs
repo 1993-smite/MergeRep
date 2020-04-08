@@ -101,6 +101,11 @@ namespace WebVueTest
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<CommonHub>("/common");
+            });
 
             app.UseSignalR(routes =>
             {

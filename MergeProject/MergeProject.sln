@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedisBrowser", "RabbitBrows
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBtest", "DBtest\DBtest.csproj", "{6E220632-7CD8-4AF5-B83D-BFE0679DB986}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DB", "DB\DB.csproj", "{41896571-F8FA-45BF-AA91-F6DFBF06481D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DB", "DB\DB.csproj", "{41896571-F8FA-45BF-AA91-F6DFBF06481D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
