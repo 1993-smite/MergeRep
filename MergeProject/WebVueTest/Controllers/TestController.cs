@@ -12,5 +12,10 @@ namespace WebVueTest.Controllers
         {
             return View();
         }
+
+        public IActionResult Basket()
+        {
+            return View();
+        }
     }
 }

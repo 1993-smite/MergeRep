@@ -2,10 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
+    <Content Remove="wwwroot\js\Components\basket.ts" />
+    <Content Remove="wwwroot\js\Test\test-bskt.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -78,6 +81,9 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Test\Basket.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Test\Index.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <Pack>$(IncludeRazorContentInPack)</Pack>
@@ -87,6 +93,11 @@
   <ItemGroup>
     <Folder Include="wwwroot\Files\" />
     <Folder Include="wwwroot\images\Users\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\js\Components\ts\basket.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Test\test-bskt.ts" />
   </ItemGroup>
 
 </Project>

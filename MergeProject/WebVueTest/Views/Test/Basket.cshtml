@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewData["Title"] = "Basket";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- добавим стили mocha для отображения результатов -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css">
+<!-- добавляем сам фреймворк mocha -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    // включаем режим тестирования в стиле BDD
+    mocha.setup('bdd');
+</script>
+<!-- добавим chai -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
+<script>
+    // chai предоставляет большое количество функций. Объявим assert глобально
+    let assert = chai.assert;
+</script>
+
+<h2>Basket</h2>
+
+<script src="~/js/Components/ts/basket.js"></script>
+
+<!-- скрипт со спецификацией (describe, it...) -->
+<script src="~/js/Test/test-bskt.js"></script>
+
+<!-- элемент с id="mocha" будет содержать результаты тестов -->
+<div id="mocha"></div>
+
+<!-- запускаем тесты! -->
+<script>
+    mocha.run();
+</script>
+
