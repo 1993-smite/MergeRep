@@ -75,13 +75,7 @@ namespace WebVueTest.Controllers
         public IActionResult Index()
         {
             var context = HttpContext.Response;
-            var users = FactoryUserView.GetUsers();
-            var list = new List<UserViewValidate>();
-            foreach(var user in users)
-            {
-                list.Add(FactoryUserView.Convert<User, UserViewValidate>(user));
-            }
-            return View(list);
+            return View();
         }
 
         public IActionResult ChangeUser(string login)

@@ -41,21 +41,42 @@
 </fieldset>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="~/js/jblocks.js"></script>
+<script src="~/js/Components/components.js"></script>
 <script type="text/javascript">
-    var listData = JSON.parse('@Html.Raw(Json.Serialize(Model))');
-    var url = '@Url.Action("Card","Merge")';
-    console.log(listData);
-    var app = new Vue({
-        el: '#users',
-        data: {
-            userList: listData
-        },
-        methods: {
-            getItemURL: function (id) {
-                return `${url}/${id}`
+    //var listData = JSON.parse('@Html.Raw(Json.Serialize(Model))');
+    let server = new Server();
+    server.requestJSONAsync('/api/User', 'GET')
+        .then(function (listData) {
+        var url = '@Url.Action("Card","Merge")';
+        console.log(listData);
+        var app = new Vue({
+            el: '#users',
+            data: {
+                userList: listData
+            },
+            methods: {
+                getItemURL: function (id) {
+                    return `${url}/${id}`
+                }
+            },
+            mounted: function () {
+                //привязываем tooltip
+                let users = $('.user-fio');
+                for (let usr of users) {
+                    var userFioEls = jBlocks.get(usr);
+                    userFioEls.on('getTitle', function (element) {
+                        console.log(Date.now(), "get to server");
+                        $.get("/Merge/GetMessage", { userId: $(usr).attr('data-id') }, function (data) {
+                            element._title = data;
+                            element.callback();
+                        });
+                    });
+                }
             }
-        }
+        });
     });
+
     var commonSignalGroup = '@MergeController.MergeUserHub.TemplateGroupCommon';
 </script>
 @section FixAlert {
@@ -81,26 +102,6 @@
                     $("#fix-alert-logger").prepend(`<div class='alert-log'>${moment().format('LTS')} - <span class='alert-log-data'>${data}</span></div><hr/>`);
                 });
             }
-        });
-    </script>
-
-    <script src="~/js/jblocks.js"></script>
-    <script src="~/js/Components/components.js"></script>
-    <script type="text/javascript">
-        //tooltip
-        $(function () {
-            let users = $('.user-fio');
-            for (let usr of users) {
-                var userFioEls = jBlocks.get(usr);
-                userFioEls.on('getTitle', function (element) {
-                    console.log(Date.now(), "get to server");
-                    $.get("/Merge/GetMessage", { userId: $(usr).attr('data-id') }, function (data) {
-                        element._title = data;
-                        element.callback();
-                    });
-                });
-            }
-            
         });
     </script>
 }

@@ -133,7 +133,10 @@ namespace WebVueTest.Models
     {
         public static UserViewValidate Create(int i)
         {
-            return new UserViewValidate()
+            return 
+                i < 1
+            ? new UserViewValidate()
+            : new UserViewValidate()
             {
                 Id = i,
                 LastName = $"lastName {i}",
