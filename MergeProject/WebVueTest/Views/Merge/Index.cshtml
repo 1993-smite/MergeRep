@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "List";
 }
-
+<link rel="stylesheet" href="~/css/tooltip.css" />
 <h2>@Localizer["hHeader"]</h2>
 
 
@@ -29,7 +29,7 @@
         </div>
         <div class="row" v-for="item in userList" v-bind:key="item.id">
             <div class="col-md-2">{{item.id}}</div>
-            <div class="col-md-3"><a class="user-fio" v-bind:href="getItemURL(item.id)" data-component="tooltip" data-props='{ "title": "fio" }'>{{item.lastName}} {{item.firstName}} {{item.middleName}}</a></div>
+            <div class="col-md-3"><a class="user-fio Button" v-bind:href="getItemURL(item.id)" v-bind:data-id="item.id" data-component="tooltip" data-props='{ "title": "fio" }'>{{item.lastName}} {{item.firstName}} {{item.middleName}}</a></div>
             <div class="col-md-2">{{item.email}}</div>
             <div class="col-md-2">{{item.city}}</div>
             <div class="col-md-2">{{item.login}}</div>
@@ -78,7 +78,7 @@
                 hubCommonConnection.on("ChangeModel", function (data) {
                     //alert(data);
                     console.log(data);
-                    $("#fix-alert-logger").prepend(`<div>${moment().format('LTS')} - ${data}</div><br/>`);
+                    $("#fix-alert-logger").prepend(`<div class='alert-log'>${moment().format('LTS')} - <span class='alert-log-data'>${data}</span></div><hr/>`);
                 });
             }
         });
@@ -87,15 +87,20 @@
     <script src="~/js/jblocks.js"></script>
     <script src="~/js/Components/components.js"></script>
     <script type="text/javascript">
+        //tooltip
         $(function () {
-            var userFioEls = jBlocks.get(document.querySelector('.user-fio'));
-            userFioEls.on('getTitle', function (element) {
-                console.log(Date.now(), "get to server");
-                $.get("/Merge/GetMessage", { userId: 3 }, function (data) {
-                    element._title = data;
-                    element.callback();
+            let users = $('.user-fio');
+            for (let usr of users) {
+                var userFioEls = jBlocks.get(usr);
+                userFioEls.on('getTitle', function (element) {
+                    console.log(Date.now(), "get to server");
+                    $.get("/Merge/GetMessage", { userId: $(usr).attr('data-id') }, function (data) {
+                        element._title = data;
+                        element.callback();
+                    });
                 });
-            });
+            }
+            
         });
     </script>
 }

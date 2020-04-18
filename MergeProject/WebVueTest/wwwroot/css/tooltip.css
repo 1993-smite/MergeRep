@@ -10,11 +10,11 @@
 .Button {
   display: inline-block;
   position: relative;
-  background-color: #0CBABA;
-  color: #fff;
+  /*background-color: #0CBABA;*/
+  /*color: #fff;*/
   font-size: 1.2rem;
   border-radius: 1000px;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.7), inset 0 1px rgba(255, 255, 255, 0.3);
+  /*box-shadow: 0 2px 20px rgba(#000, 0.7), inset 0 1px rgba(#fff, 0.3);*/
   text-align: center;
   transition: background-color 500ms, transform 100ms; }
   .Button__textWrapper .Button__icon {
@@ -41,7 +41,7 @@
     transition: all 500ms;
     visibility: hidden; }
   .Button:hover {
-    background-color: #01BAEF; }
+    /*background-color: #01BAEF;*/ }
     .Button:hover .Button__text {
       top: -100%; }
     .Button:hover .Button__icon {

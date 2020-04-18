@@ -20,11 +20,11 @@ $tooltip-width: 100px;
 .Button {
     display: inline-block;
     position: relative;
-    background-color: #0CBABA;
-    color: #fff;
+    /*background-color: #0CBABA;*/
+    /*color: #fff;*/
     font-size: 1.2rem;
     border-radius: 1000px;
-    box-shadow: 0 2px 20px rgba(#000, 0.7), inset 0 1px rgba(#fff, 0.3);
+    /*box-shadow: 0 2px 20px rgba(#000, 0.7), inset 0 1px rgba(#fff, 0.3);*/
     text-align: center;
     transition: background-color $duration, transform 100ms;
     &__textWrapper
@@ -66,7 +66,7 @@ $tooltip-width: 100px;
 
     //- button hover
     &:hover {
-        background-color: #01BAEF;
+        /*background-color: #01BAEF;*/
         .Button__text
 
     {

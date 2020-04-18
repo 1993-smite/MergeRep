@@ -91,6 +91,7 @@ jBlocks.define('tooltip',
         },
 
         show: function () {
+            $(this.element.node).attr('data-tooltip', this._title);
             console.log(Date.now(), this._title, this);
         }
     }

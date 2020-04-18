@@ -10,7 +10,15 @@ $z-index: 1000;
     pointer-events: none;
 }
 
-.fix{
+.alert-log{
+    margin: 10px;
+}
+
+.alert-log .alert-log-data {
+    color: #144405;
+}
+
+.fix {
     position: fixed;
 }
 
