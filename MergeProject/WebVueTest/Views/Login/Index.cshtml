@@ -1,4 +1,5 @@
-﻿@model User
+﻿@using WebVueTest.Controllers;
+@model User
 @{
     ViewData["Title"] = "Авторизация";
 }
@@ -6,6 +7,7 @@
 <h2>Авторизация</h2>
 
 <form action="@Url.Action("Index", "Login")" method="post">
+    <input type="hidden" name="@LoginController.returnUrlKey" value="@ViewData[LoginController.returnUrlKey]" />
     <div class="input-group mb-3">
         <div class="col-md-2">
             <label for="login">Логин: </label>

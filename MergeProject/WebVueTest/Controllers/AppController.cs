@@ -12,8 +12,7 @@ namespace WebVueTest.Controllers
 {
     public class AppController : Controller
     {
-        public string Login =>
-            HttpContext.Request.Cookies[appUser.sessionKey];
+        public string Login => HttpContext.Session.GetString(appUser.sessionKey);
         //HttpContext.Session.GetString(appUser.sessionKey);
 
         public AppController()

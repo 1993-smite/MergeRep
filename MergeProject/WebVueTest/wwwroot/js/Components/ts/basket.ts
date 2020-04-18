@@ -14,13 +14,9 @@
         }
         return nArr;
     }
-
-    //static copy<T>(obj: T) {
-    //    return {
-    //        ...obj
-    //    }
-    //}
 }
+
+/* ************************************************************************************************************ */
 
 interface IToy {
     readonly Id: number;
@@ -30,14 +26,29 @@ interface IToy {
 class Toy implements IToy {
     public Id: number;
     public Name: string;
-    public Price: number;
+    public Count: number;
 
-    constructor(id: number = 0, name: string = "", price: number = 0) {
+    constructor(id: number = 0, name: string = "", count: number = 0) {
         this.Id = id;
         this.Name = name;
+        this.Count = count;
+    }
+
+    addCount(count: number) {
+        this.Count += count;
+    }
+}
+
+class ToyPrice extends Toy {
+    public Price: number;
+
+    constructor(id: number = 0, name: string = "", count: number = 1, price: number = 0) {
+        super(id, name, count)
         this.Price = price;
     }
 }
+
+/* ************************************************************************************************************ */
 
 class Basket<T extends IToy> {
     private Id: number;
@@ -59,15 +70,35 @@ class Basket<T extends IToy> {
 
 class BasketFactory {
 
-    public static BasketWithPrice<T extends Toy, TBasket extends Basket<T>>(basket: TBasket) {
+    public static BasketWithPrice<T extends ToyPrice, TBasket extends Basket<T>>(basket: TBasket) {
         let basketWithPrice = Object.create(basket);
         basketWithPrice.GetPrice = function():number {
-            return this.Items.reduce((accumulator, currentValue) => accumulator + currentValue.Price, 0);
+            return this.Items.reduce((accumulator, currentValue) => accumulator + currentValue.Price * currentValue.Count, 0);
         }
         return basketWithPrice;
     }
 
-    public static BasketByBudget<T extends Toy, TBasket extends Basket<T>>(basket: TBasket, budget: number) {
+    /**
+     * 
+     * @param basket
+     * @param maxCount
+     */
+    public static BasketWithMaxCount<T extends Toy, TBasket extends Basket<T>>(basket: TBasket, maxCount: number) {
+        let basketWithMaxCount = Object.create(basket);
+        basketWithMaxCount.MaxCount = maxCount;
+        basketWithMaxCount.GetCount = function (): number {
+            return this.Items.reduce((accumulator, currentValue) => accumulator + currentValue.Count, 0);
+        }
+        let addItm: Function = basketWithMaxCount.AddItem;
+        basketWithMaxCount.AddItem = function (item: T) {
+            if (this.GetCount() + item.Count <= this.MaxCount) {
+                addItm.call(this, item);
+            }
+        }
+        return basketWithMaxCount;
+    }
+
+    public static BasketByBudget<T extends ToyPrice, TBasket extends Basket<T>>(basket: TBasket, budget: number) {
         let basketByBudget = Object.create(basket);
         basketByBudget.Budget = budget;
         basketByBudget.CheckBudget = function (): boolean {

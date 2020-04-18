@@ -15,7 +15,8 @@
     <div id="alert-container" class="alert alert-warning alert-dismissible" role="alert">
         <div id="alert-title"></div>
     </div>
-    <div id="users">
+    <div id="users" v-cloak>
+        <a class="btn btn-success" href="@Url.Action("Card","Merge",new { Id = -1 })">Новый</a>
         <div class="row row-head">
             <div class="col-md-2"><h3>@Localizer["hId"]</h3></div>
             <div class="col-md-3"><h3>@Localizer["hFIO"]</h3></div>

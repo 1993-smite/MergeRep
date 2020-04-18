@@ -1,7 +1,7 @@
 //import * as BasketMdl from '../Components/ts/basket';
 var toys = [];
 for (var i = 0; i < 10; i++) {
-    toys.push(new Toy(i, "toy " + i, i + 10));
+    toys.push(new ToyPrice(i, "toy " + i, i + 10));
 }
 var basket = new Basket(1, toys);
 //basket.AddItem(new Toy(11, 'temp', 200));

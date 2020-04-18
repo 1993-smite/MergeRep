@@ -14,6 +14,7 @@ using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using WebVueTest.DB;
 using WebVueTest.DB.Mappers;
+using WebVueTest.Filters;
 using WebVueTest.Models;
 
 namespace WebVueTest.Controllers
@@ -24,6 +25,7 @@ namespace WebVueTest.Controllers
         Invoit
     }
 
+    [Autorize]
     public class MergeController : AppController
     {
         public static class MergeUserHub
@@ -113,24 +115,16 @@ namespace WebVueTest.Controllers
             return comment;
         }
 
-        public IActionResult Card(int id = 5)
+        public IActionResult Card(int id = 0)
         {
             string user = Login;
-            //HttpContext.Session.GetString(appUser.sessionKey);
-
-            var fff = User.Identity;
-
-            if (string.IsNullOrEmpty(user))
-            {
-                return RedirectToActionPermanent("Index", "Login");
-            }
 
             ViewData[appUser.sessionKey] = user;
 
             //GetData();
-            var model = FactoryUserView.Convert<User,UserViewValidate>(FactoryUserView.GetUser(id));//list.FirstOrDefault(x => x.Id == id);
+            var model = id < 1 ? new UserViewValidate() : FactoryUserView.Convert<User,UserViewValidate>(FactoryUserView.GetUser(id));//list.FirstOrDefault(x => x.Id == id);
 
-            ViewData["Users"] = FactoryUserView.CreateUsers(id);
+            //ViewData["Users"] = FactoryUserView.CreateUsers(id);
 
             var mapper = new Mapper(MergeUserComment.config);
 

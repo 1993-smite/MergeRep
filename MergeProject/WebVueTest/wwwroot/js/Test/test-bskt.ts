@@ -1,14 +1,14 @@
 ﻿//import * as BasketMdl from '../Components/ts/basket';
 
-let toys: Array<Toy> = [];
+let toys: Array<ToyPrice> = [];
 for (let i = 0; i < 10; i++) {
-    toys.push(new Toy(i,`toy ${i}`, i+10));
+    toys.push(new ToyPrice(i,`toy ${i}`, i+10));
 }
 
 let basket = new Basket<Toy>(1, toys);
 //basket.AddItem(new Toy(11, 'temp', 200));
 
-let bskt = BasketFactory.BasketWithPrice(new Basket<Toy>(2, toys));
+let bskt = BasketFactory.BasketWithPrice(new Basket<ToyPrice>(2, toys));
 let bsktWithBudget = BasketFactory.BasketByBudget(bskt, 200);
 
 bskt.AddItem(new Toy(20, "test", 100));
