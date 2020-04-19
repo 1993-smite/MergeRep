@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
+using WebVueTest.Controllers.api;
 using WebVueTest.DB;
 using WebVueTest.DB.Mappers;
 using WebVueTest.Filters;
@@ -40,6 +41,7 @@ namespace WebVueTest.Controllers
         private readonly string fileManager;//;= IServer.MapPath("~/images/Users");//@"D:\Files";
         private readonly string fileDir = "images\\Users";
         private string fileHostManager;
+        private UserController userController;
 
         private readonly IHubContext<CommonHub> _hubContext;
         private async Task SendMessage(string groupName, string message)
@@ -53,6 +55,7 @@ namespace WebVueTest.Controllers
             _hubContext = hubContext;
             _he = he;
             //var request = HttpContext.Request;
+            userController = new UserController();
             fileManager = $"{_he.WebRootPath}\\{fileDir}";
         }
 
@@ -116,7 +119,10 @@ namespace WebVueTest.Controllers
             ViewData[appUser.sessionKey] = user;
 
             //GetData();
-            var model = id < 1 ? new UserViewValidate() : FactoryUserView.Convert<User,UserViewValidate>(FactoryUserView.GetUser(id));//list.FirstOrDefault(x => x.Id == id);
+            var model = id < 1 
+                ? new UserViewValidate() 
+                : userController.Get(id);
+            //list.FirstOrDefault(x => x.Id == id);
 
             //ViewData["Users"] = FactoryUserView.CreateUsers(id);
 
@@ -158,7 +164,7 @@ namespace WebVueTest.Controllers
                 }
             }
 
-            id = FactoryUserView.SaveUser(mdl);
+            //id = FactoryUserView.SaveUser(mdl);
 
             string message = mdl.Id < 1 ? "Добавился" : "Изменился";
             message = $"{message} юзер \"{mdl.FullName}\"";

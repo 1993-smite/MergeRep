@@ -22,7 +22,7 @@ namespace WebVueTest.Models
         }
     }
 
-    public class appUser : IdentityUser
+    public class appUser //: IdentityUser
     {
         public static string sessionKey = "active-user-login";
         public string Login { get; set; }
@@ -67,6 +67,8 @@ namespace WebVueTest.Models
 
         [Display(Name = "pEmail")]
         public string Email => $"{LastName?.ToLower() ?? ""}@app.ru";
+
+        public int CityId { get; set; }
 
         [Display(Name = "pCity")]
         public string City { get; set; }

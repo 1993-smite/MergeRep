@@ -4,6 +4,9 @@ const modelEl = "#user";
 const fixAlertEl = "#fix-alert";
 
 console.log(model);
+
+let server = new Server();
+
 var app = new Vue({
     el: modelEl,
     data: Object.assign(
@@ -32,6 +35,15 @@ var app = new Vue({
         },
         getWorkAddress: function () {
             return `${this.workCountry} ${this.workCity} ${this.workAddress}`;
+        }
+    },
+    methods: {
+        save: function () {
+            let method = this.id < 1 ? 'POST' : 'PUT';
+            server.requestJSONAsync('/api/User', method, this._data)
+                .then(function (result) {
+                    
+                });
         }
     },
     validations: {

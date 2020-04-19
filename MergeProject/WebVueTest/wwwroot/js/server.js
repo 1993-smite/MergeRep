@@ -8,14 +8,22 @@
         return method.toUpperCase() === 'GET';
     }
 
+    isPut(method = 'PUT') {
+        return method.toUpperCase() === 'PUT';
+    }
+
     prepare(url, method, params = {}) {
-        let query = this.isGet(method)
-            ? Object.keys(params)
+        let query = '';
+        if (this.isPut(method)) {
+            url += '/' + params['id']; //'Id=' + params['id'];
+        }
+        else if (this.isGet(method)) {
+            query = Object.keys(params)
                 .map(k => esc(k) + '=' + esc(params[k]))
-                .join('&')
-            : '';
+                .join('&');
+        }
         if (query.length > 1) {
-            url = '?' + query;
+            url += '?' + query;
         }
         let options = {
             method: method, // *GET, POST, PUT, DELETE, etc.

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SpaServices.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Localization;
@@ -16,6 +17,9 @@ using WebVueTest.MiddleWare;
 using WebVueTest.MiddleWare.Configurations;
 using PostgresApp;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace WebVueTest
 {
@@ -40,8 +44,8 @@ namespace WebVueTest
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(5);
             });
-            services.AddIdentity<appUser, IdentityRole>()
-                    .AddEntityFrameworkStores<ApplicationContext>();
+            /*services.AddIdentity<appUser, IdentityRole>()
+                    .AddEntityFrameworkStores<ApplicationContext>();*/
             services.AddSignalR();
             services.AddLocalization(option => option.ResourcesPath = "Resources");
             services.AddMvc()
@@ -51,7 +55,7 @@ namespace WebVueTest
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {

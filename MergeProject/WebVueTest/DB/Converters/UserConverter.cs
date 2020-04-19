@@ -25,7 +25,9 @@ namespace WebVueTest.DB.Converters
                     .ForMember(tgt => tgt.LastName, opt => opt.MapFrom(c => c.LastName))
                     .ForMember(tgt => tgt.Name, opt => opt.MapFrom(c => c.FirstName))
                     .ForMember(tgt => tgt.MiddleName, opt => opt.MapFrom(c => c.MiddleName))
-                    .ForMember(tgt => tgt.Email, opt => opt.MapFrom(c => c.Email))
+                    .ForMember(tgt => tgt.Email, opt => opt.MapFrom(c => c.Email ?? ""))
+                    .ForMember(tgt => tgt.CityId , opt => opt.MapFrom(c => c.CityId))
+                    .ForMember(tgt => tgt.City, opt => opt.MapFrom(c => new DBCity() { Id = c.CityId }))
                     );
 
         public static User Convert(DBUser dBUser)
