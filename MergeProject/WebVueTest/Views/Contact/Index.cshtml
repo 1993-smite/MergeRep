@@ -1,0 +1,105 @@
+﻿@using WebVueTest.Controllers;
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Contacts";
+}
+
+<div id="main" class="row" v-cloak>
+    <div class="col-2" style="max-height: 240px;overflow-y: auto;">
+        <ul class="list-group pointer">
+            <li class="list-group-item" 
+                v-for="item in contacts" 
+                v-bind:class="{ active: item.active }" 
+                v-bind:key="item.id" 
+                v-on:click="check(item.id)"
+                v-bind:data-id="item.id">
+                {{item.name}}
+            </li>
+        </ul>
+    </div>
+    <div class="col-8">
+        <div class="card" style="width: 40rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{checkContact.name || 'Новый контакт'}}</h5>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Имя</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Имя"
+                           aria-label="Имя" aria-describedby="basic-addon1" 
+                           ref="name" v-model="checkContact.name">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Телефон</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Телефон"
+                           aria-label="Телефон" aria-describedby="basic-addon1" v-model="checkContact.phone">
+
+                </div>
+                <hr />
+                <button class="btn btn-primary" v-bind:disabled="!valid" v-on:click="save(checkContact)">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+        let url = '/api/Contact';
+        let server = new Server();
+        var app = new Vue({
+            el: '#main',
+            data: {
+                contacts: [],
+                checkContact: {}
+            },
+            computed: {
+                valid: function () {
+                    if (this.checkContact.name
+                        && this.checkContact.phone)
+                        return true;
+                }
+            },
+            methods: {
+                check: function (id) {
+                    this.checkContact.active = false;
+                    if (this.checkContact.id == id) {
+                        this.newContact();
+                        return;
+                    }
+                    this.checkContact = this.contacts.find(x => x.id === id);
+                    this.checkContact.active = true;
+                },
+                save: async function (contact) {
+                    contact.id = contact.id || 0;
+                    if (contact.id < 1) {
+                        contact.id = await server.requestJSONAsync(url, 'POST', contact);
+                        this.contacts.push(contact);
+                    }
+                    else {
+                        await server.requestJSONAsync(url, 'PUT', contact);
+                    }
+                    setTimeout(() => {
+                        let el = $(`.list-group-item[data-id=${contact.id}]`);
+                        el[0].scrollIntoView({ block: "center", behavior: "smooth" });
+                    }, 400);
+                    this.newContact();
+                },
+                newContact: function () {
+                    this.checkContact = {};
+                    $(this.$refs.name).focus();
+                }
+            },
+            mounted: async function () {
+                this.contacts = await server.requestJSONAsync(url, 'GET');
+                this.newContact();
+            }
+        });
+    </script>
+}

@@ -8,8 +8,6 @@ using WebVueTest.Models;
 
 namespace WebVueTest.Controllers.api
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class UserController : AppController<User>
     {
         // GET: api/User

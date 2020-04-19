@@ -45,6 +45,7 @@ namespace WebVueTest.Controllers
             {
                 //_signInManager.SignInAsync(user, false);
                 HttpContext.Session.SetString(appUser.sessionKey, user.Login);
+                HttpContext.Request.Cookies.Append(new KeyValuePair<string, string>(appUser.sessionKey, user.Login));
                 HttpContext.Response.Cookies.Append(appUser.sessionKey, user.Login, new CookieOptions() {
                     Expires = DateTime.Now.AddDays(1)
                 });

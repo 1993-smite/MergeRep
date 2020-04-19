@@ -42,7 +42,7 @@ var app = new Vue({
             let method = this.id < 1 ? 'POST' : 'PUT';
             server.requestJSONAsync('/api/User', method, this._data)
                 .then(function (result) {
-                    
+                    $('#form').submit();
                 });
         }
     },

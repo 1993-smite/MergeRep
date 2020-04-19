@@ -6,6 +6,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PostgresApp
 {
+    [Table("contacts")]
+    public class DBContact
+    {
+        [Column("id")]
+        [Key]
+        public int Id { get; set; }
+        [Column("name")]
+        public string Name { get; set; }
+        [Column("phone")]
+        public string Phone { get; set; }
+    }
+
     [Table("cities")]
     public class DBCity
     {
@@ -93,6 +105,7 @@ namespace PostgresApp
     {
         public DbSet<DBUser> Users { get; set; }
         public DbSet<DBCity> Cities { get; set; }
+        public DbSet<DBContact> Contacts { get; set; }
         public DbSet<DBLogin> Logins { get; set; }
         public DbSet<DBUserComment> UserComments { get; set; }
         public DbSet<DBUserCommentInvoit> UserCommentInvoits { get; set; }
