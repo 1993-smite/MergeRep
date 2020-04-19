@@ -3,8 +3,6 @@ const mainFormEl = "#form";
 const modelEl = "#user";
 const fixAlertEl = "#fix-alert";
 
-import AppHelloComponent from "../Components/v-components/form-file-upload.vue";
-
 console.log(model);
 var app = new Vue({
     el: modelEl,
