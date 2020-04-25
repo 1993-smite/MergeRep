@@ -7,7 +7,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "List";
 }
-<link rel="stylesheet" href="~/css/tooltip.css" />
 <h2>@Localizer["hHeader"]</h2>
 
 
@@ -29,7 +28,7 @@
         </div>
         <div class="row" v-for="item in userList" v-bind:key="item.id">
             <div class="col-md-2">{{item.id}}</div>
-            <div class="col-md-3"><a class="user-fio Button" v-bind:href="getItemURL(item.id)" v-bind:data-id="item.id" data-component="tooltip" data-props='{ "title": "fio" }'>{{item.lastName}} {{item.firstName}} {{item.middleName}}</a></div>
+            <div class="col-md-3"><a class="user-fio tooltip-el" v-bind:href="getItemURL(item.id)" v-bind:data-id="item.id" data-component="tooltip" data-props='{ "title": "fio" }'>{{item.lastName}} {{item.firstName}} {{item.middleName}}</a></div>
             <div class="col-md-2">{{item.email}}</div>
             <div class="col-md-2">{{item.city}}</div>
             <div class="col-md-2">{{item.login}}</div>

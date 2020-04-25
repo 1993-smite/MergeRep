@@ -210,7 +210,7 @@
 
                 <div class="input-group mb-3">
                     <input type="button" class="btn btn-success" value="Отправить"
-                           v-on:click="save()"/>
+                           v-on:click="save()" />
                     <input type="button" class="btn btn-primary"
                            :class="{'' : uploadFiles, 'disabled' : !uploadFiles}"
                            value="Файлы" v-on:click="uploadFiles = !uploadFiles" />
@@ -272,11 +272,9 @@
     <script src="~/js/Components/jquery-ui.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.textcomplete/1.8.0/jquery.textcomplete.js"></script>
     <script src="~/js/Components/observer-monitor.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="~/js/Validations/vuelidate.min.js"></script>
     <script src="~/js/Validations/validators.min.js"></script>
     <script src="~/js/Pages/page.validate.js"></script>
-    <script src="~/js/Components/page.components.helper.js"></script>
 
     <script type="text/javascript">
         var model = JSON.parse('@Html.Raw(Json.Serialize(Model))');

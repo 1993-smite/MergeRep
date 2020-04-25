@@ -5,6 +5,8 @@ $button-height: 60px;
 $button-width: 200px;
 $tooltip-height: 20px;
 $tooltip-width: 100px;
+$tooltip-bck-color: #000;
+$tooltip-color: #fff; 
 
 %Button__element {
     position: absolute;
@@ -17,34 +19,35 @@ $tooltip-width: 100px;
     transition: top $duration;
 }
 
-.Button {
+.tooltip-el {
     display: inline-block;
     position: relative;
-    /*background-color: #0CBABA;*/
-    /*color: #fff;*/
-    font-size: 1.2rem;
-    border-radius: 1000px;
-    /*box-shadow: 0 2px 20px rgba(#000, 0.7), inset 0 1px rgba(#fff, 0.3);*/
-    text-align: center;
     transition: background-color $duration, transform 100ms;
-    &__textWrapper
 
-    &__icon {
+    &__textWrapper &__icon {
         @extend %Button__element;
         @extend %Button__transitionable;
         top: 100%;
-        background: url('https://cl.ly/0X3o100h2H0g/icon-download.svg') no-repeat center center;
+        /*background: url('https://cl.ly/0X3o100h2H0g/icon-download.svg') no-repeat center center;*/
+        background-color: $tooltip-bck-color;
+        position: absolute;
+        display: block;
+        width: .8rem;
+        height: .4rem;
+        left: 46px;
     }
-
     // Tooltip
     &::before {
         content: attr(data-tooltip);
-        background-color: #EEB868;
+        text-align: center;
+        background-color: $tooltip-bck-color;
+        color: $tooltip-color;
         font-size: 1rem;
         border-radius: .25em;
         line-height: $tooltip-height;
-        width: 200px;
         left: 80%;
+        padding-left: 7px;
+        padding-right: 7px;
     }
 
     &::after {
@@ -52,7 +55,7 @@ $tooltip-width: 100px;
         width: 0;
         height: 0;
         border: 10px solid transparent;
-        border-top-color: #EEB868;
+        border-top-color: $tooltip-bck-color;
         left: 80%;
     }
 
@@ -63,34 +66,30 @@ $tooltip-width: 100px;
         transition: all $duration;
         visibility: hidden;
     }
-
     //- button hover
     &:hover {
         /*background-color: #01BAEF;*/
-        .Button__text
+        .Button__text {
+            top: -100%;
+        }
 
-    {
-        top: -100%;
-    }
+        .Button__icon {
+            /*top: 0;*/
+        }
 
-    .Button__icon {
-        /*top: 0;*/
-    }
+        &::before,
+        &::after {
+            opacity: 1;
+            visibility: visible;
+        }
 
-    &::before,
-    &::after {
-        opacity: 1;
-        visibility: visible;
-    }
+        &::after {
+            bottom: 17px;
+        }
 
-    &::after {
-        bottom: 17px;
-    }
-
-    &::before {
-        bottom: 35px;
-    }
-
+        &::before {
+            bottom: 35px;
+        }
     }
 
     &:active {

@@ -8,7 +8,7 @@
 }
 
 <div id="main" class="row" v-cloak>
-    <div class="col-2" style="max-height: 240px;overflow-y: auto;">
+    <div class="col-3" style="max-height: 240px;overflow-y: auto;">
         <ul class="list-group pointer">
             <li class="list-group-item" 
                 v-for="item in contacts" 
@@ -16,7 +16,7 @@
                 v-bind:key="item.id" 
                 v-on:click="check(item.id)"
                 v-bind:data-id="item.id">
-                {{item.name}}
+                <span class="tooltip-el" v-bind:data-tooltip="item.phone">{{item.name}}</span> 
             </li>
         </ul>
     </div>

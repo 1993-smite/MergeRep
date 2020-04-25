@@ -15,3 +15,7 @@ function initObject(name,value) {
     this.name = name;
     this.value = value;
 }
+
+$(function () {
+    //ready
+})
