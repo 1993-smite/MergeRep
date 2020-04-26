@@ -25,7 +25,7 @@ namespace DB.Users
             var contacts = new List<DBContact>();
             using (ApplicationContext db = new ApplicationContext())
             {
-                contacts = db.Contacts.ToList();
+                contacts = db.Contacts.Where(x=>x.Status == 1).ToList();
             }
             return contacts;
         }

@@ -45,9 +45,16 @@ namespace WebVueTest.Controllers.api
         }
 
         // DELETE: api/ApiWithActions/5
-        /*[HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{id}")]
+        public override void Delete(int id)
         {
-        }*/
+            if (!ModelState.IsValid)
+                throw new Exception("Not valid");
+            var contact = ContactMapper.GetContact(id);
+            if (contact == null || contact.Id != id)
+                throw new ArgumentException($"Not contact with id equals {id}");
+            contact.Status = Contact.ContactStatus.Delete;
+            ContactMapper.SaveContact(contact);
+        }
     }
 }

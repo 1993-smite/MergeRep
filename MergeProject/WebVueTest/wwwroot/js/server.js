@@ -1,20 +1,30 @@
-﻿class Server {
+﻿const ApiMethods = {
+    get: 'GET',
+    put: 'PUT',
+    post: 'POST',
+    delete: 'DELETE'
+}
 
+class Server {
     constructor() {
 
     }
 
-    isGet(method = 'GET') {
-        return method.toUpperCase() === 'GET';
+    isGet(method = ApiMethods.get) {
+        return method.toUpperCase() === ApiMethods.get;
     }
 
-    isPut(method = 'PUT') {
-        return method.toUpperCase() === 'PUT';
+    isPut(method = ApiMethods.put) {
+        return method.toUpperCase() === ApiMethods.put;
+    }
+
+    isDelete(method = ApiMethods.delete) {
+        return method.toUpperCase() === ApiMethods.delete;
     }
 
     prepare(url, method, params = {}) {
         let query = '';
-        if (this.isPut(method)) {
+        if (this.isPut(method) || this.isDelete(method)) {
             url += '/' + params['id']; //'Id=' + params['id'];
         }
         else if (this.isGet(method)) {
@@ -32,7 +42,7 @@
                 // 'Content-Type': 'application/x-www-form-urlencoded',
             }
         }
-        if (!this.isGet(method)) {
+        if (!this.isGet(method) && !this.isDelete(method)) {
             options.body = JSON.stringify(params);
         }
         return {

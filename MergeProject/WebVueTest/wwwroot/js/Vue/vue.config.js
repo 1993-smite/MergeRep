@@ -1,7 +1,7 @@
 ﻿
 let VueOptions = {
     silent: true, //логи
-    devtools: false,
+    devtools: true,
     errorHandler: function (err, vm, info) {
         
     },

@@ -16,6 +16,8 @@ namespace PostgresApp
         public string Name { get; set; }
         [Column("phone")]
         public string Phone { get; set; }
+        [Column("status")]
+        public int Status { get; set; }
     }
 
     [Table("cities")]

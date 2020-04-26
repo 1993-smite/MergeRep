@@ -15,12 +15,14 @@ namespace WebVueTest.DB.Converters
                     .ForMember(tgt=>tgt.Id, opt => opt.MapFrom(src => src.Id))
                     .ForMember(tgt => tgt.Name, opt => opt.MapFrom(c => c.Name))
                     .ForMember(tgt => tgt.Phone, opt => opt.MapFrom(c => c.Phone))
+                    .ForMember(tgt => tgt.Status, opt => opt.MapFrom(c => c.Status))
                     );
 
         public static MapperConfiguration configToDB = new MapperConfiguration(cfg => cfg.CreateMap<Contact, DBContact>()
                     .ForMember(tgt => tgt.Id, opt => opt.MapFrom(src => src.Id))
                     .ForMember(tgt => tgt.Name, opt => opt.MapFrom(src => src.Name))
                     .ForMember(tgt => tgt.Phone, opt => opt.MapFrom(src => src.Phone))
+                    .ForMember(tgt => tgt.Status, opt => opt.MapFrom(c => c.Status))
                     );
 
         public static Contact Convert(DBContact dBContact)
