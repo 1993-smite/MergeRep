@@ -67,6 +67,10 @@ class Server {
             if (response.status === 200) {
                 let json = await response.json();
                 return json;
+            }
+            else if (response.status === 400) {
+                let err = await response.json();
+                return { status: 400 , valid: err };
             } else {
                 console.warn(`${response.status}`, response);
                 throw new Error(`${response.status}`);

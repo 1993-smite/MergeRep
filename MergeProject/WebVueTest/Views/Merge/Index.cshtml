@@ -78,15 +78,6 @@
 
     var commonSignalGroup = '@MergeController.MergeUserHub.TemplateGroupCommon';
 </script>
-@section FixAlert {
-    <div id="fix-alert" class="fix alert-msg alert-top alert-right">
-        @Html.RenderAction("Index", "Language")
-        <div id="fix-alert-msg">
-        </div>
-    </div>
-    <div id="fix-alert-logger" class="fix alert-msg alert-bottom" style="max-height: 200px;overflow-y:auto; top: 70%">
-    </div>
-}
 
 @section Scripts{
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>

@@ -8,56 +8,63 @@
 }
 
 <style>
-    li.list-group-item{
+    li.list-group-item {
         position: relative;
     }
-    li.list-group-item .remove-item {
-        position: absolute;
-        right: 20px;
-        font-size: 14pt;
-        color: red;
-        margin-top: 10px;
-    }
+
+        li.list-group-item .remove-item {
+            position: absolute;
+            right: 20px;
+            font-size: 14pt;
+            color: red;
+            margin-top: 10px;
+        }
 </style>
 
 <div id="main" class="row" v-cloak>
     <div class="col-3" style="max-height: 240px;overflow-y: auto;">
         <ul class="list-group pointer">
-            <li class="list-group-item" 
-                v-for="item in contacts" 
-                v-bind:class="{ active: item.active }" 
-                v-bind:key="item.id" 
+            <li class="list-group-item"
+                v-for="item in contacts"
+                v-bind:class="{ active: item.active }"
+                v-bind:key="item.id"
                 v-on:click="check(item.id)"
                 v-bind:data-id="item.id">
-                <span class="tooltip-el" v-bind:data-tooltip="item.phone">{{item.name}}</span> 
+                <span class="tooltip-el" v-bind:data-tooltip="item.phone">{{item.name}}</span>
                 @*<i class="glyphicon glyphicon-remove remove-item"></i>*@
             </li>
         </ul>
     </div>
-    <div class="col-8">
+    <div class="col-6">
         <div class="card" style="width: 40rem;">
             <div class="card-body">
-                <h5 class="card-title">{{checkContact.name || 'Новый контакт'}}</h5>
+                <h5 class="card-title">{{checkContact.name || defNewModel}}</h5>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">Имя</span>
+                        <span class="input-group-text" id="basic-addon1">@Localizer["pName"]</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Имя"
-                           aria-label="Имя" aria-describedby="basic-addon1"
-                           ref="name" v-model="checkContact.name">
+                    <input type="text" class="form-control" placeholder="@Localizer["pName"]"
+                           aria-label="@Localizer["pName"]" aria-describedby="basic-addon1"
+                           ref="name" v-model="checkContact.name" pattern="[А-Яа-яЁё]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">Телефон</span>
+                        <span class="input-group-text" id="basic-addon1">@Localizer["pPhone"]</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Телефон"
-                           aria-label="Телефон" aria-describedby="basic-addon1" v-model="checkContact.phone">
+                    <input type="text" class="form-control" placeholder="@Localizer["pPhone"]"
+                           aria-label="@Localizer["pPhone"]" aria-describedby="basic-addon1" v-model="checkContact.phone">
 
                 </div>
                 <hr />
-                <button class="btn btn-primary" v-bind:disabled="!valid" v-on:click="save(checkContact)">Сохранить</button>
-                <button class="btn btn-danger" v-show="checkContact.isNotNew" v-on:click="remove(checkContact)">Удалить</button>
+                <button class="btn btn-primary" v-bind:disabled="!valid" v-on:click="save(checkContact)">@Localizer["pBtnSave"]</button>
+                <button class="btn btn-danger" v-show="checkContact.isNotNew" v-on:click="remove(checkContact)">@Localizer["pBtnDelete"]</button>
             </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="error" v-for="err in errors">
+            <i>{{err}}</i>
+            <hr />
         </div>
     </div>
 </div>
@@ -71,8 +78,10 @@
         var app = new Vue({
             el: '#main',
             data: {
+                defNewModel: '@Localizer["pNewContact"]',
                 contacts: [],
-                checkContact: {}
+                checkContact: {},
+                errors: []
             },
             computed: {
                 valid: function () {
@@ -104,13 +113,28 @@
                 },
                 save: async function (contact) {
                     contact.id = contact.id || 0;
-                    if (contact.id < 1) {
-                        contact.id = await server.requestJSONAsync(url, ApiMethods.post, contact);
-                        this.contacts.push(contact);
+                    try {
+                        let method = contact.id < 1 ? ApiMethods.post : ApiMethods.put;
+                        let result = await server.requestJSONAsync(url, method, contact);
+                        if (result.status) {
+                            console.warn(result.status, result.valid);
+                            this.errors = [];
+                            for (let key in result.valid) {
+                                this.errors.push(result.valid[key][0]);
+                                console.warn(result.valid[key][0]);
+                            }
+                            return;
+                        }
+                        if (contact.id < 1) {
+                            contact.id = result;
+                            this.contacts.push(contact);
+                        }
                     }
-                    else {
-                        await server.requestJSONAsync(url, ApiMethods.put, contact);
+                    catch (err) {
+                        console.error(err);
+                        return;
                     }
+
                     setTimeout(() => {
                         let el = $(`.list-group-item[data-id=${contact.id}]`);
                         el[0].scrollIntoView({ block: "center", behavior: "smooth" });

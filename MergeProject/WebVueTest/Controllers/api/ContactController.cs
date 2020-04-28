@@ -27,7 +27,7 @@ namespace WebVueTest.Controllers.api
 
         // POST: api/Contact
         [HttpPost]
-        public int Post([FromBody] Contact model)
+        public int Post([FromBody] ContactValidate model)
         {
             if (!ModelState.IsValid)
                 throw new Exception("Not valid");
@@ -37,7 +37,7 @@ namespace WebVueTest.Controllers.api
 
         // PUT: api/Contact/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Contact model)
+        public void Put(int id, [FromBody] ContactValidate model)
         {
             if (!ModelState.IsValid)
                 throw new Exception("Not valid");

@@ -75,6 +75,11 @@
     </div>
 
     <div class="alert-block">
+        <div id="fix-alert" class="fix alert-msg alert-top alert-right">
+            @await Html.PartialAsync("_SelectLanguagePartial")
+            <div id="fix-alert-msg">
+            </div>
+        </div>
         @RenderSection("FixAlert", required: false)
     </div>
 

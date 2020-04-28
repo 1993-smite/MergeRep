@@ -42,7 +42,20 @@ namespace WebVueTest
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(5);
+                options.IdleTimeout = TimeSpan.FromMinutes(50);
+            });
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("ru")
+                };
+
+                options.DefaultRequestCulture = new RequestCulture("ru");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
             });
             /*services.AddIdentity<appUser, IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationContext>();*/
@@ -81,20 +94,24 @@ namespace WebVueTest
 
             app.UseRequestLocalization(
                 new RequestLocalizationOptions {
-                    DefaultRequestCulture = new RequestCulture(defCultureInfo),
+                    //DefaultRequestCulture = new RequestCulture(defCultureInfo),
                     SupportedCultures = supportedCultures,
                     SupportedUICultures = supportedCultures
                 });
 
+            
+
             app.Use(async (context, next) =>
             {
-                context.Response.Cookies.Append(
+                /*context.Response.Cookies.Append(
                     CookieRequestCultureProvider.DefaultCookieName,
                     CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(defCultureInfo)),
                     new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
-                );
+                );*/
                 await next.Invoke();
             });
+
+            //app.UseRequestLocalization();
 
             app.UseAuthentication();    // подключение аутентификации
             //app.UseAuthorization();

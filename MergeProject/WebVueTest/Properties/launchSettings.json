@@ -14,7 +14,7 @@
       "environmentVariables": {
         "SUPPORTED_CULTURE_INFOS": "en,ru",
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "CULTURE_DEFAULT_INFO": "en"
+        "CULTURE_DEFAULT_INFO": "ru"
       }
     },
     "WebVueTest": {
