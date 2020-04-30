@@ -207,6 +207,24 @@
                                    v-show="workFullAddress" v-model="workAddress">
                     </form-tr-input>
                 </template>
+                <div class="input-group mb-3">
+                    <v-select 
+                              :readonly="true" 
+                              :model.sync="select.country" 
+                              :source="select.countries">
+                    </v-select>
+                    --- 
+                    <b>{{select.country}}</b>
+                    ---
+                    <v-input 
+                             :readonly="!textTest.edit" 
+                             :model.sync="textTest.mdl" 
+                             :validator="textTest.valid" 
+                             msg="Валидация тест">
+                    </v-input>
+                    ---
+                    <b>{{textTest.mdl}}</b>
+                </div>
 
                 <div class="input-group mb-3">
                     <input type="button" class="btn btn-success" value="Отправить"

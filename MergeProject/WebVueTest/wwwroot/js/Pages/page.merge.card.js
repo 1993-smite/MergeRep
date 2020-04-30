@@ -12,6 +12,20 @@ var app = new Vue({
     data: Object.assign(
         model,
         {
+            select: {
+                countries: [
+                    { Index:1, Name:"USA" },
+                    { Index:2, Name:"Russia" },
+                    { Index:3, Name:"China" }
+                ],
+                country: 1
+            },
+            textTest: {
+                edit: false,
+                mdl: 'mdl',
+                valid: true,
+                msg: 'msg'
+            },
             workCountry: "",
             workCity: "",
             workAddress: "",

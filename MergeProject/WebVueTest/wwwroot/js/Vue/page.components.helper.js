@@ -36,6 +36,62 @@ Vue.component('form-file-upload', {
                </div>`
 });
 
+Vue.component('v-input', {
+    props: ['readonly','model', 'validator', 'msg'],
+    data: function () {
+        return {
+            notEdit: this.readonly || true,
+            validMsg: this.msg || '',
+            valid: this.validator || false,
+            mdl: this.model,
+        }
+    },
+    template: `<div>
+                    <template v-if="notEdit">
+                        {{mdl}}
+                    </template>
+                    <template v-else>
+                        <input type="text" class="input text med"
+                                           v-model.lazy.trim="mdl"
+                                           v-on:input="onChange">
+                        <span class="error" v-show="valid">
+                            {{validMsg}}
+                        </span>
+                    </template>
+               </div>`,
+    methods: {
+        onChange: function () {
+            this.$emit('update:model', this.mdl);
+        }
+    }
+});
+
+Vue.component('v-select', {
+    props: ['readonly','model', 'source'],
+    data: function () {
+        return {
+            notEdit: this.readonly || false,
+            selectIndex: this.model || 1,
+            selectName: this.source.find(x => x.Index == this.model).Name || ''
+        }
+    },
+    template: `<div>
+                    <template v-if="notEdit">
+                        {{selectName}}
+                    </template>
+                    <template v-else>
+                        <select class="input select" v-model="selectIndex" v-on:change="onChange">
+                               <option v-for="item in source" v-bind:value="item.Index">{{item.Name}}</option>
+                        </select>
+                    </template>
+               </div>`,
+    methods: {
+        onChange: function () {
+            this.$emit('update:model', this.selectIndex);
+        }
+    }
+});
+
 Vue.component('button-counter', {
     data: function () {
         return {
