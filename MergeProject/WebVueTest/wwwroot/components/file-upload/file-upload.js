@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
 
     let zones = $("[data-id='dropZone']"),
-        maxFileSize = 1000000; // максимальный размер файла - 1 мб.
+        maxFileSize = 1e+10; // максимальный размер файла - 1 мб.
 
     if (zones.length < 1) return;
 
@@ -61,7 +61,7 @@
                 processData: false,
                 contentType: false,
                 cache: false,
-                timeout: 600000,
+                timeout: 600000000,
                 success: function (data) {
                     data = data.replaceAll("#", ++index);
                     $("#uploaded-files").append(data);

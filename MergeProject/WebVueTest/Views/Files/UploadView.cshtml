@@ -1,0 +1,33 @@
+﻿@using WebVueTest.Controllers;
+@using System.IO;
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Html;
+
+@{ 
+    ViewData["Title"] = "Files/UploadView";
+}
+
+<h2>Загрузка больших файлов</h2>
+
+<div id="main" class="container">
+    <form-file-upload id="upload-block" itemid="1"
+                      action="@Url.Action("AddFile","Files")"></form-file-upload>
+    <div id="uploaded-files" class="input-group mb-3">
+
+    </div>
+</div>
+
+@section Scripts{ 
+    <script type="text/javascript">
+        let model = {
+            id: 1,
+            files: []
+        };
+        let app = new Vue({
+            el: '#main',
+            data: {
+
+            }
+        });
+    </script>
+}

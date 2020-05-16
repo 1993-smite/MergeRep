@@ -1,7 +1,7 @@
 ﻿const searchCountryEl = "#search-country";
 const mainFormEl = "#form";
 const modelEl = "#user";
-const fixAlertEl = "#fix-alert";
+const fixAlertEl = "#fix-alert-user";
 
 console.log(model);
 

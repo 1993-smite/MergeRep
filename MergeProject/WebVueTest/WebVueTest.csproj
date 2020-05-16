@@ -7,12 +7,14 @@
 
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
+    <Content Remove="web.config" />
     <Content Remove="wwwroot\js\Components\basket.ts" />
     <Content Remove="wwwroot\js\Test\test-bskt.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="compilerconfig.json" />
+    <None Include="web.config" />
   </ItemGroup>
 
   <ItemGroup>

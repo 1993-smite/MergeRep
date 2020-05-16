@@ -86,5 +86,21 @@ namespace WebVueTest.Controllers
 
             return View(directory);
         }
+
+        public IActionResult UploadView()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        //[RequestFormLimits(MultipartBodyLengthLimit = 209715200)]
+        //[DisableRequestSizeLimit]
+        public async Task<IActionResult> AddFile(int Id, IFormFile uploadedFile)
+        {
+            var request = HttpContext.Request;
+            
+
+            return Content("Request is done");
+        }
     }
 }
