@@ -3,6 +3,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script src="/node_modules/svg.js/dist/svg.js"></script>
+
 <link rel="stylesheet" href="~/css/tooltip.css" />
 
 <h2>SVG interactive image <timer></timer></h2>
@@ -20,7 +22,22 @@
     <script type="text/javascript">
         $(document).ready(function () {
             let svgdom;
+
+            function updateLogo() {
+                var ns = 'http://www.w3.org/2000/svg'
+                let linkFiles = document.querySelector('#path-Files-Index');
+                let filesLink = SVG(linkFiles);
+                var rect = document.createElementNS(ns, 'rect')
+                rect.setAttributeNS(null, 'width', 100)
+                rect.setAttributeNS(null, 'height', 100)
+                rect.setAttributeNS(null, 'fill', '#f06')
+                linkFiles.appendChild(rect)
+                filesLink.text('Files');
+            }
+
             function loadEventForLogo() {
+                
+
                 let svgObject = document.getElementById('svgmap');
                 if ('contentDocument' in svgObject) {
                     // получаем доступ к объектной модели SVG-файла
@@ -36,6 +53,7 @@
                             location.href = url;
                         });
                     }
+                    updateLogo();
                 } else {
                 }
             }
