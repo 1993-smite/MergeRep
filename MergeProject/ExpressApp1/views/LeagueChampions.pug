@@ -1,0 +1,24 @@
+﻿extends layout
+
+block content
+  h2 League Champions #{year}
+  
+  <fieldset>
+  <form method="get" action="/teams">
+       <label for="year">Год</label><input type="range" id="year" name="year" min="2011" max="2015" step="1" value="#{year}"><br>
+       <label for="k">Матчи</label><input type="range" id="k" name="k" min="1" max="13" step="2" value="#{maxCountMatches}"><br>
+       <input type="submit" value="send">
+  </form>
+  </fieldset>
+
+  h3 All Teams
+  <ul>
+        each team in teams
+            <li>#{team.name}</li>
+  </ul>
+
+  h3 Match count - #{maxCountMatches}
+  <ul>
+        each team in resTeams
+            <li>#{team.name}</li>
+  </ul>

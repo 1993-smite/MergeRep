@@ -11,6 +11,8 @@ class Teamer {
 
     getTeams(year,countMatch) {
         this.teams = [];
+        this.year = year;
+        this.maxCountMatches = countMatch;
         let page = 1;
         let countPage = 100;
         //https://jsonmock.hackerrank.com/api/football_matches?competition=UEFA%20Champions%20League&year=2000&page=2
@@ -53,7 +55,14 @@ class Teamer {
             //let res = this.teams.sort((a, b) => a.count - b.count);
             let res = this.teams.filter(x => x.count >= countMatch);
             res = res.sort((a, b) => a.count - b.count);
-            this.response.send(res.map(x=>`${x.name} - ${x.count}`).join("<br/>"));
+            let result = {
+                year: this.year,
+                maxCountMatches: this.maxCountMatches,
+                teams: this.teams,
+                resTeams: res
+            }
+
+            this.response.render('LeagueChampions',result);
             //this.response.send(matches.map(x => `${x.team1} - ${x.team2}`).join("<br/>"));
         });
     }

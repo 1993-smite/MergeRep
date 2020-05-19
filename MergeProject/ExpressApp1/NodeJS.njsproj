@@ -43,6 +43,9 @@
     <Content Include="views\index.pug" />
     <Content Include="views\layout.pug" />
     <Content Include="views\error.pug" />
+    <Content Include="views\LeagueChampions.pug">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="views\Test.html">
       <SubType>Code</SubType>
     </Content>
