@@ -40,18 +40,20 @@ namespace WebVueTest.Controllers
         [HttpPost]
         public IActionResult SetLanguage(string culture, string returnUrl)
         {
+            //CultureInfo.CurrentCulture = new CultureInfo(culture);
+            //CultureInfo.CurrentUICulture = new CultureInfo(culture);
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
                 new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
             );
-            HttpContext.Session.SetString(CookieRequestCultureProvider.DefaultCookieName, CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)));
+            //HttpContext.Session.SetString(CookieRequestCultureProvider.DefaultCookieName, CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)));
             //HttpContext.Request.Cookies[CookieRequestCultureProvider.DefaultCookieName]. = CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture));
-            HttpContext.Request.Cookies.Append(new KeyValuePair<string, string>(CookieRequestCultureProvider.DefaultCookieName, CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture))));
-            HttpContext.Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName, CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)), new CookieOptions()
-            {
-                Expires = DateTime.Now.AddDays(1)
-            });
+            //HttpContext.Request.Cookies.Append(new KeyValuePair<string, string>(CookieRequestCultureProvider.DefaultCookieName, CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture))));
+            //HttpContext.Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName, CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)), new CookieOptions()
+            //{
+            //    Expires = DateTime.Now.AddDays(1)
+            //});
             if (string.IsNullOrEmpty(returnUrl))
             {
                 return Content("OK");

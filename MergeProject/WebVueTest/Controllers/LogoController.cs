@@ -17,6 +17,7 @@ namespace WebVueTest.Controllers
 
         public IActionResult Index()
         {
+            var culture = HttpContext.Response;
             return View("Index");
         }
     }

@@ -17,5 +17,10 @@ namespace WebVueTest.Controllers
         {
             return View();
         }
+
+        public IActionResult CheckWrite()
+        {
+            return View();
+        }
     }
 }

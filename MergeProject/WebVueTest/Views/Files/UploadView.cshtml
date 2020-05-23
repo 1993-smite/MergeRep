@@ -10,15 +10,35 @@
 <h2>Загрузка больших файлов</h2>
 
 <div id="main" class="container">
-    <form-file-upload id="upload-block" itemid="1"
-                      action="@Url.Action("AddFile","Files")"></form-file-upload>
-    <div id="uploaded-files" class="input-group mb-3">
+    <button class="btn btn-primary tooltip-el" 
+            id="toggle-btn" 
+            data-toggle="#files" 
+            data-component="tooltip" 
+            data-props='{ "title": "wait..." }'
+            >Файлы</button>
+    <div id="files">
+        <form-file-upload id="upload-block" itemid="1"
+                          action="@Url.Action("AddFile","Files")"></form-file-upload>
+        <div id="uploaded-files" class="input-group mb-3">
 
+        </div>
     </div>
+
 </div>
 
 @section Scripts{ 
     <script type="text/javascript">
+
+        $(function () {
+            let tglbtn = jBlocks.get(document.querySelector('#toggle-btn'));
+            tglbtn.on('getTitle', async function (component) {
+                console.log(arguments);
+                const response = await fetch('getTitle');
+                const data = await response.text();
+                component.callback(data);
+            });
+        });
+
         let model = {
             id: 1,
             files: []

@@ -87,6 +87,12 @@ namespace WebVueTest.Controllers
             return View(directory);
         }
 
+        [HttpGet]
+        public IActionResult getTitle()
+        {
+            return Content("Toggle button");
+        }
+
         public IActionResult UploadView()
         {
             return View();

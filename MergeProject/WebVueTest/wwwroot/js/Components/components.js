@@ -48,9 +48,10 @@ jBlocks.define('input-change',
             this._curValue = null;
             var element = this;
             this.node.onchange = function () {
-                console.log("change", element);
                 element._lastValue = element._curValue;
                 element._curValue = element.node.value;
+
+                //user event
                 element.emit('change', { Val: element.node.value, lastVal: element._lastValue, el: element });
             }
         },
@@ -58,16 +59,13 @@ jBlocks.define('input-change',
             this._lastValue = null;
             this._curValue = null;
         },
-        /**
-        * Increases the counter, emits changed event
-        */
         check: function () {
             this._lastValue = this.node.value;
             this.emit('focus', { element: this });
         }
     }
 });
-/***************************************************************************/
+/******************************* tooltip ********************************************/
 jBlocks.define('tooltip',
 {
     events: {
@@ -81,18 +79,24 @@ jBlocks.define('tooltip',
         ondestroy: function () {
             this._title = null
         },
-        /**
-        * Increases the counter, emits changed event
-        */
         focus: function () {
-            //this.emit('getTitle', { element: this });
+
+            //user event 
             this.emit('getTitle', { element: this, callback: this.show });
-            console.log(Date.now(), this._title, this);
         },
 
-        show: function () {
-            $(this.element.node).attr('data-tooltip', this._title);
-            console.log(Date.now(), this._title, this);
+        show: function (title) {
+            $(this.element.node).attr('data-tooltip', title || this._title);
+        }
+    }
+});
+/******************************* toggle ********************************************/
+document.addEventListener('click', function (event) {
+    if (event.target.dataset.toggle != undefined) {
+        let source = event.target.dataset.toggle;
+        let els = document.querySelectorAll(source);
+        for (let el of els) {
+            el.hidden = !el.hidden;
         }
     }
 });

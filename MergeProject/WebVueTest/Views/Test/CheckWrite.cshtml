@@ -1,0 +1,30 @@
+﻿@using WebVueTest.Controllers;
+@using System.IO;
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Html;
+
+@{ 
+    ViewData["Title"] = "Test/CheckWrite";
+}
+
+<h2>Проверка провописания</h2>
+
+<div id="main" class="container">
+    
+    <textarea 
+        placeholder="Проверка провописания" rows="5" cols="50"
+        contenteditable="true" 
+        spellcheck="true"></textarea>
+
+</div>
+
+@section Scripts{ 
+    <script type="text/javascript">
+
+        $(function () {
+            
+        });
+
+        
+    </script>
+}

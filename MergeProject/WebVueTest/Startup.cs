@@ -44,9 +44,21 @@ namespace WebVueTest
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(50);
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = ".AppCore.Session";
+                options.IdleTimeout = TimeSpan.FromSeconds(3600);
+                options.Cookie.IsEssential = true;
             });
+            services.AddLocalization(option => option.ResourcesPath = "Resources");
+            
+            /*services.AddIdentity<appUser, IdentityRole>()
+                    .AddEntityFrameworkStores<ApplicationContext>();*/
+            services.AddSignalR();
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddDataAnnotationsLocalization()
+                .AddViewLocalization();
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
@@ -55,23 +67,9 @@ namespace WebVueTest
                     new CultureInfo("en"),
                     new CultureInfo("ru")
                 };
-
                 options.DefaultRequestCulture = new RequestCulture("ru");
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
-            });
-            /*services.AddIdentity<appUser, IdentityRole>()
-                    .AddEntityFrameworkStores<ApplicationContext>();*/
-            services.AddSignalR();
-            services.AddLocalization(option => option.ResourcesPath = "Resources");
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddDataAnnotationsLocalization()
-                .AddViewLocalization();
-            services.Configure<FormOptions>(x =>
-            {
-                x.ValueLengthLimit = int.MaxValue;
-                x.MultipartBodyLengthLimit = int.MaxValue; // In case of multipart
             });
         }
 
@@ -88,38 +86,29 @@ namespace WebVueTest
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            app.UseRequestLocalization();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
             app.UseSession();
-
-
-            var defCultureInfo = Configuration[ConfigurationKyes.CultureInfoDefault];
-            var supportedCulturesString = Configuration[ConfigurationKyes.CultureInfosSupported];
-
-            List<CultureInfo> supportedCultures = supportedCulturesString.Split(',').Select(x => new CultureInfo(x)).ToList();
-
-            app.UseRequestLocalization(
-                new RequestLocalizationOptions {
-                    //DefaultRequestCulture = new RequestCulture(defCultureInfo),
-                    SupportedCultures = supportedCultures,
-                    SupportedUICultures = supportedCultures
-                });
-
-            
 
             app.Use(async (context, next) =>
             {
-                /*context.Response.Cookies.Append(
-                    CookieRequestCultureProvider.DefaultCookieName,
-                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(defCultureInfo)),
-                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
-                );*/
+                if (context.Session.Keys.Contains(appUser.sessionKey))
+                {
+                }
+                var usr = context.Request.Cookies[appUser.sessionKey];
+                var rr = context.Request.Cookies[CookieRequestCultureProvider.DefaultCookieName];
+
+                //context.Response.Cookies.Append(
+                //    CookieRequestCultureProvider.DefaultCookieName,
+                //    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(defCultureInfo)),
+                //    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+                //);
                 await next.Invoke();
             });
-
-            //app.UseRequestLocalization();
 
             app.UseAuthentication();    // подключение аутентификации
             //app.UseAuthorization();
@@ -131,7 +120,7 @@ namespace WebVueTest
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            // добавляем поддержку каталога node_modules
+            //добавляем поддержку каталога node_modules
             app.UseFileServer(new FileServerOptions()
             {
                 FileProvider = new PhysicalFileProvider(

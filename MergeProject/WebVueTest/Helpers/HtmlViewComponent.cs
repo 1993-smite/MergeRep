@@ -11,7 +11,7 @@ namespace ViewComponentsApp.Components
     {
         public IViewComponentResult Invoke()
         {
-            string login = HttpContext.Request.Cookies[appUser.sessionKey] ?? "";
+            string login = HttpContext.Session.GetString(appUser.sessionKey) ?? "";
             return new ContentViewComponentResult(login); ;
         }
     }
