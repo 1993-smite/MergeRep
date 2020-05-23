@@ -60,7 +60,14 @@
                     <a class="nav-link" href="@Url.Action("Index", "Contact")">Contacts</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("CheckWrite", "Test")">CheckWrite</a>
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Test</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="@Url.Action("CheckWrite", "Test")">CheckWrite</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="@Url.Action("Places","Test")">Places</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="@Url.Action("Loudlinks","Test")">Loudlinks</a>
+                    </div>
                 </li>
             </ul>
             <div>

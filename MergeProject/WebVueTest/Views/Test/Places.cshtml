@@ -1,0 +1,33 @@
+﻿@using WebVueTest.Controllers;
+@using System.IO;
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Html;
+
+@{ 
+    ViewData["Title"] = "Test/Places";
+}
+
+<h2>Places</h2>
+
+<div id="main" class="container">
+    
+    <input class="form-control input test lg" id="address-input" width="300" placeholder="Enter text" value="" />
+
+</div>
+
+<script src="/node_modules/places.js/dist/cdn/places.js"></script>
+
+@section Scripts{ 
+    <script type="text/javascript">
+
+        $(function () {
+            var placesAutocomplete = places({
+                appId: 'YOUR_PLACES_APP_ID',
+                apiKey: 'YOUR_PLACES_API_KEY',
+                container: document.querySelector('#address-input')
+            });
+        });
+
+        
+    </script>
+}

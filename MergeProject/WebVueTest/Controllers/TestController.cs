@@ -22,5 +22,15 @@ namespace WebVueTest.Controllers
         {
             return View();
         }
+
+        public IActionResult Places()
+        {
+            return View();
+        }
+
+        public IActionResult Loudlinks()
+        {
+            return View();
+        }
     }
 }
