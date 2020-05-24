@@ -32,5 +32,15 @@ namespace WebVueTest.Controllers
         {
             return View();
         }
+
+        public IActionResult FormMask()
+        {
+            return View();
+        }
+
+        public IActionResult Push()
+        {
+            return View();
+        }
     }
 }

@@ -1,0 +1,41 @@
+﻿@using WebVueTest.Controllers;
+@using System.IO;
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Html;
+
+@{ 
+    ViewData["Title"] = "Test/CheckWrite";
+}
+
+<h2>Проверка провописания</h2>
+
+<div id="main" class="container">
+
+    <input class="input input-dt" placeholder="data" />
+    <br />
+    <input class="input input-full-phone" placeholder="Phone full" />
+
+</div>
+
+@section Scripts{ 
+    <script src="~/lib/cleave/cleave.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            var dt = new Cleave('.input-dt', {
+                date: true,
+                delimiter: '-',
+                datePattern: ['Y', 'm', 'd'],
+                time: true,
+                timePattern: ['h', 'm', 's']
+            });
+            let phone = new Cleave('.input-full-phone', {
+                blocks: [1, 3, 3,2,2],
+                delimiter: '-',
+                delimiterLazyShow: true
+            });
+        });
+
+        
+    </script>
+}

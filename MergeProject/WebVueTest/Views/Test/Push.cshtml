@@ -1,0 +1,28 @@
+﻿@using WebVueTest.Controllers;
+@using System.IO;
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Html;
+
+@{ 
+    ViewData["Title"] = "Test/Push";
+}
+
+<h2>Push</h2>
+
+<div id="main" class="container">
+
+    
+
+</div>
+
+@section Scripts{ 
+    <script src="~/lib/push.js/push.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            Push.create('Hello World!')
+        });
+
+        
+    </script>
+}
