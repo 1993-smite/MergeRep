@@ -15,6 +15,10 @@
   <ItemGroup>
     <None Include="compilerconfig.json" />
     <None Include="web.config" />
+    <None Include="wwwroot\lib\ky\index.js" />
+    <None Include="wwwroot\lib\ky\license" />
+    <None Include="wwwroot\lib\ky\readme.md" />
+    <None Include="wwwroot\lib\ky\umd.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -87,6 +91,9 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Test\Basket.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Test\View.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Test\Push.cshtml">

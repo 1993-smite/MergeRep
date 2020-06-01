@@ -42,5 +42,15 @@ namespace WebVueTest.Controllers
         {
             return View();
         }
+
+        public IActionResult KY()
+        {
+            return View();
+        }
+
+        public IActionResult ViewJS()
+        {
+            return View();
+        }
     }
 }

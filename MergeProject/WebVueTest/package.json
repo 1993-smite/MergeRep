@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {},
   "dependencies": {
+    "ky": "^0.20.0",
     "places.js": "^1.18.2",
     "push.js": "^1.0.12",
     "svg.js": "^2.7.1"

@@ -1,0 +1,105 @@
+﻿@using WebVueTest.Controllers;
+@using Microsoft.AspNetCore.Html;
+
+@{
+    ViewData["Title"] = "Test/KY";
+}
+
+<h2>KY</h2>
+
+<style>
+    table{
+
+    }
+</style>
+
+<div id="main" class="container">
+
+    <div id="fetch-data" key="fetch">
+        <h2>FETCH</h2>
+        <table class="table">
+            <tr>
+                <td>KEY</td>
+                <td>VALUE</td>
+            </tr>
+            <tr v-for="val in obj">
+                <td>{{val.key}}</td>
+                <td>{{val.value}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="ky-data" key="ky">
+        <h2>KY</h2>
+        <table class="table table-dark">
+            <tr>
+                <td>KEY</td>
+                <td>VALUE</td>
+            </tr>
+            <tr v-for="val in obj">
+                <td>{{val.key}}</td>
+                <td>{{val.value}}</td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script src="~/lib/ky/index.js"></script>
+    <script type="text/javascript">
+
+        const url = 'https://api.github.com/';
+
+        async function getData() {
+            const parsed = await ky.get(url).json();
+            console.log('ky', parsed);
+        }
+
+        async function getDataFetch() {
+            const parsed = await fetch(url, { method: 'GET' });
+            const json = parsed.json()
+            console.log('fetch', json);
+        }
+
+        function toViewData(data) {
+            for (let [key, value] of Object.entries(data)) {
+                this.obj.push({
+                    key: key,
+                    value: value
+                });
+            }
+        }
+
+        var fetchView = new Vue({
+            el: '#fetch-data',
+            data: {
+                obj: []
+            },
+            mounted: async function () {
+                const response = await fetch(url, { method: 'GET' });
+                const data = await response.json()
+                toViewData.call(this, data);
+                console.log('readyFetch');
+            }
+        });
+
+        var kyView = new Vue({
+            el: '#ky-data',
+            data: {
+                obj: []
+            },
+            mounted: async function () {
+                let data = await ky.get(url).json();
+                toViewData.call(this, data);
+                console.log('readyKY', data);
+            }
+        });
+
+        $(async function () {
+            console.log('ready');
+        });
+
+
+    </script>
+}
