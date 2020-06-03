@@ -1,0 +1,160 @@
+﻿@using WebVueTest.Controllers;
+@using System.IO;
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Html;
+
+@{ 
+    ViewData["Title"] = "Test/Vue";
+}
+
+<style>
+    .country{
+
+    }
+</style>
+
+<h2>Vue</h2>
+
+<div id="main" class="container">
+
+    <div class="row mb-3">
+        @*<div class="col-4 themed-grid-col country" v-for="country in countries">
+            <h3>{{country.name}}</h3>
+            <p>{{country.populations}}</p>
+        </div>*@
+        <v-country v-for="country in countries" v-bind:model="country" :key="country.id"></v-country>
+    </div>
+
+    <button type="button" class="btn btn-success" v-on:click="addPopulations(1000)">AddPopulation to 1000</button>
+
+</div>
+
+@section Scripts{ 
+    <script src="~/js/Vue/vuex.js"></script>
+    <script type="text/javascript">
+
+        //switch Vuex
+        Vue.use(Vuex);
+
+        //define store
+        var store = new Vuex.Store({
+            state: {
+                countries: [
+                    {
+                        id: 1,
+                        name: "Россия",
+                        populations: 1000
+                    },
+                    {
+                        id: 2,
+                        name: "Украина",
+                        populations: 2000
+                    },
+                    {
+                        id: 3,
+                        name: "Беларусь",
+                        populations: 3000
+                    },
+                    {
+                        id: 4,
+                        name: "Казахстан",
+                        populations: 4000
+                    },
+                    {
+                        id: 5,
+                        name: "Азербайджан",
+                        populations: 5000
+                    },
+                    {
+                        id: 6,
+                        name: "Грузия",
+                        populations: 6000
+                    },
+                    {
+                        id: 7,
+                        name: "Израиль",
+                        populations: 7000
+                    },
+                    {
+                        id: 8,
+                        name: "США",
+                        populations: 8000
+                    },
+                    {
+                        id: 9,
+                        name: "Канада",
+                        populations: 9000
+                    }
+                ]
+            },
+            mutations: {
+                ADD_COUNTRY: (state, country) => {
+                    state.countries.push(country);
+                },
+                SAVE_COUNTRY: (state, country) => {
+                    let cntr = state.countries.filter(x => x.id == country.id);
+                    cntr = country;
+                },
+                SET_POPULATION(state, country, populations) {
+                    const cntr = state.countries.filter(x => x.id == country.id);
+                    cntr.populations = populations;
+                }
+            },
+            actions: {
+                //GET_TODO: async (context, payload) => {
+                //    let { data } = await Axios.get('http://yourwebsite.com/api/todo');
+                //    context.commit('SET_TODO', data);
+                //},
+                SAVE_COUNTRY: async (context, country) => {
+                    if (country.id < 1)
+                        context.commit('ADD_COUNTRY', country);
+                    else
+                        context.commit('SAVE_COUNTRY', country);
+                }
+            },
+            getters: {
+                COUNTRIES: state => state.countries
+            }
+        });
+
+        //define conmponent country
+        Vue.component('v-country', {
+            props: ['model'],
+            data: function () {
+                return {
+                    country: this.model,
+                }
+            },
+            template: `<div class="col-4 themed-grid-col country">
+                            <h3>{{country.name}}</h3>
+                            <p>{{country.populations}}</p>
+                       </div>`,
+            methods: {
+                onChange: function () {
+                    this.$emit('update:model', this.mdl);
+                }
+            }
+        });
+
+        var app = new Vue({
+            el: "#main",
+            data: {
+                countries: []
+            },
+            methods: {
+                addPopulations: function (count) {
+                    for (let country of this.countries) {
+                        country.populations += count
+                        //this.$store.dispatch('SAVE_COUNTRY', country);
+                        store.dispatch('SAVE_COUNTRY', country);
+                    }
+                }
+            },
+            mounted: function () {
+                this.countries = store.getters.COUNTRIES;
+            }
+        });
+
+        
+    </script>
+}

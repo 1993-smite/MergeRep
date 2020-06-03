@@ -48,7 +48,7 @@ namespace WebVueTest.Controllers
             return View();
         }
 
-        public IActionResult ViewJS()
+        public IActionResult Vue()
         {
             return View();
         }

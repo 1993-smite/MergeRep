@@ -93,7 +93,7 @@
     <Content Update="Views\Test\Basket.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Test\View.cshtml">
+    <Content Update="Views\Test\Vue.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Test\Push.cshtml">
