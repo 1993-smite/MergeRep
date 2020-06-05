@@ -1,0 +1,71 @@
+﻿@using WebVueTest.Controllers;
+@using Microsoft.AspNetCore.Html;
+@model Exception
+@{
+    ViewData["Title"] = "Error/Error";
+}
+
+<h2>Error</h2>
+
+<style type="text/css">
+    #main{
+        margin-top: 150px;
+        margin-bottom: 370px;
+    }
+    .main-error-message{
+        font-size: 16pt;
+
+    }
+    .error {
+        margin-left: 50%;
+    }
+    .error::before {
+        color:red;
+        font-size: 150pt;
+    }
+    .toggle-el {
+        cursor: pointer;
+        font-size: 14pt;
+    }
+</style>
+
+<div id="main" class="container row">
+    
+    <div class="col-4">
+        <i class="glyphicon glyphicon-exclamation-sign error"></i>
+    </div>
+    
+    <div class="col-7">
+        <h2 class="main-error-message"><b>{{message}}</b></h2>
+        <div>
+            <i class="glyphicon toggle-el" 
+               v-bind:class="[innerShow ? 'glyphicon-chevron-down' : 'glyphicon-chevron-right']" 
+               hef="toggleIcon" 
+               v-on:click="innerToggle()"></i>
+            <div v-show="innerShow">{{innerMessage}}</div>
+        </div>
+    </div>
+    
+
+</div>
+
+@section Scripts{
+    <script src="~/lib/ky/index.js"></script>
+    <script type="text/javascript">
+
+        var app = new Vue({
+            el: '#main',
+            data: {
+                message: '@Model.Message',
+                innerMessage: 'this is inner exception',
+                innerShow: false
+            },
+            methods: {
+                innerToggle: function () {
+                    this.innerShow = !this.innerShow;
+                }
+            }
+        });
+
+    </script>
+}

@@ -37,6 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Error\Error.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Files\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
