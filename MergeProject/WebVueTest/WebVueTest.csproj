@@ -96,7 +96,10 @@
     <Content Update="Views\Test\Basket.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Test\Vue.cshtml">
+    <Content Update="Views\Vue\VueRouter.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Vue\Vuex.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Test\Push.cshtml">

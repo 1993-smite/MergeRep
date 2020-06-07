@@ -47,10 +47,5 @@ namespace WebVueTest.Controllers
         {
             return View();
         }
-
-        public IActionResult Vue()
-        {
-            return View();
-        }
     }
 }

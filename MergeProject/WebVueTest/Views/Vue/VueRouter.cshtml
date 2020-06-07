@@ -1,0 +1,237 @@
+﻿@using WebVueTest.Controllers;
+@using System.IO;
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Html;
+
+@{ 
+    ViewData["Title"] = "Vue/Router";
+}
+
+<style>
+    .country{
+
+    }
+    a.active {
+        color: #067d15;
+    }
+    .card-img-top {
+        height: 150px;
+    }
+</style>
+
+<h2>Router</h2>
+
+<div id="main" class="container">
+
+    <ul>
+        <li v-for="path in paths">
+            <router-link 
+                         v-bind:to="path" 
+                         v-bind:class="[isActive(path) ? 'active' : '','']"
+                         v-on:click="checkRout(path)"
+                         >Перейти к {{path}}</router-link>
+        </li>
+    </ul>
+
+    <router-view></router-view>
+
+    <a href="#" class="btn btn-primary" v-on:click="addPopulations(-1000)">Sub Population 1000</a>
+    <a href="#" class="btn btn-success" v-on:click="addPopulations(1000)">Add Population 1000</a>
+
+    @*<v-grid-countries v-bind:model="countries"></v-grid-countries>*@
+
+</div>
+
+@section Scripts{ 
+    <script src="~/js/Vue/vue-router.js"></script>
+    <script type="text/javascript">
+
+        Vue.use(VueRouter);
+
+        let countries = [
+            {
+                id: 1,
+                name: "Россия",
+                populations: 1000,
+                src: "russia.jpeg"
+            },
+            {
+                id: 2,
+                name: "Украина",
+                populations: 2000,
+                src: "ukraine.svg"
+            },
+            {
+                id: 3,
+                name: "Беларусь",
+                populations: 3000,
+                src: "belarus.svg"
+            },
+            {
+                id: 4,
+                name: "Казахстан",
+                populations: 4000,
+                src: "kazakhstan.svg"
+            },
+            {
+                id: 5,
+                name: "Азербайджан",
+                populations: 5000,
+                src: "azerbaijan.svg"
+            },
+            {
+                id: 6,
+                name: "Грузия",
+                populations: 6000,
+                src: "georgia.png"
+            },
+            {
+                id: 7,
+                name: "Израиль",
+                populations: 7000,
+                src: "israel.svg"
+            },
+            {
+                id: 8,
+                name: "США",
+                populations: 8000,
+                src: "usa.svg"
+            },
+            {
+                id: 9,
+                name: "Канада",
+                populations: 9000,
+                src: "canada.svg"
+            }
+        ]
+
+
+        const vGridCountries = {
+            props: ['model'],
+            data: function () {
+                return {
+                    countries: this.model,
+                }
+            },
+            template: `<div>
+                            <div class="row mb-3">
+                                <v-country v-for="country in countries" v-bind:model="country" :key="country.id"></v-country>
+                            </div>
+                       </div>`,
+            methods: {
+                
+            }
+        };
+        //define conmponent country
+        Vue.component('v-grid-countries', vGridCountries);
+
+        const vEmptyCountries = {
+            props: ['model'],
+            data: function () {
+                return {
+                    countries: this.model,
+                }
+            },
+            template: `<div>
+                            <div class="row mb-3">
+                                <v-card-country v-for="country in countries" v-bind:model="country" :key="country.id"></v-card-country>
+                            
+                            </div>
+                       </div>`,
+            methods: {
+                addPopulations: function (count) {
+                    for (let country of this.countries) {
+                        country.populations += count
+                    }
+                }
+            }
+        };
+        //define conmponent country
+        Vue.component('v-empty-countries', vGridCountries);
+
+        //base component
+        Vue.component('v-country', {
+            props: ['model'],
+            data: function () {
+                return {
+                    country: this.model,
+                }
+            },
+            template: `<div class="col-4 themed-grid-col country">
+                            <h3>{{country.name}}</h3>
+                            <p>{{country.populations}}</p>
+                       </div>`,
+            methods: {
+                onChange: function () {
+                    this.$emit('update:model', this.mdl);
+                }
+            }
+        });
+
+        Vue.component('v-card-country', {
+            props: ['model'],
+            data: function () {
+                return {
+                    country: this.model,
+                }
+            },
+            template: `<div class="card" style="width: 18rem;">
+                          <img :src="getSrc" class="card-img-top" alt="...">
+                          <div class="card-body">
+                            <h5 class="card-title">{{country.name}}</h5>
+                            <p class="card-text">{{country.populations}}</p>
+                          </div>
+                        </div>`,
+            computed: {
+                getSrc: function () {
+                    return `../images/countries/${this.model.src}`;
+                }
+            },
+            methods: {
+                onChange: function () {
+                    this.$emit('update:model', this.mdl);
+                }
+            }
+        });
+
+        //define router
+        const paths = ['/grid', '/empty'];
+        const routes = [
+            { path: paths[0], component: vGridCountries, props: { model: countries } },
+            { path: paths[1], component: vEmptyCountries, props: { model: countries } }
+        ]
+
+        const router = new VueRouter({
+            routes // сокращённая запись для `routes: routes`
+        })
+
+        var app = new Vue({
+            router,
+            el: "#main",
+            data: {
+                countries,
+                paths
+            },
+            computed: {
+                isActive1: function (path) {
+                    return this.rout == path;
+                }
+            },
+            methods: {
+                isActive: function (path) {
+                    return this.$router.currentRoute.path == path;
+                },
+                addPopulations: function (count) {
+                    for (let country of this.countries) {
+                        country.populations += count
+                    }
+                    console.log(this.$router);
+                }
+            },
+            mounted: function () {
+            }
+        });
+
+        
+    </script>
+}
