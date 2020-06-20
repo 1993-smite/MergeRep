@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewData["Title"] = "JSTestJasmine";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="shortcut icon" type="image/png" href="~/lib/jasmine/jasmine_favicon.png">
+<link rel="stylesheet" type="text/css" href="~/lib/jasmine/jasmine.css">
+
+<script type="text/javascript" src="~/lib/jasmine/jasmine.js"></script>
+<script type="text/javascript" src="~/lib/jasmine/jasmine-html.js"></script>
+<script type="text/javascript" src="~/lib/jasmine/boot.js"></script>
+
+<script type="text/javascript">
+
+    describe("Jasmine", function () {
+        it("makes testing JavaScript awesome!", function () {
+            expect(true).toBe(true);
+        });
+
+        it("check to objects", function () {
+            a = { x: 8, y: 9 }
+            b = { x: 8, y: 9 }
+            expect(a).toEqual(b)
+            //expect(a).not.toBe(b) //# отрицание - a не является b
+        });
+    });
+
+
+</script>
+
