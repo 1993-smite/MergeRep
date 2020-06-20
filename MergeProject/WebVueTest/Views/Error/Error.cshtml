@@ -14,7 +14,7 @@
     }
     .main-error-message{
         font-size: 16pt;
-
+        color:red;
     }
     .error {
         margin-left: 50%;
@@ -23,25 +23,37 @@
         color:red;
         font-size: 150pt;
     }
+    .toggle-msg{
+        font-size: 14pt;
+        cursor: pointer;
+    }
     .toggle-el {
         cursor: pointer;
-        font-size: 14pt;
+        font-size: 12pt;
+    }
+    img.app-error {
+        width: 30%;
+        float:right;
     }
 </style>
 
 <div id="main" class="container row">
     
     <div class="col-4">
-        <i class="glyphicon glyphicon-exclamation-sign error"></i>
+        @*<i class="glyphicon glyphicon-exclamation-sign error"></i>*@
+        <img class="app-error" src="~/images/error.png" />
     </div>
     
     <div class="col-7">
         <h2 class="main-error-message"><b>{{message}}</b></h2>
         <div>
-            <i class="glyphicon toggle-el" 
-               v-bind:class="[innerShow ? 'glyphicon-chevron-down' : 'glyphicon-chevron-right']" 
-               hef="toggleIcon" 
-               v-on:click="innerToggle()"></i>
+            <p v-on:click="innerToggle()">
+                <span class="toggle-msg">Детали</span>
+                <i class="glyphicon toggle-el"
+                   v-bind:class="[innerShow ? 'glyphicon-chevron-down' : 'glyphicon-chevron-right']"
+                   hef="toggleIcon"></i>
+            </p>
+            
             <div v-show="innerShow">{{innerMessage}}</div>
         </div>
     </div>

@@ -1,0 +1,65 @@
+﻿@using WebVueTest.Controllers;
+@using System.IO;
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Html;
+
+@{
+    ViewData["Title"] = "Home/Html";
+}
+
+<style>
+
+    .block{
+        background-color: aquamarine;
+        width: 150px;
+        height: 150px;
+        margin: 20px 50px;
+        display: inline-block;
+    }
+
+    .img___child {
+        width: 100%;
+    }
+
+</style>
+<link rel="stylesheet" href="~/css/rotate.css"/>
+
+<h2>html</h2>
+
+<div id="main" class="container">
+
+    <div class="block rotate-steps">
+        <img class="img___child" src="~/images/rt.webp" />
+    </div>
+
+    <div class="block rotate-in-out">
+        <img class="img___child" src="~/images/rt.webp" />
+    </div>
+
+    <div class="block rotate-in">
+        <img class="img___child" src="~/images/rt.webp" />
+    </div>
+
+    <div class="block rotate-out">
+        <img class="img___child" src="~/images/rt.webp" />
+    </div>
+
+    <div class="block rotate-ease">
+        <img class="img___child" src="~/images/rt.webp" />
+    </div>
+
+    <div class="block rotate-bezier">
+        <img class="img___child" src="~/images/rt.webp" />
+    </div>
+
+    <div class="block rotated">
+
+    </div>
+
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+
+    </script>
+}
