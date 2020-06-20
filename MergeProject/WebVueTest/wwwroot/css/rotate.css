@@ -1,0 +1,58 @@
+﻿.rotated {
+    transform: rotate(45deg); /* Equal to rotateZ(45deg) */
+    background-color: pink;
+}
+
+.rotate-steps {
+    -webkit-animation: rotationX 15s infinite steps(360, end);
+}
+
+.rotate-in-out {
+    -webkit-animation: rotationY 15s infinite ease-in-out;
+}
+
+.rotate-in {
+    -webkit-animation: rotationZ 15s infinite ease-in;
+}
+
+.rotate-out {
+    -webkit-animation: rotationX 15s infinite ease-out;
+}
+
+.rotate-ease {
+    -webkit-animation: rotationY 15s infinite ease;
+}
+
+.rotate-bezier {
+    -webkit-animation: rotationX 15s infinite cubic-bezier(0.1, -0.6, 0.2, 0);
+}
+
+@-webkit-keyframes rotationX {
+    from {
+        -webkit-transform: rotateX(0deg);
+    }
+
+    to {
+        -webkit-transform: rotateX(359deg);
+    }
+}
+
+@-webkit-keyframes rotationY {
+    from {
+        -webkit-transform: rotateY(0deg);
+    }
+
+    to {
+        -webkit-transform: rotateY(359deg);
+    }
+}
+
+@-webkit-keyframes rotationZ {
+    from {
+        -webkit-transform: rotateZ(0deg);
+    }
+
+    to {
+        -webkit-transform: rotateZ(359deg);
+    }
+}
