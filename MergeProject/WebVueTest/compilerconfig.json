@@ -26,5 +26,9 @@
   {
     "outputFile": "wwwroot/css/tooltip.css",
     "inputFile": "wwwroot/css/tooltip.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/rotate3d.css",
+    "inputFile": "wwwroot/css/rotate3d.scss"
   }
 ]
