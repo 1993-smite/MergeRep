@@ -35,7 +35,7 @@ Vue.component('form-file-upload', {
                     </form> 
                </div>`
 });
-
+//v-input
 Vue.component('v-input', {
     props: ['readonly','model', 'validator', 'msg'],
     data: function () {
@@ -99,4 +99,43 @@ Vue.component('button-counter', {
         }
     },
     template: '<button v-on:click="count++">Счётчик кликов — {{ count }}</button>'
+});
+
+Vue.component('v-car', {
+    props: ['car'],
+    data: function () {
+        return {
+            car: this.car || {},
+        }
+    },
+    template: `<a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{car.Name}}</h5>
+                        <small>{{car.Id}}</small>
+                    </div>
+                    <p class="mb-1">{{car.Number}}</p>
+                    <small><button v-on:click='changeNumber()'>Change-Number</button></small>
+                </a>
+                `,
+    methods: {
+        changeNumber: function () {
+            this.car.Number -= 1000; 
+        }
+    }
+});
+
+Vue.component('v-cars', {
+    props: ['cars'],
+    data: function () {
+        return {
+            cars: this.cars || [],
+        }
+    },
+    template: `<div class="list-group">
+                    <v-car v-for="(c,index) in cars" v-bind:key="index" v-bind:car="c"></v-car>
+                </div>
+                `,
+    methods: {
+
+    }
 });

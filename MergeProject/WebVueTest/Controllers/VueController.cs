@@ -16,5 +16,16 @@ namespace WebVueTest.Controllers
         {
             return View();
         }
+
+        public IActionResult VueMixView()
+        {
+            return View();
+        }
+
+        public IActionResult VueComponents()
+        {
+            return View();
+        }
+   
     }
 }

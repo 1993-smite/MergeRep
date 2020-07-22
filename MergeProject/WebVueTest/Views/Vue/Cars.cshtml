@@ -1,0 +1,46 @@
+﻿<table>
+    <thead>
+        <tr>
+            <td>
+                Название
+            </td>
+            <td>
+                Номер
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr v-for="(car,index) in cars" v-bind:key="index">
+            <td>
+                {{car.Name}}
+            </td>
+            <td>
+                {{car.Number}}
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<script type="text/javascript">
+
+    function loadCars(selector, cars) {
+        return new Vue({
+            el: selector,
+            data: {
+                cars: []
+            },
+            methods: {
+                addCar: function (car) {
+                    this.cars.push(car);
+                },
+                remCar: function (car) {
+                    this.cars = this.cars.filter(x => x.Id != car.Id);
+                }
+            },
+            mounted: function () {
+                this.cars = cars;
+            }
+        });
+    }
+
+</script>

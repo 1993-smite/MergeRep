@@ -1,0 +1,89 @@
+﻿@using WebVueTest.Controllers;
+@using System.IO;
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Html;
+
+@{
+    ViewData["Title"] = "Vue/VueMixView";
+
+    var carListId = "block--car";
+
+}
+
+<style>
+    .country {
+    }
+</style>
+
+<h2>VueMixView</h2>
+
+<h3>
+    Вложенность объектов vue друг в друга работает только с компонентами
+</h3>
+
+
+<div id="main" class="container">
+
+    <div id="@carListId">@Html.Partial("Cars")</div>
+
+    <div id="sub--main">
+        <button v-on:click="addCar(5)">Add Car</button>
+    </div>
+
+
+</div>
+
+@section Scripts{
+
+<script type="text/javascript">
+
+        $().ready(function () {
+
+            var vueCars = {};
+
+            var app = new Vue({
+                el: "#sub--main",
+                data: {
+                    countries: []
+                },
+                methods: {
+                    addCar: function (index) {
+                        vueCars.addCar({
+                            Id: index,
+                            Name: "Fiat",
+                            Number: "567890"
+                        });
+                    }
+                },
+                mounted: function () {
+                    var cars = [
+                        {
+                            Id: 1,
+                            Name: "Ford",
+                            Number: 123456
+                        },
+                        {
+                            Id: 2,
+                            Name: "Renault",
+                            Number: 234567
+                        },
+                        {
+                            Id: 3,
+                            Name: "Skoda",
+                            Number: 345678
+                        },
+                        {
+                            Id: 4,
+                            Name: "Porshe",
+                            Number: 456789
+                        }
+                    ];
+
+                    vueCars = loadCars(`#block--car`,cars)
+
+                }
+            });
+        });
+
+</script>
+}

@@ -1,0 +1,73 @@
+﻿@using WebVueTest.Controllers;
+@using System.IO;
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Html;
+
+@{
+    ViewData["Title"] = "Vue/VueComponents";
+
+    var carListId = "block--car";
+
+}
+
+<style>
+    .country {
+    }
+</style>
+
+<h2>VueComponents</h2>
+
+<h3>
+    
+</h3>
+
+
+<div id="main" class="container">
+
+    @*<div class="list-group">
+        <v-car v-for="(c,index) in cars" v-bind:key="index" v-bind:car="c"></v-car>
+    </div>*@
+
+    <v-cars v-bind:cars="cars"></v-cars>
+
+</div>
+
+@section Scripts{
+    <script src="~/js/Vue/page.components.helper.js"></script>
+    <script type="text/javascript">
+
+        $().ready(function () {
+
+            var app = new Vue({
+                el: "#main",
+                data: {
+                    cars: []
+                },
+                methods: {
+
+                },
+                mounted: function () {
+                    this.cars = [
+                        {
+                            Id: 1,
+                            Name: "Ford",
+                            Number: "123456"
+                        },
+                        {
+                            Id: 2,
+                            Name: "Skoda",
+                            Number: "234567"
+                        },
+                        {
+                            Id: 3,
+                            Name: "Fiat",
+                            Number: "345678"
+                        }
+                    ];
+
+                }
+            });
+        });
+
+    </script>
+}
