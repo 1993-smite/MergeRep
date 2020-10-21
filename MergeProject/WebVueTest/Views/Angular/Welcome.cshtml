@@ -1,0 +1,56 @@
+﻿@using WebVueTest.Controllers;
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model List<UserViewValidate>
+@{
+    Layout = "~/Views/Shared/_LayoutAngular.cshtml";
+    ViewData["Title"] = "Welcome";
+}
+
+<div>
+    <label>Name:</label>
+    <input type="text" ng-model="yourName" placeholder="Enter a name here">
+    <hr />
+    <h1>Hello {{yourName}}!</h1>
+    <hr />
+
+    <div ng-controller="list as listCtr">
+        <ul class="list-group">
+            <li class="list-group-item"
+                ng-repeat="it in listCtr.items"
+                ng-click="listCtr.Check(it)"
+                >
+                <b class="pointer">{{it.Name}}</b> 
+                <input type="checkbox" ng-model="it.Check" />
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+@section HeadScripts{
+
+    <script type="text/javascript">
+
+        angular.module('app', [])
+            .controller('list', function () {
+                let listCtr = this;
+
+                listCtr.items = [
+                    { Name: 'Alex', Check: true },
+                    { Name: 'John', Check: false },
+                    { Name: 'Ivan', Check: true },
+                ];
+
+                listCtr.Check = function (it) {
+                    it.Check = !it.Check; 
+                };
+
+            });
+
+        $(function () {
+            
+        });
+    </script>
+}

@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<script src="~/js/angular.min.js"></script>
+
+@RenderSection("HeadScripts", required: false)
+
+<div ng-app="app">
+    @RenderBody()
+</div>
+
+
+@RenderSection("FixAlert", required: false)
+
+@RenderSection("LibScripts", required: false)
+@RenderSection("Scripts", required: false)

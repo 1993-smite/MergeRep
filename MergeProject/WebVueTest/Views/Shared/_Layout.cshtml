@@ -1,155 +1,21 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ViewMerge</title>
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
 
-    <environment include="Development">
-        <link rel="stylesheet" href="~/css/bootstrap.css">
-        <link rel="stylesheet" href="~/css/fonts.css" />
-        <link rel="stylesheet" href="~/components/file-upload/file-upload.css" />
-        <link rel="stylesheet" href="~/components/comments/comments.css" />
-        <link rel="stylesheet" href="~/css/fix-alert.min.css" />
-        <link rel="stylesheet" href="~/css/tooltip.css" />
-        <link rel="stylesheet" href="~/css/site.min.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/components/comments/comments.js"></script>
-        <script src="~/js/moment.js"></script>
-        <script src="~/js/server.js"></script>
-    </environment>
-</head>
-@RenderSection("HeadScripts", required: false)
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Logo")">Logo</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Html", "Home")">Html</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Merge
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="@Url.Action("Index","Merge")">Список</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Action("Card","Merge")">Карточка</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "SVG")">SVG</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Files</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="@Url.Action("Index", "Files")">Список</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Action("UploadView","Files")">Загрузка</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Contact")">Contacts</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Test</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="@Url.Action("CheckWrite", "Test")">CheckWrite</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Action("Places","Test")">Places</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Action("Loudlinks","Test")">Loudlinks</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Action("FormMask","Test")">FormMask</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Action("Push","Test")">Push</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Action("KY","Test")">JS KY</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Action("Index","Test")">JSTest</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Action("JSTestJasmine","Test")">JSTestJasmine</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Vue</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="@Url.Action("Vuex","Vue")">Vuex</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Action("VueRouter","Vue")">Vue Router</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Action("VueMixView","Vue")">Vue Mix View</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Action("VueComponents","Vue")">VueComponents</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Error", "Error", new { exception = new Exception("This is internal error!") })">Error</a>
-                </li>
-            </ul>
-            <div>
-                <button class="btn btn-outline-error my-2 my-sm-0" type="submit">
-                    <a class="nav-link" style="color:red" href="@Url.Action("Index", "Login")">EXIT(<b>@await Component.InvokeAsync("User")</b>)</a>
-                </button>
-            </div>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2019 - ViewMerge</p>
-        </footer>
-    </div>
-
-    <div class="alert-block">
-        <div id="fix-alert" class="fix alert-msg alert-top alert-right">
-            @await Html.PartialAsync("_SelectLanguagePartial")
-            <div id="fix-alert-msg">
-            </div>
-        </div>
-        @RenderSection("FixAlert", required: false)
-    </div>
+<script src="~/js/vue.js"></script>
+<script src="~/js/Vue/vue.filters.js"></script>
+<script src="~/js/Vue/page.components.helper.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
 
 
-    <environment include="Development">
-        <script src="~/js/bootstrap.js"></script>
-        <script src="~/js/jblocks.js" asp-append-version="true"></script>
-        <script src="~/js/Components/components.js" asp-append-version="true"></script>
-        <script src="~/js/vue.js"></script>
-        <script src="~/js/Vue/vue.filters.js"></script>
-        <script src="~/js/Vue/page.components.helper.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-    </environment>
 
-    <div id="point-tooltip" class="tooltipSVG bs-tooltip-top" style="display:none">
-        <div class="arrow"></div>
-        <div class="tooltip-inner">
+@RenderBody()
 
-        </div>
-    </div>
-    @RenderSection("LibScripts", required: false)
-    @RenderSection("Scripts", required: false)
-    <environment include="Development">
-        <script src="~/js/Vue/vue.config.js"></script>
-        <script src="~/components/file-upload/file-upload.js"></script>
-    </environment>
-</body>
-</html>
+@RenderSection("FixAlert", required: false)
+
+@RenderSection("LibScripts", required: false)
+@RenderSection("Scripts", required: false)
+
+
+<script src="~/js/Vue/vue.config.js"></script>
+<script src="~/components/file-upload/file-upload.js"></script>
