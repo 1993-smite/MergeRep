@@ -1,11 +1,79 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Reflection;
 
 namespace PostgresApp
 {
+    #region
+
+    [Table("films")]
+    public class DBFilm
+    {
+        [Column("id")]
+        public long Id { get; set; }
+        [Column("name")]
+        public string Name { get; set; }
+        [Column("year")]
+        public int Year { get; set; }
+        [Column("type_id")]
+        public int TypeId { get; set; }
+    }
+
+    public enum FilmTypes
+    {
+        [Display(Name = "Триллер")]
+        Thriller = 1,
+        [Display(Name = "Комедия")]
+        Comedy,
+        [Display(Name = "Ужас")]
+        Horror,
+        [Display(Name = "Драмма")]
+        Drama,
+        [Display(Name = "Детектив")]
+        Detective,
+        [Display(Name = "Трагедия")]
+        Tragedy,
+        [Display(Name = "Исторический фильм")]
+        HistoricalFilm,
+        [Display(Name = "Сказка")]
+        FairyTale,
+        [Display(Name = "Приключение")]
+        Adventure
+    }
+
+    public static class EnumExtension
+    {
+        public static string GetDisplay(this FilmTypes type)
+        {
+            var tp = type.GetType();
+            var member = tp.GetMember(type.ToString());
+            var attr = member.FirstOrDefault() ?? null;
+
+            if (attr == null)
+                return string.Empty;
+
+            var displayAttr = attr.GetCustomAttribute<DisplayAttribute>();
+            return displayAttr?.Name ?? string.Empty;
+        }
+    }
+
+    [Table("film-types")]
+    public class DBFilmType
+    {
+        [Column("id")]
+        public int Id { get; set; }
+        [Column("name")]
+        public string Name { get; set; }
+    }
+
+    #endregion
+
+
     [Table("contacts")]
     public class DBContact
     {
@@ -105,6 +173,8 @@ namespace PostgresApp
 
     public class ApplicationContext : DbContext
     {
+        public DbSet<DBFilmType> FilmTypes { get; set; }
+        public DbSet<DBFilm> Films { get; set; }
         public DbSet<DBUser> Users { get; set; }
         public DbSet<DBCity> Cities { get; set; }
         public DbSet<DBContact> Contacts { get; set; }
