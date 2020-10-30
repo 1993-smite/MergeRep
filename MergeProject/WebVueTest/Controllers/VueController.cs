@@ -26,6 +26,10 @@ namespace WebVueTest.Controllers
         {
             return View();
         }
-   
+
+        public IActionResult Vue3()
+        {
+            return View();
+        }
     }
 }
