@@ -22,6 +22,8 @@ namespace PostgresApp
         public int Year { get; set; }
         [Column("type_id")]
         public int TypeId { get; set; }
+        [Column("descriptions")]
+        public string Descriptions { get; set; }
     }
 
     public enum FilmTypes
