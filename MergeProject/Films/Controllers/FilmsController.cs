@@ -15,10 +15,21 @@ namespace Films.Controllers
         private Lazy<FilmMapper> _db = new Lazy<FilmMapper>(() => new FilmMapper());
 
         // GET api/values
+        //[HttpGet]
+        //public ActionResult<IEnumerable<Film>> GetAll(int page = 1, int pageCount = 20)
+        //{
+        //    return Ok(_db.Value.GetFilms(page, pageCount));
+        //}
+
+        // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<Film>> Get(int page = 1, int pageCount = 20)
+        public ActionResult<Tuple<IEnumerable<Film>,long>> Get(int page = 1
+            , int pageCount = 20
+            , string name = ""
+            , int year = 0
+            , int type = 0)
         {
-            return Ok(_db.Value.GetFilms(page, pageCount));
+            return Ok(_db.Value.GetFilms(page, pageCount, name, year, type));
         }
 
         // GET api/values/5
@@ -28,11 +39,12 @@ namespace Films.Controllers
             return Ok(_db.Value.GetFilm(id));
         }
 
-        //// POST api/values
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
+        // POST api/values
+        [HttpPost]
+        public ActionResult<long> Post(FilmValid film)
+        {
+            return Ok(_db.Value.SaveFilm(film));
+        }
 
         //// PUT api/values/5
         //[HttpPut("{id}")]

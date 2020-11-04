@@ -1,4 +1,5 @@
 ﻿using Films.Models;
+using Microsoft.EntityFrameworkCore;
 using PostgresApp;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,32 @@ namespace Films.Services
             _typesConverter = new FilmTypeConverter();
         }
 
-        public IEnumerable<Film> GetFilms(int page, int pageCount)
+        public Tuple<IEnumerable<Film>, long> GetFilms(
+            int page
+            , int pageCount
+            , string name = ""
+            , int year = 0
+            , int byType = 0
+            )
         {
+            long count;
+
             var films = new List<Film>();
             using (ApplicationContext db = new ApplicationContext())
             {
-                var dbFilms = db.Films.Skip((page - 1) * pageCount).Take(pageCount);
+                IQueryable<DBFilm> dbFilms = db.Films;
+
+                if (year > 0)
+                    dbFilms = dbFilms.Where(x => x.Year == year);
+
+                if (byType > 0)
+                    dbFilms = dbFilms.Where(x => x.TypeId == byType);
+
+                if (!string.IsNullOrEmpty(name))
+                    dbFilms = dbFilms.Where(x => x.Name.Contains(name));
+
+                count = dbFilms.Count();
+                dbFilms = dbFilms.Skip((page - 1) * pageCount).Take(pageCount);
 
                 foreach(var dbFilm in dbFilms)
                 {
@@ -34,7 +55,7 @@ namespace Films.Services
                 }
 
             }
-            return films;
+            return new Tuple<IEnumerable<Film>, long>(films, count);
         }
 
         public Film GetFilm(int id)
@@ -52,6 +73,36 @@ namespace Films.Services
             var film = _converter.SetType(type).toView(dBFilm);
 
             return film;
+        }
+
+        public long SaveFilm(Film film)
+        {
+            long Id = film.Id;
+
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                if (film.Id < 1)
+                {
+                    Id = db.Films.OrderBy(x=>x.Id).LastOrDefault()?.Id ?? 0;
+                    ++Id;
+                    var dbFilm = _converter.toDB(film);
+                    dbFilm.Id = Id;
+                    db.Films.Add(dbFilm);
+                }
+                else
+                {
+                    var exist = db.Films.FirstOrDefault(x => x.Id == Id);
+                    var upFilm = _converter.toDB(film);
+                    db.Entry(exist)
+                      .CurrentValues
+                      .SetValues(upFilm);
+                }
+
+                db.SaveChanges();
+
+            }
+
+            return Id;
         }
 
         public IEnumerable<FilmType> GetFilmTypes()

@@ -26,7 +26,9 @@ namespace Films
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            
+
+            services.AddCors(); // добавляем сервисы CORS
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen();
         }
@@ -52,6 +54,11 @@ namespace Films
             {
                 app.UseHsts();
             }
+
+            // подключаем CORS
+            app.UseCors(builder => builder.AllowAnyOrigin()
+                                          .AllowAnyHeader()
+                                          .AllowAnyMethod());
 
             app.UseHttpsRedirection();
             app.UseMvc();
