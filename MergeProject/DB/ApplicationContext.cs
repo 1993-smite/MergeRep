@@ -27,9 +27,9 @@ namespace PostgresApp
         [Column("country")]
         public string Country { get; set; }
         [Column("timing")]
-        public long Timing { get; set; }
+        public long? Timing { get; set; }
         [Column("budget")]
-        public long Budget { get; set; }
+        public long? Budget { get; set; }
     }
 
     public enum FilmTypes

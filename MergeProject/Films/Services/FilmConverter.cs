@@ -60,8 +60,8 @@ namespace Films.Services
                 Year = from.Year,
                 Description = from.Descriptions,
                 Country = from.Country,
-                Budget = from.Budget,
-                Timing = from.Timing,
+                Budget = from.Budget.HasValue ? from.Budget.Value : 0,
+                Timing = from.Timing.HasValue ? from.Timing.Value : 0,
             };
             return to;
         }
