@@ -42,7 +42,10 @@ namespace Films.Services
                 Name = from.Name,
                 TypeId = from.Type?.Id ?? 0,
                 Year = from.Year,
-                Descriptions = from.Description
+                Descriptions = from.Description,
+                Country = from.Country,
+                Budget = from.Budget,
+                Timing = from.Timing,
             };
             return to;
         }
@@ -55,7 +58,10 @@ namespace Films.Services
                 Name = from.Name,
                 Type = _types?.FirstOrDefault(x=>x.Id == from.TypeId) ?? new FilmType() { Id = from.TypeId },
                 Year = from.Year,
-                Description = from.Descriptions
+                Description = from.Descriptions,
+                Country = from.Country,
+                Budget = from.Budget,
+                Timing = from.Timing,
             };
             return to;
         }

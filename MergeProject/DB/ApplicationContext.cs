@@ -24,6 +24,12 @@ namespace PostgresApp
         public int TypeId { get; set; }
         [Column("descriptions")]
         public string Descriptions { get; set; }
+        [Column("country")]
+        public string Country { get; set; }
+        [Column("timing")]
+        public long Timing { get; set; }
+        [Column("budget")]
+        public long Budget { get; set; }
     }
 
     public enum FilmTypes

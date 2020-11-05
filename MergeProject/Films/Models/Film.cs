@@ -16,6 +16,9 @@ namespace Films.Models
         public FilmType Type { get; set; }
         public int Year { get; set; }
         public string Description { get; set; }
+        public string Country { get; set; }
+        public long Timing { get; set; }
+        public long Budget { get; set; }
     }
 
     public class FilmValid: Film
