@@ -21,7 +21,7 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "NodeJS", "ExpressApp1\NodeJ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{52BCD432-89B3-40E3-AAB6-B3D5056471E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Films", "Films\Films.csproj", "{2093988F-CFF1-4930-8672-D38E6BD5BCF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "Films\API.csproj", "{2093988F-CFF1-4930-8672-D38E6BD5BCF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

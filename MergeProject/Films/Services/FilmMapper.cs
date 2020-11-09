@@ -35,23 +35,38 @@ namespace Films.Services
                 IQueryable<DBFilm> dbFilms = db.Films;
 
                 if (year > 0)
-                    dbFilms = dbFilms.Where(x => x.Year == year);
+                    dbFilms = dbFilms
+                        .Where(x => x.Year == year);
 
                 if (byType > 0)
-                    dbFilms = dbFilms.Where(x => x.TypeId == byType);
+                    dbFilms = dbFilms
+                        .Where(x => x.TypeId == byType);
 
                 if (!string.IsNullOrEmpty(name))
-                    dbFilms = dbFilms.Where(x => x.Name.Contains(name));
+                {
+                    var lowerName = name.ToLower();
+                    dbFilms = dbFilms
+                        .Where(x => x.Name
+                                    .ToLower()
+                                    .Contains(lowerName));
+                }
+                    
 
                 count = dbFilms.Count();
-                dbFilms = dbFilms.Skip((page - 1) * pageCount).Take(pageCount);
+                dbFilms = dbFilms
+                    .Skip((page - 1) * pageCount)
+                    .Take(pageCount);
 
                 foreach(var dbFilm in dbFilms)
                 {
-                    var dbType = db.FilmTypes.FirstOrDefault(x => x.Id == dbFilm.TypeId);
-                    var type = _typesConverter.toView(dbType);
+                    var dbType = db.FilmTypes
+                        .FirstOrDefault(x => x.Id == dbFilm.TypeId);
+                    var type = _typesConverter
+                        .toView(dbType);
 
-                    films.Add(_converter.SetType(type).toView(dbFilm));
+                    films.Add(_converter
+                                .SetType(type)
+                                .toView(dbFilm));
                 }
 
             }
