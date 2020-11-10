@@ -90,6 +90,20 @@ namespace Films.Services
             return film;
         }
 
+        public void DeleteFilm(int id)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var film = db.Films.FirstOrDefault(x => x.Id == id);
+                if (film != null)
+                {
+                    db.Films.Remove(film);
+                }
+                db.SaveChanges();
+            }
+
+        }
+
         public long SaveFilm(Film film)
         {
             long Id = film.Id;
