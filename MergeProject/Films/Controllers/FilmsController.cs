@@ -46,7 +46,7 @@ namespace Films.Controllers
             return Ok(_db.Value.SaveFilm(film));
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public void Delete(int id)
         {
             _db.Value.DeleteFilm(id);
