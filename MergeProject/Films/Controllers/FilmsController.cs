@@ -14,14 +14,7 @@ namespace Films.Controllers
     {
         private Lazy<FilmMapper> _db = new Lazy<FilmMapper>(() => new FilmMapper());
 
-        // GET api/values
-        //[HttpGet]
-        //public ActionResult<IEnumerable<Film>> GetAll(int page = 1, int pageCount = 20)
-        //{
-        //    return Ok(_db.Value.GetFilms(page, pageCount));
-        //}
-
-        // GET api/values
+        // GET list
         [HttpGet]
         public ActionResult<Tuple<IEnumerable<Film>,long>> Get(int page = 1
             , int pageCount = 20
@@ -32,36 +25,25 @@ namespace Films.Controllers
             return Ok(_db.Value.GetFilms(page, pageCount, name, year, type));
         }
 
-        // GET api/values/5
+        // GET
         [HttpGet("{id}")]
         public ActionResult<Film> Get(int id)
         {
             return Ok(_db.Value.GetFilm(id));
         }
 
-        // POST api/values
+        // POST
         [HttpPost]
         public ActionResult<long> Post(FilmValid film)
         {
             return Ok(_db.Value.SaveFilm(film));
         }
 
+        // Delete
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
             _db.Value.DeleteFilm(id);
         }
-
-        //// PUT api/values/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE api/values/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }
