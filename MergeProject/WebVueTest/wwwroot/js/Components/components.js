@@ -90,6 +90,54 @@ jBlocks.define('tooltip',
         }
     }
 });
+/******************************* single-tab ********************************************/
+jBlocks.define('single-tab',
+    {
+        events: {
+            'load': 'loadTab',
+            'unload': 'unloadTab'
+        },
+
+        methods: {
+            oninit: function () {
+
+                this._storage = localStorage;
+                this._fMoreOneTab = this.props.fMoreOneTab || function (context) {
+                    console.log(`Opened ${context._tabCount} tabs`);
+                };
+                this._fOnlyOneTab = this.props.fOnlyOneTab || function (context) {
+                    console.log("Only one tab");
+                };
+
+            },
+
+            loadTab: function () {
+
+                const key = location.pathname;
+                let sItem = this._storage.getItem(key);
+
+                if (sItem) {
+                    this._tabCount = ++sItem;
+                    this._storage.setItem(key, this._tabCount);
+                    this._fMoreOneTab(this);
+                }
+                else {
+                    this._storage.setItem(key, 1);
+                    this._fOnlyOneTab(this);
+                }
+            },
+
+            unloadTab: function (title) {
+                const key = location.pathname;
+                let sItem = this._storage.getItem(key);
+
+                if (sItem && sItem < 2)
+                    this._storage.removeItem(key);
+                else
+                    this._storage.setItem(key, --sItem);
+            }
+        }
+    });
 /******************************* toggle ********************************************/
 document.addEventListener('click', function (event) {
     if (event.target.dataset.toggle != undefined) {

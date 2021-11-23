@@ -53,23 +53,35 @@
             formData.append("id", model.id);
             formData.append("uploadedFile", file);
 
-            loadfiles.push($.ajax({
-                type: "POST",
-                enctype: 'multipart/form-data',
-                url: $(form).attr("action"),
-                data: formData,
-                processData: false,
-                contentType: false,
-                cache: false,
-                timeout: 600000000,
-                success: function (data) {
-                    data = data.replaceAll("#", ++index);
-                    $("#uploaded-files").append(data);
-                },
-                error: function (e) {
+            loadfiles.push(
+                $.ajax({
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    url: $(form).attr("action"),
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    timeout: 600000000,
+                    success: function (data) {
+                        data = data.replaceAll("#", ++index);
+                        $("#uploaded-files").append(data);
+                    },
+                    error: function (e) {
 
-                }
-            }));
+                    },
+                    xhrFields: { // Отслеживаем процесс загрузки файлов
+                        onprogress: function (e) {
+                            console.log(">",e);
+                            if (e.lengthComputable) {
+                                // Отображение процентов и длины прогресс бара
+                                var perc = e.loaded / 100 * e.total;
+                                console.log("-->", perc);
+                            }
+                        }
+                    },
+                })
+            );
             //loadfiles.push(fetch($(form).attr("action"), { method: "POST", body: formData }));
         }
 

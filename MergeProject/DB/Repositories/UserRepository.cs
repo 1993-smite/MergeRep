@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DB.DBModels;
+using Microsoft.EntityFrameworkCore;
 using PostgresApp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DB.Users
+namespace DB.Repositories
 {
     public class FilterUser
     {
@@ -87,46 +88,53 @@ namespace DB.Users
             int userId = user.Id;
             using (ApplicationContext db = new ApplicationContext())
             {
-                DBUser usr;
-
-                if (userId < 1)
+                using (var transaction = db.Database.BeginTransaction())
                 {
-                    userId = db.Users.OrderBy(x => x.Id).LastOrDefault()?.Id ?? 1;
-                    user.Id = ++userId;
-                    db.Users.Add(user);
-                    usr = user;
-                }
-                else
-                {
-                    usr = db.Users.FirstOrDefault(x => x.Id == userId);
-                    if (usr == null)
-                        throw new Exception($"Нет записи user с таким Id = {userId}");
-                    user.CityId = usr.CityId;
-                    db.Entry(usr).CurrentValues.SetValues(user);
-                    //db.Update(usr);
-                }
-
-                db.SaveChanges();
-
-                usr = db.Users.FirstOrDefault(x => x.Id == userId);
-
-                foreach (var login in user.Logins)
-                {
-                    DBLogin lgn = db.Logins
-                        .FirstOrDefault(x => x.Login == login.Login);
-                    if (lgn == null)
+                    try
                     {
-                        lgn = login;
-                        lgn.UserId = userId;
-                        db.Logins.Add(lgn);
+                        DBUser usr;
+
+                        if (userId < 1)
+                        {
+                            userId = db.Users.OrderBy(x => x.Id).LastOrDefault()?.Id ?? 1;
+                            user.Id = ++userId;
+                            db.Users.Add(user);
+                            usr = user;
+                        }
+                        else
+                        {
+                            usr = db.Users.FirstOrDefault(x => x.Id == userId);
+                            if (usr == null)
+                                throw new Exception($"Нет записи user с таким Id = {userId}");
+                            user.CityId = usr.CityId;
+                            db.Entry(usr).CurrentValues.SetValues(user);
+                            db.Entry(usr).State = EntityState.Modified;
+                        }
+
+                        foreach (var login in user.Logins)
+                        {
+                            DBLogin lgn = db.Logins
+                                .FirstOrDefault(x => x.Login == login.Login);
+                            if (lgn == null)
+                            {
+                                lgn = login;
+                                lgn.UserId = userId;
+                                db.Logins.Add(lgn);
+                            }
+                            else
+                            {
+                                lgn = login;
+                            }
+                        }
+                        db.SaveChanges();
+
+                        transaction.Commit();
                     }
-                    else
+                    catch(Exception ex)
                     {
-                        lgn = login;
+                        transaction.Rollback();
                     }
                 }
-
-                db.SaveChanges();
             }
             return userId;
         }
@@ -135,11 +143,22 @@ namespace DB.Users
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                DBLogin lgn = db.Logins
-                    .FirstOrDefault(x => x.Login == login.Login);
-                lgn = login;
+                using (var transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        DBLogin lgn = db.Logins
+                        .FirstOrDefault(x => x.Login == login.Login);
+                        lgn = login;
 
-                db.SaveChanges();
+                        db.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch(Exception ex)
+                    {
+                        transaction.Rollback();
+                    }
+                }
             }
         }
 
@@ -174,27 +193,38 @@ namespace DB.Users
             int id = comment.Id;
             using (ApplicationContext db = new ApplicationContext())
             {
-                var dBUserComment = db.UserComments
-                    .FirstOrDefault(
-                        x => x.Id == comment.Id
-                          && x.UserId == comment.UserId);
-                if (id < 1)
+                using (var transaction = db.Database.BeginTransaction())
                 {
-                    id = db.UserComments.OrderBy(x => x.Id).LastOrDefault()?.Id ?? 0;
-                    id = ++id;
-                    comment.Id = id;
-                    comment.UpdateDT = comment.CreateDT; 
-                    db.UserComments.Add(comment);
-                }
-                else
-                {
-                    if (comment == null)
-                        throw new Exception($"Нет записи user с таким Id = {comment.Id} и UserId = {comment.UserId}");
-                    comment.UpdateDT = DateTime.Now;
-                    db.Entry(dBUserComment).CurrentValues.SetValues(comment);
-                }
+                    try
+                    {
+                        var dBUserComment = db.UserComments
+                                .FirstOrDefault(
+                                    x => x.Id == comment.Id
+                                      && x.UserId == comment.UserId);
+                        if (id < 1)
+                        {
+                            id = db.UserComments.OrderBy(x => x.Id).LastOrDefault()?.Id ?? 0;
+                            id = ++id;
+                            comment.Id = id;
+                            comment.UpdateDT = comment.CreateDT;
+                            db.UserComments.Add(comment);
+                        }
+                        else
+                        {
+                            if (comment == null)
+                                throw new Exception($"Нет записи user с таким Id = {comment.Id} и UserId = {comment.UserId}");
+                            comment.UpdateDT = DateTime.Now;
+                            db.Entry(dBUserComment).CurrentValues.SetValues(comment);
+                        }
 
-                db.SaveChanges();
+                        db.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch(Exception ex)
+                    {
+                        transaction.Rollback();
+                    }
+                }
             }
             return id;
         }
@@ -202,22 +232,33 @@ namespace DB.Users
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                var dBUserCommentInvoit = db.UserCommentInvoits
-                    .FirstOrDefault(
-                        x => x.UserCommentId == commentInvoit.UserCommentId
-                          && x.UserId == commentInvoit.UserId);
-                if (dBUserCommentInvoit == null)
+                using (var transaction = db.Database.BeginTransaction())
                 {
-                    var lastId = db.UserCommentInvoits.LastOrDefault().Id;
-                    commentInvoit.Id = ++lastId;
-                    db.UserCommentInvoits.Add(commentInvoit);
-                }
-                else
-                {
-                    db.UserCommentInvoits.Remove(dBUserCommentInvoit);
-                }
+                    try
+                    {
+                        var dBUserCommentInvoit = db.UserCommentInvoits
+                            .FirstOrDefault(
+                                x => x.UserCommentId == commentInvoit.UserCommentId
+                                  && x.UserId == commentInvoit.UserId);
+                        if (dBUserCommentInvoit == null)
+                        {
+                            var lastId = db.UserCommentInvoits.LastOrDefault().Id;
+                            commentInvoit.Id = ++lastId;
+                            db.UserCommentInvoits.Add(commentInvoit);
+                        }
+                        else
+                        {
+                            db.UserCommentInvoits.Remove(dBUserCommentInvoit);
+                        }
 
-                db.SaveChanges();
+                        db.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                    }
+                }
             }
         }
         #endregion

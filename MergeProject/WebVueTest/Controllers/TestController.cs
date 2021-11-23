@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,6 +52,26 @@ namespace WebVueTest.Controllers
         public IActionResult KY()
         {
             return View();
+        }
+
+        public IActionResult AjaxTestProgress()
+        {
+            return View();
+        }
+
+        public IActionResult GetData()
+        {
+            var rer = new List<string>();
+            rer.Add("dfgsdfg");
+            rer.Add("dfgsdfg");
+            rer.Add("dfgsdfg");
+            rer.Add("dfgsdfg");
+
+            Thread.Sleep(20000);
+            Thread.Sleep(20000);
+            Thread.Sleep(20000);
+
+            return Json(rer);
         }
     }
 }

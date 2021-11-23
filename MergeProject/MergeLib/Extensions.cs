@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace MergeLib
 {
@@ -64,6 +66,22 @@ namespace MergeLib
         public static object Merge(this string field, object lastVal, object newVal)
         {
             return $"{lastVal},{newVal}";
+        }
+
+        public static T DeepCopy<T>(this T instance)
+        {
+            if (instance == null)
+                throw new ArgumentNullException("Instance has been value");
+            if (!typeof(T).IsSerializable)
+                throw new ArgumentException("Type of instance has been serialisable");
+
+            var formatter = new BinaryFormatter();
+            using (var stream = new MemoryStream())
+            {
+                formatter.Serialize(stream, instance);
+                stream.Seek(0, SeekOrigin.Begin);
+                return (T)formatter.Deserialize(stream);
+            }
         }
     }
 

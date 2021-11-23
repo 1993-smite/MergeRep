@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
+using QRCoder;
 using WebVueTest.Controllers.api;
 using WebVueTest.DB;
 using WebVueTest.DB.Mappers;
@@ -20,6 +23,18 @@ using WebVueTest.Models;
 
 namespace WebVueTest.Controllers
 {
+    public static class ImageExtensions
+    {
+        public static byte[] ToByteArray(this Image image, ImageFormat format)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                image.Save(ms, format);
+                return ms.ToArray();
+            }
+        }
+    }
+
     public enum SaveCommentType
     {
         New,
@@ -174,6 +189,21 @@ namespace WebVueTest.Controllers
                 SendMessage(string.Format(MergeUserHub.TemplateGroupCard, id), message);
 
             return RedirectToActionPermanent("Index", "Merge");
+        }
+
+        [HttpPost]
+        public IActionResult QRCode(int id = 0,string text = "")
+        {
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q);
+            QRCode qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(20);
+
+            var path = $"images/qrCode/{id}.png";
+
+            qrCodeImage.Save($"{_he.WebRootPath}/{path}", ImageFormat.Png);
+
+            return Content(path);
         }
 
         [HttpPost]

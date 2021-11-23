@@ -58,6 +58,13 @@ var app = new Vue({
                 .then(function (result) {
                     $('#form').submit();
                 });
+        },
+        qrCode: function () {
+            $.post('../QRCode', { text: location.href }, function (data) {
+                //console.log(data);
+                $('#qr-code-preview').attr('src', `/${data}`);
+                $('#fix-alert-qr-code').show();
+            });
         }
     },
     validations: {

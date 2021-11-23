@@ -90,13 +90,18 @@
     </datalist>
 </div>
 
-<fieldset id="user" v-cloak>
+
+<fieldset id="user" 
+          data-component="single-tab"
+          v-cloak>
     <div id="alert-container" class="alert alert-warning alert-dismissible" role="alert">
         <div id="alert-title"></div>
         <p class="error" v-if="!$v.lastName.required">Фамилия должно быть заполнено</p>
         <p class="error" v-if="!$v.lastName.minLength">Фамилия должно содержать более 3 символов</p>
         <p class="error" v-if="!$v.firstName.required">Имя должно быть заполнено</p>
         <p class="error" v-if="!$v.firstName.minLength">Имя должно содержать более 3 символов</p>
+        <p id="double-tab"
+           class="error hide">Данная страница уже открыта на одной из других вкладок</p>
     </div>
     <div>
         <fieldset class="hide">
@@ -116,7 +121,10 @@
             </div>
             <button-counter class="btn-default"></button-counter>
         </fieldset>
-        <form id="form" method="post" enctype="multipart/form-data" action="@Url.Action("Card","Merge")">
+        <form id="form" 
+              method="post" 
+              enctype="multipart/form-data" 
+              action="@Url.Action("Card","Merge")">
 
             <fieldset>
                 <legend>Форма для ввода данных <b>View JS</b></legend>
@@ -208,18 +216,16 @@
                     </form-tr-input>
                 </template>
                 <div class="input-group mb-3">
-                    <v-select 
-                              :readonly="true" 
-                              :model.sync="select.country" 
+                    <v-select :readonly="true"
+                              :model.sync="select.country"
                               :source="select.countries">
                     </v-select>
-                    --- 
+                    ---
                     <b>{{select.country}}</b>
                     ---
-                    <v-input 
-                             :readonly="!textTest.edit" 
-                             :model.sync="textTest.mdl" 
-                             :validator="textTest.valid" 
+                    <v-input :readonly="!textTest.edit"
+                             :model.sync="textTest.mdl"
+                             :validator="textTest.valid"
                              msg="Валидация тест">
                     </v-input>
                     ---
@@ -229,6 +235,8 @@
                 <div class="input-group mb-3">
                     <input type="button" class="btn btn-success" value="Отправить"
                            v-on:click="save()" />
+                    <input type="button" class="btn btn-success" value="QRCode"
+                           v-on:click="qrCode()" />
                     <input type="button" class="btn btn-primary"
                            :class="{'' : uploadFiles, 'disabled' : !uploadFiles}"
                            value="Файлы" v-on:click="uploadFiles = !uploadFiles" />
@@ -280,6 +288,10 @@
         <button id="sub-unread-msg" class="hide block-circle" v-on:click="subUnreadMsg(1)">0</button>
         <button id="clr-unread-msg" class="hide block-circle" v-on:click="clrUnreadMsg">-</button>
     </div>
+
+    <div id="fix-alert-qr-code">
+        <img id="qr-code-preview" src="" />
+    </div>
 }
 
 @section Scripts{
@@ -309,4 +321,5 @@
     </script>
     <script src="~/js/Pages/pages.common.alert.signalr.js"></script>
     <script src="~/js/Pages/page.comments.js"></script>
+    <script src="~/js/single-tab.js"></script>
 }

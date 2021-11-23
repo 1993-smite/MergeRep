@@ -28,6 +28,7 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.0.15" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="QRCoder" Version="1.4.1" />
     <PackageReference Include="ServiceStack.Redis.Core" Version="5.8.0" />
   </ItemGroup>
 
@@ -89,6 +90,9 @@
     <Content Update="Views\Test\Basket.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Test\AjaxTestProgress.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Test\JSTestJasmine.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -133,6 +137,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Files\" />
+    <Folder Include="wwwroot\images\qrCode\" />
     <Folder Include="wwwroot\images\Users\" />
     <Folder Include="wwwroot\lib\push.js\" />
   </ItemGroup>

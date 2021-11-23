@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.852
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MergeProject", "MergeProject\MergeProject.csproj", "{AF580D7A-41DF-4D12-A7B8-2B14C4BA810F}"
 EndProject
@@ -13,15 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebVueTest", "WebVueTest\We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedisBrowser", "RabbitBrowser\RedisBrowser.csproj", "{26FE76DB-157D-4AB4-982E-375D34FA6E90}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBtest", "DBtest\DBtest.csproj", "{6E220632-7CD8-4AF5-B83D-BFE0679DB986}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DB", "DB\DB.csproj", "{41896571-F8FA-45BF-AA91-F6DFBF06481D}"
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "NodeJS", "ExpressApp1\NodeJS.njsproj", "{0CC25726-C742-4345-873C-FF631B512C9B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{52BCD432-89B3-40E3-AAB6-B3D5056471E5}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "Films\API.csproj", "{2093988F-CFF1-4930-8672-D38E6BD5BCF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +43,6 @@ Global
 		{26FE76DB-157D-4AB4-982E-375D34FA6E90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26FE76DB-157D-4AB4-982E-375D34FA6E90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26FE76DB-157D-4AB4-982E-375D34FA6E90}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6E220632-7CD8-4AF5-B83D-BFE0679DB986}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6E220632-7CD8-4AF5-B83D-BFE0679DB986}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6E220632-7CD8-4AF5-B83D-BFE0679DB986}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6E220632-7CD8-4AF5-B83D-BFE0679DB986}.Release|Any CPU.Build.0 = Release|Any CPU
 		{41896571-F8FA-45BF-AA91-F6DFBF06481D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{41896571-F8FA-45BF-AA91-F6DFBF06481D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41896571-F8FA-45BF-AA91-F6DFBF06481D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,14 +51,6 @@ Global
 		{0CC25726-C742-4345-873C-FF631B512C9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CC25726-C742-4345-873C-FF631B512C9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CC25726-C742-4345-873C-FF631B512C9B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{52BCD432-89B3-40E3-AAB6-B3D5056471E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52BCD432-89B3-40E3-AAB6-B3D5056471E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52BCD432-89B3-40E3-AAB6-B3D5056471E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52BCD432-89B3-40E3-AAB6-B3D5056471E5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2093988F-CFF1-4930-8672-D38E6BD5BCF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2093988F-CFF1-4930-8672-D38E6BD5BCF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2093988F-CFF1-4930-8672-D38E6BD5BCF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2093988F-CFF1-4930-8672-D38E6BD5BCF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
