@@ -148,8 +148,10 @@ namespace DB.Repositories
                     try
                     {
                         DBLogin lgn = db.Logins
-                        .FirstOrDefault(x => x.Login == login.Login);
-                        lgn = login;
+                            .FirstOrDefault(x => x.Login == login.Login);
+
+                        db.Entry(lgn).CurrentValues.SetValues(login);
+                        db.Entry(lgn).State = EntityState.Modified;
 
                         db.SaveChanges();
                         transaction.Commit();
@@ -215,6 +217,7 @@ namespace DB.Repositories
                                 throw new Exception($"Нет записи user с таким Id = {comment.Id} и UserId = {comment.UserId}");
                             comment.UpdateDT = DateTime.Now;
                             db.Entry(dBUserComment).CurrentValues.SetValues(comment);
+                            db.Entry(dBUserComment).State = EntityState.Modified;
                         }
 
                         db.SaveChanges();
