@@ -1,4 +1,5 @@
-﻿using DB.Users;
+﻿using DB.DBModels;
+using DB.Repositories;
 using PostgresApp;
 using System;
 using System.Collections.Generic;

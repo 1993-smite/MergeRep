@@ -1,26 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Localization;
 using WebVueTest.Models;
 using WebVueTest.MiddleWare;
-using WebVueTest.MiddleWare.Configurations;
-using PostgresApp;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 
@@ -55,10 +45,15 @@ namespace WebVueTest
             /*services.AddIdentity<appUser, IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationContext>();*/
             services.AddSignalR();
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddDataAnnotationsLocalization()
-                .AddViewLocalization();
+            //services.AddMvc()
+            //    .AddDataAnnotationsLocalization()
+            //    .AddViewLocalization();
+            services.AddControllersWithViews(mvcOtions =>
+            {
+                mvcOtions.EnableEndpointRouting = false;
+            })
+            .AddDataAnnotationsLocalization()
+            .AddViewLocalization();
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
@@ -113,12 +108,13 @@ namespace WebVueTest
             app.UseAuthentication();    // подключение аутентификации
             //app.UseAuthorization();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
+            //});
+            app.UseMvcWithDefaultRoute();
 
             //добавляем поддержку каталога node_modules
             app.UseFileServer(new FileServerOptions()

@@ -6,7 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DB.Users;
+using DB.DBModels;
+using DB.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
@@ -113,7 +114,7 @@ namespace WebVueTest.Controllers
                     comment.Id = UserCommentFactory.SaveUserComment(comment);
                     break;
                 case SaveCommentType.Invoit:
-                    UserRepository.SaveUserCommentInvoit(new PostgresApp.DBUserCommentInvoit()
+                    UserRepository.SaveUserCommentInvoit(new DBUserCommentInvoit()
                     {
                         UserCommentId = comment.Id,
                         UserId = comment.UserId

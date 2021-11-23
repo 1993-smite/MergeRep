@@ -6,6 +6,7 @@ using DB;
 using System.Threading.Tasks;
 using PostgresApp;
 using WebVueTest.Models;
+using DB.DBModels;
 
 namespace WebVueTest.DB.Converters
 {
