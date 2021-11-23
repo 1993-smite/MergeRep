@@ -150,6 +150,9 @@ namespace DB.Repositories
                         DBLogin lgn = db.Logins
                             .FirstOrDefault(x => x.Login == login.Login);
 
+                        if (lgn == null)
+                            throw new Exception($"Нет записи user с таким Login = {login.Login}");
+
                         db.Entry(lgn).CurrentValues.SetValues(login);
                         db.Entry(lgn).State = EntityState.Modified;
 
