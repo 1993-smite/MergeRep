@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DB.Repositories.User;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,9 @@ namespace WebVueTest.DB
     public class appUserMapper
     {
         private const string dbKey = "users";
+        Lazy<UserMapper> _lazyUserMapper = new Lazy<UserMapper>(() => new UserMapper());
+        UserMapper UserMapper => _lazyUserMapper.Value;
+
         public List<appUser> GetAppUsers()
         {
             var userDatas = DBData.GetData("users").Split(';');
@@ -24,7 +28,7 @@ namespace WebVueTest.DB
 
         public appUser GetAppDBUser(string login)
         {
-            var user = UserMapper.GetUser(login);
+            var user = UserMapper.GetUser(new UserFilter(login));
             return user;
         }
 

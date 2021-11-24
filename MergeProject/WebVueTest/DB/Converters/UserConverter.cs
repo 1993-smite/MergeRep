@@ -46,10 +46,32 @@ namespace WebVueTest.DB.Converters
             return user;
         }
 
+        public static IEnumerable<User> Convert(IEnumerable<DBUser> list)
+        {
+            var users = new List<User>();
+            foreach(var dbMdl in list)
+            {
+                users.Add(Convert(dbMdl));
+            }
+
+            return users;
+        }
+
         public static DBUser Convert(User user)
         {
             var mapper = new Mapper(UserConverter.configToDB);
             return mapper.Map<User, DBUser>(user);
+        }
+
+        public static IEnumerable<DBUser> Convert(IEnumerable<User> list)
+        {
+            var users = new List<DBUser>();
+            foreach (var dbMdl in list)
+            {
+                users.Add(Convert(dbMdl));
+            }
+
+            return users;
         }
 
     }

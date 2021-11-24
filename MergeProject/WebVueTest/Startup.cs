@@ -45,15 +45,10 @@ namespace WebVueTest
             /*services.AddIdentity<appUser, IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationContext>();*/
             services.AddSignalR();
-            //services.AddMvc()
-            //    .AddDataAnnotationsLocalization()
-            //    .AddViewLocalization();
-            services.AddControllersWithViews(mvcOtions =>
-            {
-                mvcOtions.EnableEndpointRouting = false;
-            })
-            .AddDataAnnotationsLocalization()
-            .AddViewLocalization();
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddDataAnnotationsLocalization()
+                .AddViewLocalization();
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
@@ -108,13 +103,12 @@ namespace WebVueTest
             app.UseAuthentication();    // подключение аутентификации
             //app.UseAuthorization();
 
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "{controller=Home}/{action=Index}/{id?}");
-            //});
-            app.UseMvcWithDefaultRoute();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
 
             //добавляем поддержку каталога node_modules
             app.UseFileServer(new FileServerOptions()

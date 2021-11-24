@@ -1,8 +1,9 @@
 ﻿using DB.DBModels;
-using DB.Repositories;
+using DB.Repositories.User;
 using PostgresApp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using WebVueTest.DB.Converters;
@@ -10,32 +11,26 @@ using WebVueTest.Models;
 
 namespace WebVueTest.DB.Mappers
 {
-    public static class UserMapper
+    public class UserMapper
     {
-        public static User GetUser(int Id)
+        Lazy<UserRepository> _repository = new Lazy<UserRepository>(() => new UserRepository());
+        UserRepository Repository => _repository.Value;
+
+        public User GetUser([NotNull] UserFilter filter)
         {
-            return UserConverter.Convert(UserRepository.GetUser(Id));
+            return UserConverter.Convert(Repository.Get(filter));
         }
 
-        public static User GetUser(string login)
+        public IEnumerable<User> GetUsers(UserFilter filter = default)
         {
-            return UserConverter.Convert(UserRepository.GetUser(login));
+            return UserConverter.Convert(Repository.GetList(filter));
         }
 
-        public static List<User> GetUsers()
+        public int SaveUser(User user)
         {
-            var dbUsers = UserRepository.GetUsers();
-            var users = new List<User>();
-            foreach(var dbuser in dbUsers)
-            {
-                users.Add(UserConverter.Convert(dbuser));
-            }
-            return users;
-        }
-
-        public static int SaveUser(User user)
-        {
-            return UserRepository.SaveUser(UserConverter.Convert(user));
+            var dbUser = UserConverter.Convert(user);
+            var saved = Repository.SaveTransaction(dbUser);
+            return saved?.Id ?? 0;
         }
 
         public static List<MergeUserComment> GetUserComments(int userId)

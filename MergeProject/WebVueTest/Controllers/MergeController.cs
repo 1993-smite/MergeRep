@@ -3,21 +3,16 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DB.DBModels;
-using DB.Repositories;
+using DB.Repositories.User;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Localization;
-using Newtonsoft.Json;
 using QRCoder;
 using WebVueTest.Controllers.api;
-using WebVueTest.DB;
 using WebVueTest.DB.Mappers;
 using WebVueTest.Filters;
 using WebVueTest.Models;
@@ -60,6 +55,14 @@ namespace WebVueTest.Controllers
         private UserController userController;
 
         private readonly IHubContext<CommonHub> _hubContext;
+
+
+        Lazy<UserMapper> _lazyUserMapper = new Lazy<UserMapper>(()=>new UserMapper());
+        UserMapper UserMapper => _lazyUserMapper.Value;
+
+        Lazy<FactoryUserView> _factoryUser = new Lazy<FactoryUserView>(() => new FactoryUserView());
+        FactoryUserView FactoryUser => _factoryUser.Value;
+
         private async Task SendMessage(string groupName, string message)
         {
             var group = _hubContext.Clients.Group(groupName);
@@ -87,7 +90,7 @@ namespace WebVueTest.Controllers
 
         public string GetMessage(int userId)
         {
-            var user = FactoryUserView.GetUser(userId);
+            var user = FactoryUser.GetUser(userId);
             return user.City;
         }
 
@@ -109,7 +112,7 @@ namespace WebVueTest.Controllers
             switch (type)
             {
                 case SaveCommentType.New:
-                    comment.CreatedUser = UserMapper.GetUser(Login);
+                    comment.CreatedUser = UserMapper.GetUser(new UserFilter(Login));
                     comment.UpdateDt = comment.CreateDt;
                     comment.Id = UserCommentFactory.SaveUserComment(comment);
                     break;

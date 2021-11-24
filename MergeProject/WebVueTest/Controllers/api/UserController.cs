@@ -10,10 +10,13 @@ namespace WebVueTest.Controllers.api
 {
     public class UserController : AppController<User>
     {
+        Lazy<FactoryUserView> _factoryUser = new Lazy<FactoryUserView>(()=> new FactoryUserView());
+        FactoryUserView FactoryUser => _factoryUser.Value;
+
         // GET: api/User
         public IEnumerable<UserViewValidate> Get()
         {
-            var users = FactoryUserView.GetUsers();
+            var users = FactoryUser.GetUsers();
             var list = new List<UserViewValidate>();
             foreach (var user in users)
             {
@@ -26,7 +29,7 @@ namespace WebVueTest.Controllers.api
         [HttpGet("{id}", Name = "Get")]
         public UserViewValidate Get(int id)
         {
-            var model = FactoryUserView.Convert<User, UserViewValidate>(FactoryUserView.GetUser(id));
+            var model = FactoryUserView.Convert<User, UserViewValidate>(FactoryUser.GetUser(id));
             return model;
         }
 
@@ -36,7 +39,7 @@ namespace WebVueTest.Controllers.api
         {
             if (!ModelState.IsValid)
                 return;
-            FactoryUserView.SaveUser(model);
+            FactoryUser.SaveUser(model);
             
         }
 
@@ -47,7 +50,7 @@ namespace WebVueTest.Controllers.api
             if (!ModelState.IsValid)
                 return;
             model.Id = id;
-            FactoryUserView.SaveUser(model);
+            FactoryUser.SaveUser(model);
         }
 
         // DELETE: api/ApiWithActions/5

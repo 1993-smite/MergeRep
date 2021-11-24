@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WebVueTest.DB.Mappers;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity;
+using DB.Repositories.User;
 
 namespace WebVueTest.Models
 {
@@ -131,8 +132,11 @@ namespace WebVueTest.Models
         }
     }
 
-    public static class FactoryUserView
+    public class FactoryUserView
     {
+        Lazy<UserMapper> _lazyUserMapper = new Lazy<UserMapper>(() => new UserMapper());
+        UserMapper UserMapper => _lazyUserMapper.Value;
+
         public static UserViewValidate Create(int i)
         {
             return 
@@ -164,11 +168,11 @@ namespace WebVueTest.Models
             };
         }
 
-        public static List<User> GetUsers() => UserMapper.GetUsers();
+        public IEnumerable<User> GetUsers() => UserMapper.GetUsers();
 
-        public static User GetUser(int Id) => UserMapper.GetUser(Id);
+        public User GetUser(int Id) => UserMapper.GetUser(new UserFilter(Id));
 
-        public static int SaveUser(User user) => UserMapper.SaveUser(user);
+        public int SaveUser(User user) => UserMapper.SaveUser(user);
 
         public static List<User> CreateUsers(int count)
         {
