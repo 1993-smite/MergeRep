@@ -26,7 +26,7 @@ namespace DB.Repositories
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public virtual IEnumerable<TdbModel> Get(TFilter filter = default)
+        public virtual TdbModel Get(TFilter filter = default)
         {
             throw new NotImplementedException("This method is not implemented!");
         }
@@ -57,6 +57,7 @@ namespace DB.Repositories
                     try
                     {
                         result = Save(db, model);
+                        db.SaveChanges();
                         transaction.Commit();
                         return result;    
                     }
