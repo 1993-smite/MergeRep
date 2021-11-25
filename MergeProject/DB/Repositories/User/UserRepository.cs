@@ -1,12 +1,10 @@
 ﻿using DB.DBModels;
-using DB.Repositories.User;
 using Microsoft.EntityFrameworkCore;
 using PostgresApp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
 
 namespace DB.Repositories.User
 {

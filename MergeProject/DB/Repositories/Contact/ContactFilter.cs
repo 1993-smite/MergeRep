@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DB.Repositories.Contact
+﻿namespace DB.Repositories.Contact
 {
     public class ContactFilter: Filter
     {

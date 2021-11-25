@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DB.Repositories.Address
+﻿namespace DB.Repositories.Address
 {
     public class AddressFilter: Filter
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DB.Repositories.Task
+﻿namespace DB.Repositories.Task
 {
     public class TaskFilter: Filter
     {
