@@ -33,26 +33,26 @@ namespace WebVueTest.DB.Mappers
             return saved?.Id ?? 0;
         }
 
-        public static List<MergeUserComment> GetUserComments(int userId)
-        {
-            List<DBUserComment> dbComments = UserRepository.GetUserComments(userId);
-            List<MergeUserComment> mergeUserComments = new List<MergeUserComment>(); 
-            for(int index = 0;index < dbComments.Count;index++)
-            {
-                var comment = UserCommentConverter.Convert(dbComments[index]);
-                mergeUserComments.Add(comment);
-            }
-            return mergeUserComments;
-        }
+        //public static List<MergeUserComment> GetUserComments(int userId)
+        //{
+        //    List<DBUserComment> dbComments = UserRepository.GetUserComments(userId);
+        //    List<MergeUserComment> mergeUserComments = new List<MergeUserComment>(); 
+        //    for(int index = 0;index < dbComments.Count;index++)
+        //    {
+        //        var comment = UserCommentConverter.Convert(dbComments[index]);
+        //        mergeUserComments.Add(comment);
+        //    }
+        //    return mergeUserComments;
+        //}
 
-        public static MergeUserComment GetUserComment(int id)
-        {
-            return UserCommentConverter.Convert(UserRepository.GetUserComment(id));
-        }
+        //public static MergeUserComment GetUserComment(int id)
+        //{
+        //    return UserCommentConverter.Convert(UserRepository.GetUserComment(id));
+        //}
 
-        public static int SaveUserComment(MergeUserComment comment)
-        {
-            return UserRepository.SaveUserComment(UserCommentConverter.Convert(comment));
-        }
+        //public static int SaveUserComment(MergeUserComment comment)
+        //{
+        //    return UserRepository.SaveUserComment(UserCommentConverter.Convert(comment));
+        //}
     }
 }

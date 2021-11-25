@@ -73,6 +73,15 @@ namespace WebVueTest.Models
 
         [Display(Name = "pCity")]
         public string City { get; set; }
+
+        public User()
+        {
+
+        }
+        public User(int id): this()
+        {
+            Id = id;
+        }
     }
 
     public class UserView: User

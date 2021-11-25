@@ -5,6 +5,9 @@ using AutoMapper;
 using System.Threading.Tasks;
 using WebVueTest.DB.Converters;
 using WebVueTest.DB.Mappers;
+using WebVueTest.DB.Mappers.CommentInvoitNS;
+using WebVueTest.DB.Mappers.Comment;
+using DB.Repositories.Comment;
 
 namespace WebVueTest.Models
 {
@@ -23,7 +26,7 @@ namespace WebVueTest.Models
         }
     }
 
-    public class UserComment: Comment
+    public class UserComment : Comment
     {
         public User CreatedUser { get; set; }
 
@@ -55,7 +58,7 @@ namespace WebVueTest.Models
 
         }
 
-        public MergeUserComment(int cardId,UserComment comment): base()
+        public MergeUserComment(int cardId, UserComment comment) : base()
         {
             this.Id = comment.Id;
             this.ParentId = comment.ParentId;
@@ -66,9 +69,38 @@ namespace WebVueTest.Models
         }
     }
 
-    public static class UserCommentFactory
+    public class CommentInvoit
+    {
+        public int Id { get; set; }
+        public UserComment Comment { get; set; } = new UserComment();
+
+        public int UserId {
+            set{
+                Comment.CreatedUser = new User(value);
+            }
+        }
+
+        public int CommentId
+        {
+            set
+            {
+                if (Comment == null)
+                    Comment = new UserComment();
+                Comment.Id = value;
+            }
+        }
+
+        public DateTime DateTime { get; set; }
+    }
+
+    public class UserCommentFactory
     {
         private static Random rand = new Random();
+        
+        private readonly Lazy<CommentMapper> _lazyCommentMapper 
+            = new Lazy<CommentMapper>(() => new CommentMapper());
+        public CommentMapper CommentMapper => _lazyCommentMapper.Value;
+
 
         public static UserComment GetUserComment(User user, int index)
         {
@@ -110,14 +142,18 @@ namespace WebVueTest.Models
             return comments;
         }
 
-        public static List<MergeUserComment> GetUserComments(int userId) => UserMapper.GetUserComments(userId);
-
-        public static MergeUserComment GetUserComment(int id) => UserMapper.GetUserComment(id);
-
-        public static async void SaveUserCommentAsync(MergeUserComment userComment) {
-            UserMapper.SaveUserComment(userComment);
+        public IEnumerable<MergeUserComment> GetUserComments(int userId)
+        {
+            return CommentMapper.GetList(new CommentFilter() { UserId = userId });
+        }
+        public MergeUserComment GetUserComment(int id)
+        {
+            return CommentMapper.Get(new CommentFilter() { CommentId = id });
         }
 
-        public static int SaveUserComment(MergeUserComment userComment) => UserMapper.SaveUserComment(userComment);
+        public void SaveUserComment(MergeUserComment userComment)
+        {
+            CommentMapper.Save(userComment);
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
 using DB.DBModels;
+using DB.Repositories.CommentInvoit;
 using DB.Repositories.User;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.SignalR;
 using QRCoder;
 using WebVueTest.Controllers.api;
 using WebVueTest.DB.Mappers;
+using WebVueTest.DB.Mappers.Comment;
 using WebVueTest.Filters;
 using WebVueTest.Models;
 
@@ -62,6 +64,13 @@ namespace WebVueTest.Controllers
 
         Lazy<FactoryUserView> _factoryUser = new Lazy<FactoryUserView>(() => new FactoryUserView());
         FactoryUserView FactoryUser => _factoryUser.Value;
+
+        Lazy<CommentMapper> _lazyCommentInvoitMapper = 
+            new Lazy<CommentMapper>(() => new CommentMapper());
+        CommentMapper CommentMapper => _lazyCommentInvoitMapper.Value;
+
+        Lazy<UserCommentFactory> _userCommentFactory = new Lazy<UserCommentFactory>(()=> new UserCommentFactory());
+        UserCommentFactory UserCommentFactory => _userCommentFactory.Value;
 
         private async Task SendMessage(string groupName, string message)
         {
@@ -114,14 +123,15 @@ namespace WebVueTest.Controllers
                 case SaveCommentType.New:
                     comment.CreatedUser = UserMapper.GetUser(new UserFilter(Login));
                     comment.UpdateDt = comment.CreateDt;
-                    comment.Id = UserCommentFactory.SaveUserComment(comment);
+                    comment.Id = CommentMapper.Save(comment);
                     break;
                 case SaveCommentType.Invoit:
-                    UserRepository.SaveUserCommentInvoit(new DBUserCommentInvoit()
+                    CommentMapper.Save(new MergeUserComment()
                     {
-                        UserCommentId = comment.Id,
-                        UserId = comment.UserId
-                    });
+                        Id = comment.Id,
+                        CreatedUser = new User() { Id = comment.UserId },
+                        CreateDt = DateTime.Now
+                    }) ;
                     break;
                 default:
                     throw new ArgumentException("Invalid argument 'type'");
