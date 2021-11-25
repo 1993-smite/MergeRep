@@ -47,7 +47,7 @@ namespace DB.Repositories
             throw new NotImplementedException("This method is not implemented!");
         }
 
-        public TdbModel SaveTransaction(TdbModel model)
+        public virtual TdbModel SaveTransaction(TdbModel model)
         {
             TdbModel result;
             using (ApplicationContext db = new ApplicationContext())
