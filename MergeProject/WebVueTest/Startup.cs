@@ -13,6 +13,10 @@ using WebVueTest.MiddleWare;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using DB.Repositories;
+using DB.DBModels;
+using DB.Repositories.Task;
+using RedisBrowser;
 
 namespace WebVueTest
 {
@@ -41,7 +45,14 @@ namespace WebVueTest
                 options.Cookie.IsEssential = true;
             });
             services.AddLocalization(option => option.ResourcesPath = "Resources");
-            
+
+
+            // injection common rep "Task" for db
+            services.AddTransient<CommonRepository<DBTask, TaskFilter>, TaskRepository>();
+
+            // injection common rep "Task" for redis 
+            //services.AddTransient<CommonRepository<DBTask, TaskFilter>, TaskRedisRepository>();
+
             /*services.AddIdentity<appUser, IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationContext>();*/
             services.AddSignalR();

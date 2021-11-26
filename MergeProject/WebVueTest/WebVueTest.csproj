@@ -33,6 +33,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DB\DB.csproj" />
     <ProjectReference Include="..\MergeLib\MergeLib.csproj" />
+    <ProjectReference Include="..\RabbitBrowser\RedisBrowser.csproj" />
   </ItemGroup>
 
   <ItemGroup>
